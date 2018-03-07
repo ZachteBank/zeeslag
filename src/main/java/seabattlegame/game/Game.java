@@ -3,6 +3,7 @@ public class Game {
 
 	private Player player1;
 	private Player player2;
+	private Integer turn;
 
 	public Player getPlayer1() {
 		return this.player1;
@@ -13,13 +14,29 @@ public class Game {
 	}
 
 	/**
-	 * 
-	 * @param player1
-	 * @param player2
+	 *
+	 * @param player1 The first player
+	 * @param player2 The second player
 	 */
 	public Game(Player player1, Player player2) {
-		// TODO - implement Game.Game
+        this.player1 = player1;
+        this.player2 = player2;
+	}
+
+	public void startGame() {
+		// TODO - implement Game.startGame
 		throw new UnsupportedOperationException();
 	}
+
+	/**
+	 *
+	 * @param x coord
+	 * @param y coord
+	 */
+	public void attack(Integer x, Integer y) {
+		// TODO - implement Game.attack
+		throw new UnsupportedOperationException();
+	}
+
 
 }

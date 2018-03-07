@@ -17,8 +17,7 @@ public class Player {
 	 * @param name
 	 */
 	public Player(String name) {
-		// TODO - implement Player.Player
-		throw new UnsupportedOperationException();
+		this.name = name;
 	}
 
 }
