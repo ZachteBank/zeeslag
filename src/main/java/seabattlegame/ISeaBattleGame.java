@@ -29,7 +29,7 @@ public interface ISeaBattleGame {
     
     /**
      * Place ships automatically.
-     * Ships that are already placed will be removed. All ships are placed
+     * ships that are already placed will be removed. All ships are placed
      * successfully if they all fit entirely within the grid and have no
      * overlap with each other.
      * @param playerNr identification of player for which ships will be placed
