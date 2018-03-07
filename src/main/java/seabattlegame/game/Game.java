@@ -33,7 +33,7 @@ public class Game {
 	 * @param x coord
 	 * @param y coord
 	 */
-	public void attack(Integer x, Integer y) {
+	public ShotType attack(Integer x, Integer y) {
 		// TODO - implement Game.attack
 		throw new UnsupportedOperationException();
 	}
