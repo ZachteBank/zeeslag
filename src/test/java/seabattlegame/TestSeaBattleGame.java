@@ -13,6 +13,6 @@ public class TestSeaBattleGame {
 
     @Test
     public void testRegisterPlayer(){
-        
+
     }
 }
