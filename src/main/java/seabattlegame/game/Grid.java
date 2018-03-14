@@ -20,10 +20,14 @@ public class Grid {
 	 * 
 	 * @param ship
 	 */
-	public void addShip(Ship ship) {
+	public void addShip(Ship ship, int x, int y) {
 		// TODO - implement Grid.addShip
 		throw new UnsupportedOperationException();
 	}
+
+	public boolean removeAllShips(){
+        return true;
+    }
 
 	/**
 	 * 
@@ -33,6 +37,10 @@ public class Grid {
 	public ShotType shoot(Integer x, Integer y) {
 		// TODO - implement Grid.shoot
 		throw new UnsupportedOperationException();
+	}
+
+	public boolean placeShipsAutomatically(){
+        return true;
 	}
 
 }

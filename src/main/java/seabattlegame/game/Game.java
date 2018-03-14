@@ -1,4 +1,7 @@
 package seabattlegame.game;
+
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
 public class Game {
 
 	private Player player1;
@@ -24,19 +27,40 @@ public class Game {
 	}
 
 	public boolean startGame() {
-		// TODO - implement Game.startGame
-		throw new UnsupportedOperationException();
+	    return true;
 	}
+
+	public boolean startNewGame(){
+        player1 = null;
+        player2 = null;
+        return true;
+    }
 
 	/**
 	 *
 	 * @param x coord
 	 * @param y coord
 	 */
-	public ShotType attack(Integer x, Integer y) {
-		// TODO - implement Game.attack
-		throw new UnsupportedOperationException();
+	public ShotType attack(Player attacked, Integer x, Integer y) {
+        return attacked.getGrid().shoot(x, y);
 	}
+
+    public boolean placeShipsAutomatically(int playerNr) throws InvalidArgumentException {
+	    return placeShipsAutomatically(getPlayer(playerNr));
+    }
+
+    public boolean placeShipsAutomatically(Player player) throws InvalidArgumentException {
+        if(player == null) {
+            throw new InvalidArgumentException(new String[]{"Player can't be null"});
+        }
+        return player.getGrid().placeShipsAutomatically();
+    }
+
+    public Player getPlayer(int playerNr){
+        if(player1 == null || player2 == null) return null;
+
+        return player1.getId() == playerNr ? player1 : player2;
+    }
 
 
 }
