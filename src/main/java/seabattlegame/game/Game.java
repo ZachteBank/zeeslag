@@ -23,7 +23,7 @@ public class Game {
         this.player2 = player2;
 	}
 
-	public void startGame() {
+	public boolean startGame() {
 		// TODO - implement Game.startGame
 		throw new UnsupportedOperationException();
 	}
