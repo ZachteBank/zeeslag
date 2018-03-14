@@ -24,16 +24,21 @@ public class Game {
 	}
 
 	public boolean startGame() {
-		// TODO - implement Game.startGame
-		throw new UnsupportedOperationException();
+	    return true;
 	}
+
+	public boolean startNewGame(){
+        player1 = null;
+        player2 = null;
+        return true;
+    }
 
 	/**
 	 *
 	 * @param x coord
 	 * @param y coord
 	 */
-	public ShotType attack(Integer x, Integer y) {
+	public ShotType attack(Player attacked, Integer x, Integer y) {
 		// TODO - implement Game.attack
 		throw new UnsupportedOperationException();
 	}
