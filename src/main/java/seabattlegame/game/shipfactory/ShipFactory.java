@@ -5,7 +5,7 @@ import seabattlegui.ShipType;
 
 public class ShipFactory {
 
-    public Ship createShip(ShipType shipType) {
+    public static Ship createShip(ShipType shipType) {
 
         Ship ship = null;
 
