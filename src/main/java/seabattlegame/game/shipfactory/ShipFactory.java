@@ -25,7 +25,6 @@ public class ShipFactory {
             case BATTLESHIP:
                 ship = new Battleship();
                 break;
-
         }
         return ship;
     }
