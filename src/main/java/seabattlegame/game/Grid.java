@@ -1,17 +1,16 @@
 package seabattlegame.game;
 import seabattlegame.game.ships.*;
 
-import java.util.List;
-
 public class Grid {
 
-	private List<Cell> cells;
+	private Cell[][] cells;
 
-	public List<Cell> getCells() {
+	public Cell[][] getCells() {
 		return this.cells;
 	}
 
-	public Grid() {
+	public Grid(int size) {
+	    cells = new Cell[size][size];
 		// TODO - implement Grid.Grid
 		throw new UnsupportedOperationException();
 	}
@@ -35,8 +34,19 @@ public class Grid {
 	 * @param y
 	 */
 	public ShotType shoot(Integer x, Integer y) {
-		// TODO - implement Grid.shoot
-		throw new UnsupportedOperationException();
+	    SquareState state = cells[x][y].hit();
+	    switch (state){
+            case WATER:
+                return ShotType.MISSED;
+            case SHOTMISSED:
+                return ShotType.MISSED;
+            case SHOTHIT:
+                return ShotType.HIT;
+            case SHIPSUNK:
+                return ShotType.SUNK;
+            default:
+                return ShotType.MISSED;
+        }
 	}
 
 	public boolean placeShipsAutomatically(){
