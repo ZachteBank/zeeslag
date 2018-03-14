@@ -5,6 +5,7 @@
  */
 package seabattlegame;
 
+import seabattlegame.game.Game;
 import seabattlegui.ISeaBattleGUI;
 import seabattlegui.ShipType;
 import seabattlegui.ShotType;
@@ -14,6 +15,13 @@ import seabattlegui.ShotType;
  * @author Nico Kuijpers
  */
 public class SeaBattleGame implements ISeaBattleGame {
+
+    private Game game;
+
+    @Override
+    public boolean startNewGame(int playerNr) {
+        return game.startGame();
+    }
 
     @Override
     public int registerPlayer(String name, ISeaBattleGUI application, boolean singlePlayerMode) {
@@ -53,10 +61,5 @@ public class SeaBattleGame implements ISeaBattleGame {
     @Override
     public ShotType fireShotOpponent(int playerNr) {
         throw new UnsupportedOperationException("Method fireShotOpponent() not implemented.");
-    }
-
-    @Override
-    public boolean startNewGame(int playerNr) {
-        throw new UnsupportedOperationException("Method startNewGame() not implemented.");
     }
 }
