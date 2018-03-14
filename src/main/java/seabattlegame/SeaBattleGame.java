@@ -6,6 +6,8 @@
 package seabattlegame;
 
 import seabattlegame.game.Game;
+import seabattlegame.game.shipfactory.ShipFactory;
+import seabattlegame.game.ships.Ship;
 import seabattlegui.ISeaBattleGUI;
 import seabattlegui.ShipType;
 import seabattlegui.ShotType;
@@ -35,7 +37,19 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     @Override
     public boolean placeShip(int playerNr, ShipType shipType, int bowX, int bowY, boolean horizontal) {
-        throw new UnsupportedOperationException("Method placeShip() not implemented.");
+        Ship ship = ShipFactory.createShip(shipType);
+
+        if (horizontal) {
+            if (bowX - ship.getLength() < 0 || bowX + ship.getLength() > 100) {
+                return false;
+            }
+        }
+        else {
+            if (bowY - ship.getLength() < 0 || bowY + ship.getLength() > 100) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
