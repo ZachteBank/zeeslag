@@ -35,7 +35,10 @@ public class Grid {
 	        throw new IllegalArgumentException();
         }
 
-        //for (ship)
+        for (int i = 0; i < ship.getLength(); i++){
+            cells[x][y] = new ShipCell();
+
+        }
 
 	}
 
