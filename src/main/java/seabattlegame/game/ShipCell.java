@@ -9,9 +9,9 @@ public class ShipCell extends Cell {
 		this.ship = ship;
 	}
 
-	public Void hit() {
-		// TODO - implement ShipCell.hit
-		throw new UnsupportedOperationException();
+	@Override
+	public void hit() {
+		ship.hit();
 	}
 
 }

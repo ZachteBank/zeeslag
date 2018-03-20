@@ -1,6 +1,8 @@
 package seabattlegame.game;
 import seabattlegame.game.ships.*;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Grid {
@@ -41,6 +43,16 @@ public class Grid {
 	}
 
 	public boolean placeShipsAutomatically() {
+        ArrayList<Ship> ships = new ArrayList<>();
+        ships.add(new AircraftCarrier());
+	    ships.add(new Minesweeper());
+	    ships.add(new Battleship());
+	    ships.add(new Cruiser());
+	    ships.add(new Submarine());
 
+
+        for (Cell cell : cells) {
+
+        }
 	}
 }
