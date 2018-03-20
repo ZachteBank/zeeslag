@@ -18,12 +18,25 @@ public class Grid {
 	 * @param ship
 	 */
 	public void placeShip(Ship ship, int x, int y, boolean horizontal) {
-	    if(horizontal){
-	        
-        }
-        if(x > 0 && x < getCells().length){
+	    boolean error = false;
+	    error = ship == null;
 
+	    if(x < 0 || y < 0 || x > getCells().length || y > getCells().length){
+	        error = true;
         }
+
+        if (horizontal && x + ship.getLength() > getCells().length) {
+            error = true;
+        }else if (y + ship.getLength() > getCells().length){
+            error = true;
+        }
+
+        if(error){
+	        throw new IllegalArgumentException();
+        }
+
+        //for (ship)
+
 	}
 
 	public boolean removeAllShips(){

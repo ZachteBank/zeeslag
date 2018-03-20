@@ -16,6 +16,9 @@ public class Game {
 		return this.player2;
 	}
 
+	public Game() {
+	}
+
 	/**
 	 *
 	 * @param player1 The first player
@@ -27,6 +30,9 @@ public class Game {
 	}
 
 	public boolean startGame() {
+		if(player1 == null || player2 == null){
+			return false;
+		}
 	    return true;
 	}
 
