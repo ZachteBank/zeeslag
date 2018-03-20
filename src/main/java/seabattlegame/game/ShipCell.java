@@ -5,9 +5,8 @@ public class ShipCell extends Cell {
 
 	private Ship ship;
 
-	public ShipCell() {
-		// TODO - implement ShipCell.ShipCell
-		throw new UnsupportedOperationException();
+	public ShipCell(Ship ship) {
+		this.ship = ship;
 	}
 
 	@Override
