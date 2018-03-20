@@ -28,7 +28,7 @@ public class Grid {
 	 * 
 	 * @param ship
 	 */
-	public void placeShip(Ship ship, int x, int y, boolean horizontal) {
+	public void placeShip(Ship ship, int x, int y, boolean horizontal) throws Exception {
 	    boolean error = false;
 	    error = ship == null;
 
@@ -47,8 +47,14 @@ public class Grid {
         }
 
         for (int i = 0; i < ship.getLength(); i++){
+            if(cells[horizontal ? x + i : x][!horizontal ? y + i : i] instanceof ShipCell){
+                throw new Exception("cell already occuped");
+            }
+
+        }
+        for (int i = 0; i < ship.getLength(); i++){
             cells[horizontal ? x + i : x][!horizontal ? y + i : i] = new ShipCell(ship);
-	    }
+        }
 	    ships.add(ship);
 
 	}
@@ -81,17 +87,7 @@ public class Grid {
 	}
 
 	public boolean placeShipsAutomatically() {
-        ArrayList<Ship> ships = new ArrayList<>();
-        ships.add(new AircraftCarrier());
-	    ships.add(new Minesweeper());
-	    ships.add(new Battleship());
-	    ships.add(new Cruiser());
-	    ships.add(new Submarine());
-
-
-        for (Cell cell : cells) {
-
-        }
+        return false;
 	}
 
 }
