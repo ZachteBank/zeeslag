@@ -29,7 +29,7 @@ public class Grid {
 	 * 
 	 * @param ship
 	 */
-	public void placeShip(Ship ship, int x, int y, boolean horizontal) {
+	public void placeShip(Ship ship, int x, int y, boolean horizontal) throws Exception {
 	    boolean error = false;
 	    error = ship == null;
 
@@ -48,8 +48,14 @@ public class Grid {
         }
 
         for (int i = 0; i < ship.getLength(); i++){
+            if(cells[horizontal ? x + i : x][!horizontal ? y + i : i] instanceof ShipCell){
+                throw new Exception("cell already occuped");
+            }
+
+        }
+        for (int i = 0; i < ship.getLength(); i++){
             cells[horizontal ? x + i : x][!horizontal ? y + i : i] = new ShipCell(ship);
-	    }
+        }
 	    ships.add(ship);
 
 	}
@@ -85,12 +91,17 @@ public class Grid {
         Random rand = new Random();
         removeAllShips();
 
-        placeShip(new Minesweeper(), rand.nextInt(100 - 2), rand.nextInt(100 - 2) ,rand.nextBoolean());
-        placeShip(new Battleship(), rand.nextInt(100 - 4), rand.nextInt(100 - 4), rand.nextBoolean());
-        placeShip(new Cruiser(), rand.nextInt(100 - 3), rand.nextInt(100 - 3), rand.nextBoolean());
-        placeShip(new AircraftCarrier(), rand.nextInt(100 - 5), rand.nextInt(100 - 5), rand.nextBoolean());
-        placeShip(new Submarine(), rand.nextInt(100 - 3), rand.nextInt(100 - 3), rand.nextBoolean());
+        try {
+            placeShip(new Minesweeper(), rand.nextInt(10 - 2), rand.nextInt(10 - 2) ,rand.nextBoolean());
+            placeShip(new Battleship(), rand.nextInt(10 - 4), rand.nextInt(10 - 4), rand.nextBoolean());
+            placeShip(new Cruiser(), rand.nextInt(10 - 3), rand.nextInt(100 - 3), rand.nextBoolean());
+            placeShip(new AircraftCarrier(), rand.nextInt(100 - 5), rand.nextInt(10 - 5), rand.nextBoolean());
+            placeShip(new Submarine(), rand.nextInt(10 - 3), rand.nextInt(10 - 3), rand.nextBoolean());
+        }
 
+        catch (Exception e) {
+            placeShipsAutomatically();
+        }
         return true;
 	}
 }

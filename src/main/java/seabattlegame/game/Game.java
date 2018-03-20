@@ -46,11 +46,9 @@ public class Game {
         return true;
     }
 
-	/**
-	 *
-	 * @param x coord
-	 * @param y coord
-	 */
+	public ShotType attack(int attackedid, Integer x, Integer y) {
+		return attack(getPlayer(attackedid),x,y);
+	}
 	public ShotType attack(Player attacked, Integer x, Integer y) {
         return attacked.getGrid().shoot(x, y);
 	}
