@@ -1,8 +1,12 @@
 package seabattlegame.game;
 import seabattlegame.game.ships.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Grid {
 
+    private List<Ship> ships = new ArrayList<>();
 	private Cell[][] cells;
 
 	public Cell[][] getCells() {
@@ -36,9 +40,9 @@ public class Grid {
         }
 
         for (int i = 0; i < ship.getLength(); i++){
-            cells[x][y] = new ShipCell();
-
-        }
+            cells[horizontal ? x + i : x][!horizontal ? y + i : i] = new ShipCell(ship);
+	    }
+	    ships.add(ship);
 
 	}
 
