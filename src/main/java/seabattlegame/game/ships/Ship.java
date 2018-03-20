@@ -2,34 +2,28 @@ package seabattlegame.game.ships;
 
 public abstract class Ship {
 
-	private Integer hits;
-	private Integer length;
+	private int hits;
+	private int length;
 
-	public Integer getHits() {
+	public int getHits() {
 		return this.hits;
 	}
 
-	public Integer getLength() {
+	public int getLength() {
 		return this.length;
 	}
 
 	public Boolean isSunk() {
-		// TODO - implement Ship.IsSunk
-		throw new UnsupportedOperationException();
+		return getHits() == getLength();
 	}
 
-	/**
-	 *
-	 * @param length the length of the ship
-	 */
 	public Ship(Integer length) {
-		// TODO - implement Ship.Ship
-		throw new UnsupportedOperationException();
+	    this.length = length;
+	    this.hits = 0;
 	}
 
 	public void hit() {
-		// TODO - implement Ship.hit
-		throw new UnsupportedOperationException();
+	    this.hits++;
 	}
 
 }
