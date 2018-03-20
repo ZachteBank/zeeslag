@@ -6,6 +6,7 @@ import java.util.List;
 public class Grid {
 
 	private List<Cell> cells;
+	private List<ShipCell> ships;
 
 	public List<Cell> getCells() {
 		return this.cells;
@@ -39,8 +40,7 @@ public class Grid {
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean placeShipsAutomatically(){
-        return true;
-	}
+	public boolean placeShipsAutomatically() {
 
+	}
 }
