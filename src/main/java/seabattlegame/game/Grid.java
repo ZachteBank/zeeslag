@@ -11,17 +11,19 @@ public class Grid {
 
 	public Grid(int size) {
 	    cells = new Cell[size][size];
-		// TODO - implement Grid.Grid
-		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * 
 	 * @param ship
 	 */
-	public void addShip(Ship ship, int x, int y) {
-		// TODO - implement Grid.addShip
-		throw new UnsupportedOperationException();
+	public void placeShip(Ship ship, int x, int y, boolean horizontal) {
+	    if(horizontal){
+	        
+        }
+        if(x > 0 && x < getCells().length){
+
+        }
 	}
 
 	public boolean removeAllShips(){
