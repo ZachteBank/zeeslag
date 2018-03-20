@@ -15,18 +15,21 @@ import seabattlegui.ShotType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * The Sea Battle game. To be implemented.
+ *
  * @author Nico Kuijpers
  */
 public class SeaBattleGame implements ISeaBattleGame {
 
     private Game game;
-    private Player[] players;
 
     public SeaBattleGame() {
-        players = new Player[2];
+        game = new Game();
+
+
     }
 
     @Override
@@ -36,37 +39,34 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     @Override
     public int registerPlayer(String name, ISeaBattleGUI application, boolean singlePlayerMode) {
-        if (players[0] == null) {
-            players[0] = new Player(0, name);
-            application.setPlayerName(0, name);
+        Player players1 = new Player(0, name);
+        application.setPlayerName(0, name);
+        if (!singlePlayerMode) {
+            Player players2 = new Player(1, name);
+            application.setOpponentName(1, name);
+            game = new Game(players1, players2);
             return 0;
         }
-
-        if (players[1] == null && !singlePlayerMode) {
-            players[1] = new Player(1, name);
-            application.setOpponentName(1, name);
-        }
-        return -1;
+        game = new Game(players1);
+        return 0;
     }
 
     @Override
     public boolean placeShipsAutomatically(int playerNr) {
-        throw new UnsupportedOperationException("Method placeShipsAutomatically not implemented.");
+        try {
+            return game.placeShipsAutomatically(playerNr);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public boolean placeShip(int playerNr, ShipType shipType, int bowX, int bowY, boolean horizontal) {
         Ship ship = ShipFactory.createShip(shipType);
-
-        if (horizontal) {
-            if (bowX - ship.getLength() < 0 || bowX + ship.getLength() > 100) {
-                return false;
-            }
-        }
-        else {
-            if (bowY - ship.getLength() < 0 || bowY + ship.getLength() > 100) {
-                return false;
-            }
+        try {
+            game.getPlayer(playerNr).getGrid().placeShip(ship, bowX, bowY, horizontal);
+        } catch (Exception e) {
+            return false;
         }
         return true;
     }
@@ -78,14 +78,19 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     @Override
     public boolean removeAllShips(int playerNr) {
-        players[playerNr].getGrid().removeAllShips();
-    //    if (players[playerNr].getGrid().)
+        game.getPlayer(playerNr).getGrid().removeAllShips();
+        if (game.getPlayer(playerNr).getGrid().getShips().size() == 0) {
+            return true;
+        }
         return false;
     }
 
     @Override
     public boolean notifyWhenReady(int playerNr) {
-        throw new UnsupportedOperationException("Method notifyWhenReady() not implemented.");
+        if (game.getPlayer(playerNr).getGrid().getShips().size() == 5) {
+            return true;
+        }
+        return false;
     }
 
     @Override
