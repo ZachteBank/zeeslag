@@ -13,20 +13,17 @@ public abstract class Ship {
 		return this.length;
 	}
 
-	public boolean isSunk() {
-		return hits >= length;
+	public Boolean isSunk() {
+		return getHits() == getLength();
 	}
 
-	/**
-	 *
-	 * @param length the length of the ship
-	 */
-	public Ship(int length) {
-		this.length = length;
+	public Ship(Integer length) {
+	    this.length = length;
+	    this.hits = 0;
 	}
 
 	public void hit() {
-		hits++;
+	    this.hits++;
 	}
 
 }

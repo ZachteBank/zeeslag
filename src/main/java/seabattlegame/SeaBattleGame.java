@@ -13,6 +13,8 @@ import seabattlegame.game.ShotType;
 import seabattlegui.ISeaBattleGUI;
 import seabattlegui.ShipType;
 
+import java.util.Random;
+
 /**
  * The Sea Battle game. To be implemented.
  *
@@ -100,6 +102,7 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     @Override
     public ShotType fireShotOpponent(int playerNr) {
-        throw new UnsupportedOperationException("Method fireShotOpponent() not implemented.");
+        Random random = new Random();
+      return game.attack(playerNr, random.nextInt(10) , random.nextInt(10));
     }
 }
