@@ -25,7 +25,7 @@ public class TestGame {
         assertEquals("Jane doe", game.getPlayer2().getName());
     }
 
-    @Ignore
+    /*@Ignore
     @Test
     public void testAttack(){
         initalizeGame();
@@ -34,5 +34,5 @@ public class TestGame {
 
         shotType = game.attack(0,1);
         assertEquals(ShotType.HIT, shotType);
-    }
+    }*/
 }
