@@ -10,9 +10,17 @@ public class ShipCell extends Cell {
 		throw new UnsupportedOperationException();
 	}
 
-	public Void hit() {
-		// TODO - implement ShipCell.hit
-		throw new UnsupportedOperationException();
+	@Override
+	public SquareState hit() {
+	    if(this.state == SquareState.SHIP) {
+            ship.hit();
+            if (ship.isSunk()) {
+                this.state = SquareState.SHIPSUNK;
+            }else{
+                this.state = SquareState.SHOTHIT;
+            }
+        }
+        return this.state;
 	}
 
 }
