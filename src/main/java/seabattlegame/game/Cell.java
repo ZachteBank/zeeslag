@@ -1,7 +1,7 @@
 package seabattlegame.game;
 public class Cell {
 
-	private SquareState state;
+	protected SquareState state;
 
 	public Cell() {
 		state = SquareState.WATER;
@@ -11,9 +11,9 @@ public class Cell {
 		return this.state;
 	}
 
-	public void hit() {
-		// TODO - implement Cell.hit
-		throw new UnsupportedOperationException();
+	public SquareState hit() {
+		this.state = SquareState.SHOTMISSED;
+		return this.state;
 	}
 
 }
