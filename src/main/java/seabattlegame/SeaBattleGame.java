@@ -6,11 +6,15 @@
 package seabattlegame;
 
 import seabattlegame.game.Game;
+import seabattlegame.game.Player;
 import seabattlegame.game.shipfactory.ShipFactory;
 import seabattlegame.game.ships.Ship;
 import seabattlegui.ISeaBattleGUI;
 import seabattlegui.ShipType;
 import seabattlegui.ShotType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Sea Battle game. To be implemented.
@@ -19,6 +23,11 @@ import seabattlegui.ShotType;
 public class SeaBattleGame implements ISeaBattleGame {
 
     private Game game;
+    private Player[] players;
+
+    public SeaBattleGame() {
+        players = new Player[2];
+    }
 
     @Override
     public boolean startNewGame(int playerNr) {
@@ -27,7 +36,17 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     @Override
     public int registerPlayer(String name, ISeaBattleGUI application, boolean singlePlayerMode) {
-        throw new UnsupportedOperationException("Method registerPlayer() not implemented.");
+        if (players[0] == null) {
+            players[0] = new Player(0, name);
+            application.setPlayerName(0, name);
+            return 0;
+        }
+
+        if (players[1] == null && !singlePlayerMode) {
+            players[1] = new Player(1, name);
+            application.setOpponentName(1, name);
+        }
+        return -1;
     }
 
     @Override
@@ -59,7 +78,8 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     @Override
     public boolean removeAllShips(int playerNr) {
-        throw new UnsupportedOperationException("Method removeAllShips() not implemented.");
+        players[playerNr].getGrid().removeAllShips();
+        if (players[playerNr].getGrid().)
     }
 
     @Override
