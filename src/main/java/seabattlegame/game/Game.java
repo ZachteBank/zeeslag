@@ -19,6 +19,10 @@ public class Game {
 	public Game() {
 	}
 
+	public Game(Player player1) {
+		this.player1 = player1;
+	}
+
 	/**
 	 *
 	 * @param player1 The first player
