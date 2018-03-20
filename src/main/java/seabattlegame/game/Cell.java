@@ -4,8 +4,7 @@ public class Cell {
 	protected SquareState state;
 
 	public Cell() {
-		// TODO - implement Cell.Cell
-		throw new UnsupportedOperationException();
+		state = SquareState.WATER;
 	}
 
 	public SquareState getState() {

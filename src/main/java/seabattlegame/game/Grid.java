@@ -2,6 +2,7 @@ package seabattlegame.game;
 import com.sun.javafx.UnmodifiableArrayList;
 import seabattlegame.game.ships.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -79,8 +80,18 @@ public class Grid {
         }
 	}
 
-	public boolean placeShipsAutomatically(){
-        return true;
+	public boolean placeShipsAutomatically() {
+        ArrayList<Ship> ships = new ArrayList<>();
+        ships.add(new AircraftCarrier());
+	    ships.add(new Minesweeper());
+	    ships.add(new Battleship());
+	    ships.add(new Cruiser());
+	    ships.add(new Submarine());
+
+
+        for (Cell cell : cells) {
+
+        }
 	}
 
 }

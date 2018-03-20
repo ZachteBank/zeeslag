@@ -27,7 +27,7 @@ public abstract class Ship {
 		throw new UnsupportedOperationException();
 	}
 
-	public Void hit() {
+	public void hit() {
 		// TODO - implement Ship.hit
 		throw new UnsupportedOperationException();
 	}

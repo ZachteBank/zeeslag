@@ -9,7 +9,7 @@ public class ShipCell extends Cell {
 		this.ship = ship;
 	}
 
-	@Override
+
 	public SquareState hit() {
 	    if(this.state == SquareState.SHIP) {
             ship.hit();
