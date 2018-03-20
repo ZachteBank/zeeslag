@@ -6,17 +6,31 @@
 package seabattlegame;
 
 import seabattlegame.game.Game;
+import seabattlegame.game.Player;
+import seabattlegame.game.shipfactory.ShipFactory;
+import seabattlegame.game.ships.Ship;
 import seabattlegui.ISeaBattleGUI;
 import seabattlegui.ShipType;
 import seabattlegui.ShotType;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 /**
  * The Sea Battle game. To be implemented.
+ *
  * @author Nico Kuijpers
  */
 public class SeaBattleGame implements ISeaBattleGame {
 
     private Game game;
+
+    public SeaBattleGame() {
+        game = new Game();
+
+
+    }
 
     @Override
     public boolean startNewGame(int playerNr) {
@@ -25,17 +39,36 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     @Override
     public int registerPlayer(String name, ISeaBattleGUI application, boolean singlePlayerMode) {
-        throw new UnsupportedOperationException("Method registerPlayer() not implemented.");
+        Player players1 = new Player(0, name);
+        application.setPlayerName(0, name);
+        if (!singlePlayerMode) {
+            Player players2 = new Player(1, name);
+            application.setOpponentName(1, name);
+            game = new Game(players1, players2);
+            return 0;
+        }
+        game = new Game(players1);
+        return 0;
     }
 
     @Override
     public boolean placeShipsAutomatically(int playerNr) {
-        throw new UnsupportedOperationException("Method placeShipsAutomatically not implemented.");
+        try {
+            return game.placeShipsAutomatically(playerNr);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public boolean placeShip(int playerNr, ShipType shipType, int bowX, int bowY, boolean horizontal) {
-        throw new UnsupportedOperationException("Method placeShip() not implemented.");
+        Ship ship = ShipFactory.createShip(shipType);
+        try {
+            game.getPlayer(playerNr).getGrid().placeShip(ship, bowX, bowY, horizontal);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -45,12 +78,19 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     @Override
     public boolean removeAllShips(int playerNr) {
-        throw new UnsupportedOperationException("Method removeAllShips() not implemented.");
+        game.getPlayer(playerNr).getGrid().removeAllShips();
+        if (game.getPlayer(playerNr).getGrid().getShips().size() == 0) {
+            return true;
+        }
+        return false;
     }
 
     @Override
     public boolean notifyWhenReady(int playerNr) {
-        throw new UnsupportedOperationException("Method notifyWhenReady() not implemented.");
+        if (game.getPlayer(playerNr).getGrid().getShips().size() == 5) {
+            return true;
+        }
+        return false;
     }
 
     @Override
