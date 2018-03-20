@@ -53,6 +53,8 @@ public class Grid {
 	}
 
 	public boolean removeAllShips(){
+        cells = new Cell[cells.length][cells.length];
+        ships = new ArrayList<>();
         return true;
     }
 
