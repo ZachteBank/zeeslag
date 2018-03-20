@@ -94,8 +94,8 @@ public class Grid {
         try {
             placeShip(new Minesweeper(), rand.nextInt(10 - 2), rand.nextInt(10 - 2) ,rand.nextBoolean());
             placeShip(new Battleship(), rand.nextInt(10 - 4), rand.nextInt(10 - 4), rand.nextBoolean());
-            placeShip(new Cruiser(), rand.nextInt(10 - 3), rand.nextInt(100 - 3), rand.nextBoolean());
-            placeShip(new AircraftCarrier(), rand.nextInt(100 - 5), rand.nextInt(10 - 5), rand.nextBoolean());
+            placeShip(new Cruiser(), rand.nextInt(10 - 3), rand.nextInt(10 - 3), rand.nextBoolean());
+            placeShip(new AircraftCarrier(), rand.nextInt(10 - 5), rand.nextInt(10 - 5), rand.nextBoolean());
             placeShip(new Submarine(), rand.nextInt(10 - 3), rand.nextInt(10 - 3), rand.nextBoolean());
         }
 
