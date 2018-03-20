@@ -5,9 +5,9 @@
  */
 package seabattlegame;
 
+import seabattlegame.game.ShotType;
 import seabattlegui.ISeaBattleGUI;
 import seabattlegui.ShipType;
-import seabattlegui.ShotType;
 
 /**
  * Interface provided by the sea battle game to the graphical user interface.

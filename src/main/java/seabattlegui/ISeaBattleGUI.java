@@ -5,6 +5,8 @@
  */
 package seabattlegui;
 
+import seabattlegame.game.ShotType;
+
 /**
  * Interface provided by the graphical user interface of the sea battle game.
  * @author Nico Kuijpers

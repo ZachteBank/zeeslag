@@ -27,6 +27,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import seabattlegame.SeaBattleGame;
+import seabattlegame.game.ShotType;
 
 /**
  * Main application of the sea battle game.
@@ -595,7 +596,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
      * Set the color of the square according to position type.
      * Setting the color will be performed by the JavaFX Application Thread.
      * @param square the square of which the color should be changed.
-     * @param type position type to determine the color.
+     * @param //type position type to determine the color.
      */
     private void setSquareColor(final Rectangle square, final SquareState squareState) {
         // Ensure that changing the color of the square is performed by

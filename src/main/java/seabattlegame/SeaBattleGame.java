@@ -9,13 +9,9 @@ import seabattlegame.game.Game;
 import seabattlegame.game.Player;
 import seabattlegame.game.shipfactory.ShipFactory;
 import seabattlegame.game.ships.Ship;
+import seabattlegame.game.ShotType;
 import seabattlegui.ISeaBattleGUI;
 import seabattlegui.ShipType;
-import seabattlegui.ShotType;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 /**
  * The Sea Battle game. To be implemented.
@@ -45,10 +41,10 @@ public class SeaBattleGame implements ISeaBattleGame {
             Player players2 = new Player(1, name);
             application.setOpponentName(1, name);
             game = new Game(players1, players2);
-            return 0;
+            return players2.getId();
         }
         game = new Game(players1);
-        return 0;
+        return players1.getId();
     }
 
     @Override
@@ -95,7 +91,11 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     @Override
     public ShotType fireShotPlayer(int playerNr, int posX, int posY) {
-        throw new UnsupportedOperationException("Method fireShotPlayer() not implemented.");
+        if (game.getPlayer(playerNr).getId() == game.getPlayer1().getId()) {
+            return game.attack(game.getPlayer2().getId(), posX, posY);
+        } else {
+            return game.attack(game.getPlayer1(), posX, posY);
+        }
     }
 
     @Override
