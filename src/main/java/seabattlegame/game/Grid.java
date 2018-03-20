@@ -1,7 +1,9 @@
 package seabattlegame.game;
+import com.sun.javafx.UnmodifiableArrayList;
 import seabattlegame.game.ships.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Grid {
@@ -17,7 +19,11 @@ public class Grid {
 	    cells = new Cell[size][size];
 	}
 
-	/**
+    public List<Ship> getShips() {
+        return Collections.unmodifiableList(ships);
+    }
+
+    /**
 	 * 
 	 * @param ship
 	 */
