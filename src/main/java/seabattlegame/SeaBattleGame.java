@@ -79,7 +79,8 @@ public class SeaBattleGame implements ISeaBattleGame {
     @Override
     public boolean removeAllShips(int playerNr) {
         players[playerNr].getGrid().removeAllShips();
-        if (players[playerNr].getGrid().)
+    //    if (players[playerNr].getGrid().)
+        return false;
     }
 
     @Override
