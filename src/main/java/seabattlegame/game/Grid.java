@@ -6,6 +6,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class Grid {
 
@@ -81,17 +82,15 @@ public class Grid {
 	}
 
 	public boolean placeShipsAutomatically() {
-        ArrayList<Ship> ships = new ArrayList<>();
-        ships.add(new AircraftCarrier());
-	    ships.add(new Minesweeper());
-	    ships.add(new Battleship());
-	    ships.add(new Cruiser());
-	    ships.add(new Submarine());
+        Random rand = new Random();
+        removeAllShips();
 
+        placeShip(new Minesweeper(), rand.nextInt(100 - 2), rand.nextInt(100 - 2) ,rand.nextBoolean());
+        placeShip(new Battleship(), rand.nextInt(100 - 4), rand.nextInt(100 - 4), rand.nextBoolean());
+        placeShip(new Cruiser(), rand.nextInt(100 - 3), rand.nextInt(100 - 3), rand.nextBoolean());
+        placeShip(new AircraftCarrier(), rand.nextInt(100 - 5), rand.nextInt(100 - 5), rand.nextBoolean());
+        placeShip(new Submarine(), rand.nextInt(100 - 3), rand.nextInt(100 - 3), rand.nextBoolean());
 
-        for (Cell cell : cells) {
-
-        }
+        return true;
 	}
-
 }
