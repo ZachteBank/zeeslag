@@ -14,8 +14,7 @@ public abstract class Ship {
 	}
 
 	public boolean isSunk() {
-		// TODO - implement Ship.IsSunk
-		throw new UnsupportedOperationException();
+		return hits >= length;
 	}
 
 	/**
@@ -23,13 +22,11 @@ public abstract class Ship {
 	 * @param length the length of the ship
 	 */
 	public Ship(int length) {
-		// TODO - implement Ship.Ship
-		throw new UnsupportedOperationException();
+		this.length = length;
 	}
 
 	public void hit() {
-		// TODO - implement Ship.hit
-		throw new UnsupportedOperationException();
+		hits++;
 	}
 
 }
