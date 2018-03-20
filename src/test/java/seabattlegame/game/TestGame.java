@@ -24,15 +24,15 @@ public class TestGame {
         assertEquals("John doe", game.getPlayer1().getName());
         assertEquals("Jane doe", game.getPlayer2().getName());
     }
-
+/*
     @Ignore
     @Test
     public void testAttack(){
-        initalizeGame();
+       initalizeGame();
         ShotType shotType = game.attack(0,0);
         assertEquals(ShotType.MISSED, shotType);
 
         shotType = game.attack(0,1);
         assertEquals(ShotType.HIT, shotType);
-    }
+    }*/
 }
