@@ -3,6 +3,7 @@ import org.junit.Before;
 import org.junit.Test;
 import seabattlegame.game.Game;
 import seabattlegame.game.Player;
+import seabattlegame.game.ShotType;
 
 import static org.junit.Assert.*;
 
@@ -12,9 +13,8 @@ public class GameTest {
     private Player player2;
     private Game game;
 
-    //TODO: Give valid arguments to game
     @Before
-    public void testInitalize(){
+    public void testInitialize(){
         player1 = new Player("John doe");
         player2 = new Player("Jane doe");
         try {
@@ -37,5 +37,17 @@ public class GameTest {
     @Test
     public void testStartGame() {
         assertTrue(game.startGame());
+    }
+
+    @Test
+    public void testAttackPlayerId() {
+        ShotType shotType = game.attack(game.getPlayer1().getId(), 0, 0);
+        assertEquals(ShotType.MISSED, shotType);
+    }
+
+    @Test
+    public void testAttackPlayer() {
+        ShotType shotType = game.attack(game.getPlayer1(), 0, 0);
+        assertEquals(ShotType.MISSED, shotType);
     }
 }
