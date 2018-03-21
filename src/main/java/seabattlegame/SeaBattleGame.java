@@ -5,7 +5,6 @@
  */
 package seabattlegame;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import seabattlegame.game.Game;
 import seabattlegame.game.Player;
 import seabattlegame.game.shipfactory.ShipFactory;
@@ -14,7 +13,6 @@ import seabattlegame.game.ShotType;
 import seabattlegui.ISeaBattleGUI;
 import seabattlegui.ShipType;
 
-import javax.sql.rowset.JoinRowSet;
 import java.util.Random;
 
 /**
@@ -50,7 +48,7 @@ public class SeaBattleGame implements ISeaBattleGame {
             application.setOpponentName(1, name);
             try {
                 game = new Game(players1, players2, 10);
-            } catch (InvalidArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 e.printStackTrace();
             }
             return players2.getId();
@@ -59,7 +57,7 @@ public class SeaBattleGame implements ISeaBattleGame {
             Player player2 = new Player(1, "AI");
             game = new Game(players1, player2, 10);
             placeShipsAutomatically(1);
-        } catch (InvalidArgumentException e) {
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
         return players1.getId();

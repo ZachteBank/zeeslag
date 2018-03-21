@@ -5,7 +5,7 @@ import org.junit.Test;
 import seabattlegame.game.ships.*;
 
 
-public class TestAircraftCarrier {
+public class AircraftCarrierTest {
 
     @Test
     public void testConstructor() {
