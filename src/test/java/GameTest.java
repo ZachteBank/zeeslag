@@ -1,3 +1,4 @@
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.junit.Before;
 import org.junit.Test;
 import seabattlegame.game.Game;
@@ -11,23 +12,30 @@ public class GameTest {
     private Player player2;
     private Game game;
 
+    //TODO: Give valid arguments to game
     @Before
     public void testInitalize(){
         player1 = new Player("John doe");
         player2 = new Player("Jane doe");
-        game = new Game();
+        try {
+            game = new Game(player1, player2, 10);
+        }
+        catch (InvalidArgumentException e) {
+
+        }
     }
 
-    //TODO: pass players as reference to game
     @Test
     public void testStartNewGame() {
-        assertEquals("John doe", player1.getName());
-        assertEquals("Jane doe", player2.getName());
+        assertEquals("John doe", game.getPlayer1().getName());
+        assertEquals("Jane doe", game.getPlayer2().getName());
         assertTrue(game.startNewGame());
-        player1 = null;
-        player2 = null;
-        assertEquals(null, player1);
-        assertEquals(null, player2);
+        assertEquals(null, game.getPlayer1());
+        assertEquals(null, game.getPlayer2());
+    }
 
+    @Test
+    public void testStartGame() {
+        assertTrue(game.startGame());
     }
 }
