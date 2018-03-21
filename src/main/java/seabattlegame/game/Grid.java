@@ -88,6 +88,9 @@ public class Grid {
 	 */
 	public ShotType shoot(Integer x, Integer y) {
 	    SquareState state = cells[y][x].hit();
+	    if(state == SquareState.SHIPSUNK){
+	        setAllCellsShipSunk(x, y);
+        }
 	    switch (state){
             case WATER:
                 return ShotType.MISSED;
@@ -101,6 +104,21 @@ public class Grid {
                 return ShotType.MISSED;
         }
 	}
+
+	private void setAllCellsShipSunk(int x, int y){
+        ShipCell cell = (ShipCell) cells[y][x];
+        Ship ship = cell.getShip();
+
+        for (int i = 0; i < cells.length; i++){
+            for (int j = 0; j < cells.length; j++){
+                if(cells[i][j] instanceof ShipCell &&
+                        ship.getClass().getSuperclass().getName().equals(
+                                ((ShipCell) cells[i][j]).getShip().getClass().getSuperclass().getName())){
+                    ((ShipCell)cells[i][j]).checkShipSunk();
+                }
+            }
+        }
+    }
 
 	public boolean placeShipsAutomatically() {
         Random rand = new Random();
