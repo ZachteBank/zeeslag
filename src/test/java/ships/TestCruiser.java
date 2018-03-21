@@ -11,7 +11,7 @@ public class TestCruiser {
     @Test
     public void testConstructor() {
         Ship cruiser = new Cruiser();
-        assertEquals(5, cruiser.getLength());
+        assertEquals(3, cruiser.getLength());
         assertEquals(0, cruiser.getHits());
         assertEquals(false, cruiser.isSunk());
     }
