@@ -7,6 +7,7 @@ public class Game {
 	private Player player1;
 	private Player player2;
 	private Integer turn;
+	private int size;
 
 	public Player getPlayer1() {
 		return this.player1;
@@ -16,11 +17,16 @@ public class Game {
 		return this.player2;
 	}
 
-	public Game() {
+    public int getSize() {
+        return size;
+    }
+
+    public Game() {
 	}
 
-	public Game(Player player1) {
+	public Game(Player player1, int size) {
 		this.player1 = player1;
+		this.size = size;
 	}
 
 	/**
@@ -28,9 +34,10 @@ public class Game {
 	 * @param player1 The first player
 	 * @param player2 The second player
 	 */
-	public Game(Player player1, Player player2) {
+	public Game(Player player1, Player player2, int size) {
         this.player1 = player1;
         this.player2 = player2;
+        this.size = size;
 	}
 
 	public boolean startGame() {

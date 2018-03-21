@@ -42,10 +42,10 @@ public class SeaBattleGame implements ISeaBattleGame {
         if (!singlePlayerMode) {
             Player players2 = new Player(1, name);
             application.setOpponentName(1, name);
-            game = new Game(players1, players2);
+            game = new Game(players1, players2, 10);
             return players2.getId();
         }
-        game = new Game(players1);
+        game = new Game(players1, 10);
         return players1.getId();
     }
 
