@@ -36,7 +36,8 @@ public class Grid {
 	 */
 	public void placeShip(Ship ship, int x, int y, boolean horizontal) throws IllegalArgumentException {
 	    boolean error;
-	    error = ship == null;
+
+	    error = ship == null || ships.contains(ship);
 
 	    if(x < 0 || y < 0 || x > getCells().length || y > getCells().length){
 	        error = true;
@@ -52,14 +53,14 @@ public class Grid {
 	        throw new IllegalArgumentException();
         }
 
-        for (int i = 0; i <= ship.getLength(); i++){
-            if(cells[horizontal ? x + i : x][!horizontal ? y + i : i].state != SquareState.WATER|| cells[horizontal ? x + i : x][!horizontal ? y + i : i] instanceof ShipCell){
+        for (int i = 0; i < ship.getLength(); i++){
+            if(cells[!horizontal ? y + i : y][horizontal ? x + i : x].state != SquareState.WATER|| cells[!horizontal ? y + i : y][horizontal ? x + i : x] instanceof ShipCell){
                 throw new IllegalArgumentException("cell already occuped");
             }
 
         }
-        for (int i = 0; i <= ship.getLength(); i++){
-            cells[horizontal ? x + i : x][!horizontal ? y + i : i] = new ShipCell(ship);
+        for (int i = 0; i < ship.getLength(); i++){
+            cells[!horizontal ? y + i : y][horizontal ? x + i : x] = new ShipCell(ship);
         }
 	    ships.add(ship);
 
@@ -77,7 +78,7 @@ public class Grid {
 	 * @param y
 	 */
 	public ShotType shoot(Integer x, Integer y) {
-	    SquareState state = cells[x][y].hit();
+	    SquareState state = cells[y][x].hit();
 	    switch (state){
             case WATER:
                 return ShotType.MISSED;
