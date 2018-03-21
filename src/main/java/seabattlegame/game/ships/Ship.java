@@ -6,6 +6,7 @@ public abstract class Ship {
 
 	private int hits;
 	private int length;
+	private ShipType shipType;
 
 	public int getHits() {
 		return this.hits;
@@ -19,15 +20,18 @@ public abstract class Ship {
 		return getHits() == getLength();
 	}
 
-	public Ship(Integer length) {
+	public Ship(Integer length, ShipType shipType) {
 	    this.length = length;
 	    this.hits = 0;
+	    this.shipType = shipType;
 	}
 
 	public void hit() {
 	    this.hits++;
 	}
 
-	public abstract ShipType getType();
+	public ShipType getType() {
+	    return shipType;
+    }
 
 }

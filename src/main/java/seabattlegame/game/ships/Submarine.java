@@ -5,11 +5,6 @@ import seabattlegui.ShipType;
 public class Submarine extends Ship {
 
 	public Submarine() {
-		super(3);
-	}
-
-	@Override
-	public ShipType getType() {
-		return ShipType.SUBMARINE;
+		super(3, ShipType.SUBMARINE);
 	}
 }

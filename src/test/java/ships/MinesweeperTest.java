@@ -3,6 +3,7 @@ package ships;
 import org.junit.Test;
 import seabattlegame.game.ships.Minesweeper;
 import seabattlegame.game.ships.Ship;
+import seabattlegui.ShipType;
 
 import static org.junit.Assert.assertEquals;
 
@@ -14,5 +15,6 @@ public class MinesweeperTest {
         assertEquals(2, minesweeper.getLength());
         assertEquals(0, minesweeper.getHits());
         assertEquals(false, minesweeper.isSunk());
+        assertEquals(ShipType.MINESWEEPER, minesweeper.getType());
     }
 }
