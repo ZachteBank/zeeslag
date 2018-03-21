@@ -30,16 +30,14 @@ public class TestGame {
         assertEquals("Jane doe", game.getPlayer2().getName());
     }
 
-    @Ignore
+   /* @Ignore
     @Test
-    public void testAttack(){
-        /*
+ /*   public void testAttack(){
         initalizeGame();
         ShotType shotType = game.attack(0,0);
         assertEquals(ShotType.MISSED, shotType);
 
         shotType = game.attack(0,1);
         assertEquals(ShotType.HIT, shotType);
-        */
-    }
+    }*/
 }

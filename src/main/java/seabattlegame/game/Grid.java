@@ -35,7 +35,7 @@ public class Grid {
 	 * @param ship
 	 */
 	public void placeShip(Ship ship, int x, int y, boolean horizontal) throws Exception {
-	    boolean error = false;
+	    boolean error;
 	    error = ship == null;
 
 	    if(x < 0 || y < 0 || x > getCells().length || y > getCells().length){
