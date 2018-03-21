@@ -811,8 +811,6 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
                 // It is this player's turn
                 // Player fires a shot at the selected target area
                 ShotType resultPlayer = game.fireShotPlayer(playerNr, x, y);
-                showSquareOpponent(playerNr, x, y, game.getGame().getPlayer(1).getGrid().getCells()[y][x].getState());
-
                 if (resultPlayer.equals(ShotType.SUNK)) {
                     showMessage("Ship of " + opponentName + " is sunk");
                 }
@@ -840,6 +838,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
                 showMessage("Select square in " + playerName + "\'s grid to place ships");
             }
         }
+        game.updateGrid(playerNr,1,this);
 
     }
 

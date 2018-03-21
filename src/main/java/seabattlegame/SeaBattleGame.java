@@ -7,6 +7,7 @@ package seabattlegame;
 
 import seabattlegame.game.Game;
 import seabattlegame.game.Player;
+import seabattlegame.game.SquareState;
 import seabattlegame.game.shipfactory.ShipFactory;
 import seabattlegame.game.ships.Ship;
 import seabattlegame.game.ShotType;
@@ -125,11 +126,17 @@ public class SeaBattleGame implements ISeaBattleGame {
     @Override
     public void updateGrid(int playerId, int opponentId, ISeaBattleGUI application) {
         Player player = game.getPlayer(playerId);
+        Player opponent = game.getPlayer(1);
         for (int i = 0; i < player.getGrid().getCells().length; i++) {
             for (int j = 0; j < player.getGrid().getCells().length; j++) {
-                application.showSquarePlayer(player.getId(), j, i, player.getGrid().getCells()[i][j].getState());
+                application.showSquarePlayer(playerId, j, i, player.getGrid().getCells()[i][j].getState());
+                SquareState state = opponent.getGrid().getCells()[i][j].getState();
+                if (!state.equals(SquareState.SHIP)) {
+                    application.showSquareOpponent(playerId, j, i, state);
+                }
             }
         }
-
     }
+
 }
+
