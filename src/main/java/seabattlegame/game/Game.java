@@ -7,6 +7,7 @@ public class Game {
 	private Player player1;
 	private Player player2;
 	private Integer turn;
+	private int size;
 
 	public Player getPlayer1() {
 		return this.player1;
@@ -16,11 +17,20 @@ public class Game {
 		return this.player2;
 	}
 
-	public Game() {
+    public int getSize() {
+        return size;
+    }
+
+    public Game() {
 	}
 
-	public Game(Player player1) {
+	public Game(Player player1, int size) throws InvalidArgumentException {
+	    if(size < 0 || size > 100){
+	        throw new InvalidArgumentException(new String[]{"Size to big or to small"});
+        }
 		this.player1 = player1;
+        this.player1.createGrid(size);
+		this.size = size;
 	}
 
 	/**
@@ -28,9 +38,16 @@ public class Game {
 	 * @param player1 The first player
 	 * @param player2 The second player
 	 */
-	public Game(Player player1, Player player2) {
+	public Game(Player player1, Player player2, int size) throws InvalidArgumentException {
+        if(size < 0 || size > 100){
+            throw new InvalidArgumentException(new String[]{"Size to big or to small"});
+        }
         this.player1 = player1;
         this.player2 = player2;
+        this.size = size;
+
+        this.player1.createGrid(size);
+        this.player2.createGrid(size);
 	}
 
 	public boolean startGame() {
@@ -65,7 +82,7 @@ public class Game {
     }
 
     public Player getPlayer(int playerNr){
-        if(player1 == null || player2 == null) return null;
+        if(player1 == null && player2 == null) return null;
 
         return player1.getId() == playerNr ? player1 : player2;
     }

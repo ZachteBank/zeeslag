@@ -18,7 +18,7 @@ public class Grid {
 	}
 
 	public Grid(int size) {
-	    cells = new Cell[size][size];
+	    initalisizeCells(size);
 	}
 
     public List<Ship> getShips() {
@@ -29,9 +29,10 @@ public class Grid {
 	 * 
 	 * @param ship
 	 */
-	public void placeShip(Ship ship, int x, int y, boolean horizontal) throws Exception {
-	    boolean error = false;
-	    error = ship == null;
+	public void placeShip(Ship ship, int x, int y, boolean horizontal) throws IllegalArgumentException {
+	    boolean error;
+
+	    error = ship == null || ships.contains(ship);
 
 	    if(x < 0 || y < 0 || x > getCells().length || y > getCells().length){
 	        error = true;
@@ -48,22 +49,36 @@ public class Grid {
         }
 
         for (int i = 0; i < ship.getLength(); i++){
-            if(cells[horizontal ? x + i : x][!horizontal ? y + i : i] instanceof ShipCell){
-                throw new Exception("cell already occuped");
+            if(cells[!horizontal ? y + i : y][horizontal ? x + i : x].state != SquareState.WATER|| cells[!horizontal ? y + i : y][horizontal ? x + i : x] instanceof ShipCell){
+                throw new IllegalArgumentException("cell already occuped");
             }
 
         }
         for (int i = 0; i < ship.getLength(); i++){
-            cells[horizontal ? x + i : x][!horizontal ? y + i : i] = new ShipCell(ship);
+            cells[!horizontal ? y + i : y][horizontal ? x + i : x] = new ShipCell(ship);
         }
 	    ships.add(ship);
 
 	}
 
 	public boolean removeAllShips(){
-        cells = new Cell[cells.length][cells.length];
+	    initalisizeCells();
         ships = new ArrayList<>();
         return true;
+    }
+
+    private void initalisizeCells(){
+	    if(cells != null){
+	        initalisizeCells(cells.length);
+        }
+    }
+    private void initalisizeCells(int size){
+        cells = new Cell[size][size];
+        for (int i = 0; i < size; i++){
+            for (int j = 0; j < size; j++){
+                cells[i][j] = new Cell();
+            }
+        }
     }
 
 	/**
@@ -72,7 +87,7 @@ public class Grid {
 	 * @param y
 	 */
 	public ShotType shoot(Integer x, Integer y) {
-	    SquareState state = cells[x][y].hit();
+	    SquareState state = cells[y][x].hit();
 	    switch (state){
             case WATER:
                 return ShotType.MISSED;

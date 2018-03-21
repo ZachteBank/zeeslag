@@ -658,7 +658,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
                 buttonPlaceSubmarine.setDisable(false);
                 buttonPlaceMineSweeper.setDisable(false);
                 buttonRemoveShip.setDisable(false);
-                showMessage("Player " + playerName + " registered");
+               // showMessage("Player " + playerName + " registered");
             } else {
                 showMessage("Name already defined");
             }

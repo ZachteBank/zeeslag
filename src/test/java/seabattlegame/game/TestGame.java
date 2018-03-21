@@ -1,4 +1,5 @@
 package seabattlegame.game;
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -9,10 +10,14 @@ public class TestGame {
     private Game game;
 
     @Before
-    public void testInitalize(){
+    public void testInitialize(){
         Player player1 = new Player("John doe");
         Player player2 = new Player("Jane doe");
-        game = new Game(player1, player2);
+        try {
+            game = new Game(player1, player2, 10);
+        } catch (InvalidArgumentException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initalizeGame(){
@@ -25,16 +30,14 @@ public class TestGame {
         assertEquals("Jane doe", game.getPlayer2().getName());
     }
 
-    @Ignore
+   /* @Ignore
     @Test
-    public void testAttack(){
-        /*
-        initalizeGame();
+ /*   public void testAttack(){
+        initializeGame();
         ShotType shotType = game.attack(0,0);
         assertEquals(ShotType.MISSED, shotType);
 
         shotType = game.attack(0,1);
         assertEquals(ShotType.HIT, shotType);
-        */
-    }
+    }*/
 }
