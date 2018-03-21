@@ -5,6 +5,7 @@
  */
 package seabattlegame;
 
+import seabattlegame.game.Player;
 import seabattlegame.game.ShotType;
 import seabattlegui.ISeaBattleGUI;
 import seabattlegui.ShipType;
@@ -113,4 +114,5 @@ public interface ISeaBattleGame {
      * @return true if a new game is started successfully
      */
     public boolean startNewGame(int playerNr);
+    public void updateGrid(int playerId, ISeaBattleGUI application);
 }

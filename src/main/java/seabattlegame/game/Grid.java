@@ -105,6 +105,7 @@ public class Grid {
         }
 
         catch (Exception e) {
+            removeAllShips();
             placeShipsAutomatically();
         }
         return true;
