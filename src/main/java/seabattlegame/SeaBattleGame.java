@@ -72,7 +72,8 @@ public class SeaBattleGame implements ISeaBattleGame {
         Ship ship = ShipFactory.createShip(shipType);
         try {
             game.getPlayer(playerNr).getGrid().placeShip(ship, bowX, bowY, horizontal);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
+                e.printStackTrace();
             return false;
         }
         return true;

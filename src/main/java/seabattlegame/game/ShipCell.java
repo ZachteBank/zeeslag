@@ -6,6 +6,7 @@ public class ShipCell extends Cell {
 	private Ship ship;
 
 	public ShipCell(Ship ship) {
+	    this.state = SquareState.SHIP;
 		this.ship = ship;
 	}
 
