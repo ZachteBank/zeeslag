@@ -27,7 +27,7 @@ public class GridTest {
     }
 
     @Test
-    public void testPlaceShipHorizontally() {
+    public void testPlaceShipHorizontallyInner() {
         AircraftCarrier carrier = new AircraftCarrier();
         grid.placeShip(carrier, 0, 0, true);
 
@@ -36,6 +36,17 @@ public class GridTest {
             assertEquals(SquareState.SHIP, grid.getCells()[0][i].getState());
         }
         assertEquals(SquareState.WATER, grid.getCells()[0][carrier.getLength() + 1].getState());
+    }
+
+    @Test
+    public void testPlaceShipHorizontallyOuter() {
+        AircraftCarrier carrier = new AircraftCarrier();
+        grid.placeShip(carrier, 5, 9, true);
+
+        assertEquals(1, grid.getShips().size());
+        for (int i = 5; i < carrier.getLength(); i++) {
+            assertEquals(SquareState.SHIP, grid.getCells()[10][i].getState());
+        }
     }
 
     @Test
@@ -63,4 +74,6 @@ public class GridTest {
         assertEquals(SquareState.WATER, grid.getCells()[0][0].getState());
         assertEquals(0, grid.getShips().size());
     }
+
+
 }
