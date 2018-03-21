@@ -1,6 +1,8 @@
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import seabattlegame.game.Game;
 import seabattlegame.game.Player;
 import seabattlegame.game.ShotType;
@@ -13,6 +15,9 @@ public class GameTest {
     private Player player2;
     private Game game;
 
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
+
     @Test
     public void testOnePlayerConstructor() {
         player1 = new Player(0, "John doe");
@@ -23,11 +28,41 @@ public class GameTest {
     }
 
     @Test
+    public void testOnePlayerConstructorSizeTooHigh() {
+        exception.expect(IllegalArgumentException.class);
+        player1 = new Player("John doe");
+        game = new Game(player1, 101);
+    }
+
+    @Test
+    public void testOnePlayerConstructorSizeTooLow() {
+        exception.expect(IllegalArgumentException.class);
+        player1 = new Player("John Doe");
+        game = new Game(player1, -1);
+    }
+
+    @Test
     public void testTwoPlayersConstructor() {
         initializeTwoPlayerGame();
         assertEquals("John doe", game.getPlayer(0).getName());
         assertEquals("Jane doe", game.getPlayer(1).getName());
         assertEquals(10, game.getSize());
+    }
+
+    @Test
+    public void testTwoPlayersConstructorSizeTooLow() {
+        exception.expect(IllegalArgumentException.class);
+        player1 = new Player(0, "John doe");
+        player2 = new Player(1, "Jane doe");
+        game = new Game(player1, player2, -1);
+    }
+
+    @Test
+    public void testTwoPlayersConstructorSizeTooHigh() {
+        exception.expect(IllegalArgumentException.class);
+        player1 = new Player(0, "John doe");
+        player2 = new Player(1, "Jane doe");
+        game = new Game(player1, player2, 101);
     }
 
     @Test
