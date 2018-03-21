@@ -50,4 +50,6 @@ public class GameTest {
         ShotType shotType = game.attack(game.getPlayer1(), 0, 0);
         assertEquals(ShotType.MISSED, shotType);
     }
+
+
 }
