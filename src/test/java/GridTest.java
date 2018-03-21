@@ -5,6 +5,7 @@ import seabattlegame.game.SquareState;
 import seabattlegame.game.ships.AircraftCarrier;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class GridTest {
 
@@ -26,7 +27,7 @@ public class GridTest {
     }
 
     @Test
-    public void testPlaceShip() {
+    public void testPlaceShipHorizontally() {
         AircraftCarrier carrier = new AircraftCarrier();
         grid.placeShip(carrier, 0, 0, true);
 
@@ -37,5 +38,29 @@ public class GridTest {
         assertEquals(SquareState.WATER, grid.getCells()[0][carrier.getLength() + 1].getState());
     }
 
-   
+    @Test
+    public void testPlaceShipVertically() {
+        AircraftCarrier carrier = new AircraftCarrier();
+        grid.placeShip(carrier, 0, 0, false);
+
+        assertEquals(1, grid.getShips().size());
+        for (int i = 0; i < carrier.getLength(); i++) {
+            assertEquals(SquareState.SHIP, grid.getCells()[i][0].getState());
+        }
+        assertEquals(SquareState.WATER, grid.getCells()[carrier.getLength() + 1][0].getState());
+    }
+
+    @Test
+    public void testRemoveAllShips() {
+        AircraftCarrier carrier = new AircraftCarrier();
+        grid.placeShip(carrier, 0, 0, true);
+
+        assertEquals(SquareState.SHIP, grid.getCells()[0][0].getState());
+        assertEquals(1, grid.getShips().size());
+
+        assertTrue(grid.removeAllShips());
+
+        assertEquals(SquareState.WATER, grid.getCells()[0][0].getState());
+        assertEquals(0, grid.getShips().size());
+    }
 }
