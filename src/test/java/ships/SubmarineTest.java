@@ -6,7 +6,7 @@ import seabattlegame.game.ships.Submarine;
 
 import static org.junit.Assert.assertEquals;
 
-public class TestSubmarine {
+public class SubmarineTest {
 
     @Test
     public void testConstructor() {
