@@ -26,6 +26,10 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     private Game game;
 
+    public Game getGame() {
+        return game;
+    }
+
     public SeaBattleGame() {
         game = new Game();
 
@@ -117,17 +121,17 @@ public class SeaBattleGame implements ISeaBattleGame {
     public ShotType fireShotOpponent(int playerNr) {
         Random random = new Random();
         return game.attack(playerNr, random.nextInt(10), random.nextInt(10));
+
     }
 
     @Override
     public void updateGrid(int playerId, int opponentId, ISeaBattleGUI application) {
         Player player = game.getPlayer(playerId);
-        Player opponent = game.getPlayer(opponentId);
         for (int i = 0; i < player.getGrid().getCells().length; i++) {
             for (int j = 0; j < player.getGrid().getCells().length; j++) {
                 application.showSquarePlayer(player.getId(), j, i, player.getGrid().getCells()[i][j].getState());
-                application.showSquareOpponent(player.getId(), j, i, opponent.getGrid().getCells()[i][j].getState());
             }
         }
+
     }
 }
