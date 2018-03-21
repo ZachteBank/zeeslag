@@ -1,3 +1,4 @@
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import seabattlegame.game.Game;
@@ -12,20 +13,26 @@ public class GameTest {
     private Player player2;
     private Game game;
 
-    @Before
-    public void testInitialize(){
-        player1 = new Player("John doe");
-        player2 = new Player("Jane doe");
-        try {
-            game = new Game(player1, player2, 10);
-        }
-        catch (IllegalArgumentException e) {
+    @Test
+    public void testOnePlayerConstructor() {
+        player1 = new Player(0, "John doe");
+        game = new Game(player1, 10);
+        assertEquals("John doe", game.getPlayer1().getName());
+        assertNull(game.getPlayer2());
+        assertEquals(10, game.getSize());
+    }
 
-        }
+    @Test
+    public void testTwoPlayersConstructor() {
+        initializeTwoPlayerGame();
+        assertEquals("John doe", game.getPlayer(0).getName());
+        assertEquals("Jane doe", game.getPlayer(1).getName());
+        assertEquals(10, game.getSize());
     }
 
     @Test
     public void testStartNewGame() {
+        initializeTwoPlayerGame();
         assertEquals("John doe", game.getPlayer1().getName());
         assertEquals("Jane doe", game.getPlayer2().getName());
         assertTrue(game.startNewGame());
@@ -50,5 +57,16 @@ public class GameTest {
         assertEquals(ShotType.MISSED, shotType);
     }
 
+    private void initializeTwoPlayerGame(){
+        player1 = new Player(0, "John doe");
+        player2 = new Player(1, "Jane doe");
+        game = new Game(player1, player2, 10);
+    }
 
+    @After
+    public void resetGame() {
+        player1 = null;
+        player2 = null;
+        game = null;
+    }
 }
