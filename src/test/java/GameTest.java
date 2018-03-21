@@ -1,7 +1,9 @@
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.junit.Before;
 import org.junit.Test;
 import seabattlegame.game.Game;
 import seabattlegame.game.Player;
+import seabattlegame.game.ShotType;
 
 import static org.junit.Assert.*;
 
@@ -12,22 +14,42 @@ public class GameTest {
     private Game game;
 
     @Before
-    public void testInitalize(){
+    public void testInitialize(){
         player1 = new Player("John doe");
         player2 = new Player("Jane doe");
-        game = new Game();
+        try {
+            game = new Game(player1, player2, 10);
+        }
+        catch (InvalidArgumentException e) {
+
+        }
     }
 
-    //TODO: pass players as reference to game
     @Test
     public void testStartNewGame() {
-        assertEquals("John doe", player1.getName());
-        assertEquals("Jane doe", player2.getName());
+        assertEquals("John doe", game.getPlayer1().getName());
+        assertEquals("Jane doe", game.getPlayer2().getName());
         assertTrue(game.startNewGame());
-        player1 = null;
-        player2 = null;
-        assertEquals(null, player1);
-        assertEquals(null, player2);
-
+        assertEquals(null, game.getPlayer1());
+        assertEquals(null, game.getPlayer2());
     }
+
+    @Test
+    public void testStartGame() {
+        assertTrue(game.startGame());
+    }
+
+    @Test
+    public void testAttackPlayerId() {
+        ShotType shotType = game.attack(game.getPlayer1().getId(), 0, 0);
+        assertEquals(ShotType.MISSED, shotType);
+    }
+
+    @Test
+    public void testAttackPlayer() {
+        ShotType shotType = game.attack(game.getPlayer1(), 0, 0);
+        assertEquals(ShotType.MISSED, shotType);
+    }
+
+
 }
