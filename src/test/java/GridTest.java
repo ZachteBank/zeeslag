@@ -41,16 +41,17 @@ public class GridTest {
     @Test
     public void testPlaceShipHorizontallyOuter() {
         AircraftCarrier carrier = new AircraftCarrier();
-        grid.placeShip(carrier, 5, 9, true);
+        grid.placeShip(carrier, 5, 9,
+                true);
 
         assertEquals(1, grid.getShips().size());
-        for (int i = 5; i < carrier.getLength(); i++) {
-            assertEquals(SquareState.SHIP, grid.getCells()[10][i].getState());
+        for (int i = 5; i < grid.getCells().length; i++) {
+            assertEquals(SquareState.SHIP, grid.getCells()[9][i].getState());
         }
     }
 
     @Test
-    public void testPlaceShipVertically() {
+    public void testPlaceShipVerticallyInner() {
         AircraftCarrier carrier = new AircraftCarrier();
         grid.placeShip(carrier, 0, 0, false);
 
@@ -59,6 +60,18 @@ public class GridTest {
             assertEquals(SquareState.SHIP, grid.getCells()[i][0].getState());
         }
         assertEquals(SquareState.WATER, grid.getCells()[carrier.getLength() + 1][0].getState());
+    }
+
+    @Test
+    public void testPlaceShipVerticallyOuter() {
+        AircraftCarrier carrier = new AircraftCarrier();
+        grid.placeShip(carrier, grid.getCells()[0].length - 1, grid.getCells().length - carrier.getLength(),
+                false);
+
+        assertEquals(1, grid.getShips().size());
+        for (int i = 5; i < grid.getCells()[0].length; i++) {
+            assertEquals(SquareState.SHIP, grid.getCells()[i][9].getState());
+        }
     }
 
     @Test
