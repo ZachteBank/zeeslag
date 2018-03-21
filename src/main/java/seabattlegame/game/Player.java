@@ -26,6 +26,10 @@ public class Player {
         this.name = name;
     }
 
+    public void createGrid(int size){
+    	this.grid = new Grid(size);
+	}
+
     public int getId() {
         return id;
     }

@@ -5,6 +5,7 @@
  */
 package seabattlegame;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import seabattlegame.game.Game;
 import seabattlegame.game.Player;
 import seabattlegame.game.shipfactory.ShipFactory;
@@ -42,10 +43,18 @@ public class SeaBattleGame implements ISeaBattleGame {
         if (!singlePlayerMode) {
             Player players2 = new Player(1, name);
             application.setOpponentName(1, name);
-            game = new Game(players1, players2, 10);
+            try {
+                game = new Game(players1, players2, 10);
+            } catch (InvalidArgumentException e) {
+                e.printStackTrace();
+            }
             return players2.getId();
         }
-        game = new Game(players1, 10);
+        try {
+            game = new Game(players1, 10);
+        } catch (InvalidArgumentException e) {
+            e.printStackTrace();
+        }
         return players1.getId();
     }
 

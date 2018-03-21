@@ -24,8 +24,12 @@ public class Game {
     public Game() {
 	}
 
-	public Game(Player player1, int size) {
+	public Game(Player player1, int size) throws InvalidArgumentException {
+	    if(size < 0 || size > 100){
+	        throw new InvalidArgumentException(new String[]{"Size to big or to small"});
+        }
 		this.player1 = player1;
+        this.player1.createGrid(size);
 		this.size = size;
 	}
 
@@ -34,10 +38,16 @@ public class Game {
 	 * @param player1 The first player
 	 * @param player2 The second player
 	 */
-	public Game(Player player1, Player player2, int size) {
+	public Game(Player player1, Player player2, int size) throws InvalidArgumentException {
+        if(size < 0 || size > 100){
+            throw new InvalidArgumentException(new String[]{"Size to big or to small"});
+        }
         this.player1 = player1;
         this.player2 = player2;
         this.size = size;
+
+        this.player1.createGrid(size);
+        this.player2.createGrid(size);
 	}
 
 	public boolean startGame() {
