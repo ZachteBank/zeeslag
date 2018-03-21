@@ -38,9 +38,9 @@ public class Grid {
 	        error = true;
         }
 
-        if (horizontal && x + ship.getLength() > getCells().length) {
+        if (!error && horizontal && x + ship.getLength() > getCells().length) {
             error = true;
-        }else if (y + ship.getLength() > getCells().length){
+        }else if (!error && y + ship.getLength() > getCells().length){
             error = true;
         }
 
