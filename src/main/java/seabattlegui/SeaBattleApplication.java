@@ -28,6 +28,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import seabattlegame.SeaBattleGame;
 import seabattlegame.game.ShotType;
+import seabattlegame.game.SquareState;
 
 /**
  * Main application of the sea battle game.
@@ -744,6 +745,9 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
             boolean success = game.placeShip(playerNr, shipType, bowX, bowY, horizontal);
             if (!success) {
                 showMessage("Cannot place ship");
+            }
+            else{
+                game.updateGrid(playerNr, this);
             }
         }
         else {

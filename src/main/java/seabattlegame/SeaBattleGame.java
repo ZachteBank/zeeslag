@@ -14,6 +14,7 @@ import seabattlegame.game.ShotType;
 import seabattlegui.ISeaBattleGUI;
 import seabattlegui.ShipType;
 
+import javax.sql.rowset.JoinRowSet;
 import java.util.Random;
 
 /**
@@ -73,7 +74,7 @@ public class SeaBattleGame implements ISeaBattleGame {
         try {
             game.getPlayer(playerNr).getGrid().placeShip(ship, bowX, bowY, horizontal);
         } catch (IllegalArgumentException e) {
-                e.printStackTrace();
+            e.printStackTrace();
             return false;
         }
         return true;
@@ -113,6 +114,16 @@ public class SeaBattleGame implements ISeaBattleGame {
     @Override
     public ShotType fireShotOpponent(int playerNr) {
         Random random = new Random();
-      return game.attack(playerNr, random.nextInt(10) , random.nextInt(10));
+        return game.attack(playerNr, random.nextInt(10), random.nextInt(10));
+    }
+
+    @Override
+    public void updateGrid(int playerId, ISeaBattleGUI application) {
+        Player player = game.getPlayer(playerId);
+        for (int i = 0; i < player.getGrid().getCells().length; i++) {
+            for (int j = 0; j < player.getGrid().getCells().length; j++) {
+                application.showSquarePlayer(player.getId(), i, j, player.getGrid().getCells()[i][j].getState());
+            }
+        }
     }
 }
