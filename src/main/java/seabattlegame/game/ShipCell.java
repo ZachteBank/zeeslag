@@ -20,6 +20,7 @@ public class ShipCell extends Cell {
         }
     }
 
+    @Override
     public SquareState hit() {
 	    if(this.state == SquareState.SHIP) {
             ship.hit();
