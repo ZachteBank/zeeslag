@@ -6,6 +6,7 @@
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sonar.exclusions>src/main/seabattlegui/SeaBattleApplication.java</sonar.exclusions>
     </properties>
     
     <build>
