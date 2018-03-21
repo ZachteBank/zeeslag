@@ -18,12 +18,7 @@ public class Grid {
 	}
 
 	public Grid(int size) {
-	    cells = new Cell[size][size];
-	    for (int i = 0; i < size; i++){
-	        for (int j = 0; j < size; j++){
-	            cells[i][j] = new Cell();
-            }
-        }
+	    initalisizeCells(size);
 	}
 
     public List<Ship> getShips() {
@@ -67,9 +62,23 @@ public class Grid {
 	}
 
 	public boolean removeAllShips(){
-        cells = new Cell[cells.length][cells.length];
+	    initalisizeCells();
         ships = new ArrayList<>();
         return true;
+    }
+
+    private void initalisizeCells(){
+	    if(cells != null){
+	        initalisizeCells(cells.length);
+        }
+    }
+    private void initalisizeCells(int size){
+        cells = new Cell[size][size];
+        for (int i = 0; i < size; i++){
+            for (int j = 0; j < size; j++){
+                cells[i][j] = new Cell();
+            }
+        }
     }
 
 	/**
