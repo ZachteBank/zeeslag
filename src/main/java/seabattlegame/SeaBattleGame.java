@@ -14,6 +14,7 @@ import seabattlegame.game.ShotType;
 import seabattlegui.ISeaBattleGUI;
 import seabattlegui.ShipType;
 
+import javax.sql.rowset.JoinRowSet;
 import java.util.Random;
 
 /**
@@ -51,7 +52,9 @@ public class SeaBattleGame implements ISeaBattleGame {
             return players2.getId();
         }
         try {
-            game = new Game(players1, 10);
+            Player player2 = new Player(1, "AI");
+            game = new Game(players1, player2, 10);
+            placeShipsAutomatically(1);
         } catch (InvalidArgumentException e) {
             e.printStackTrace();
         }
@@ -73,7 +76,7 @@ public class SeaBattleGame implements ISeaBattleGame {
         try {
             game.getPlayer(playerNr).getGrid().placeShip(ship, bowX, bowY, horizontal);
         } catch (IllegalArgumentException e) {
-                e.printStackTrace();
+            e.printStackTrace();
             return false;
         }
         return true;
@@ -113,6 +116,18 @@ public class SeaBattleGame implements ISeaBattleGame {
     @Override
     public ShotType fireShotOpponent(int playerNr) {
         Random random = new Random();
-      return game.attack(playerNr, random.nextInt(10) , random.nextInt(10));
+        return game.attack(playerNr, random.nextInt(10), random.nextInt(10));
+    }
+
+    @Override
+    public void updateGrid(int playerId, int opponentId, ISeaBattleGUI application) {
+        Player player = game.getPlayer(playerId);
+        Player opponent = game.getPlayer(opponentId);
+        for (int i = 0; i < player.getGrid().getCells().length; i++) {
+            for (int j = 0; j < player.getGrid().getCells().length; j++) {
+                application.showSquarePlayer(player.getId(), j, i, player.getGrid().getCells()[i][j].getState());
+                application.showSquareOpponent(player.getId(), j, i, opponent.getGrid().getCells()[i][j].getState());
+            }
+        }
     }
 }

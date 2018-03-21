@@ -12,7 +12,7 @@ package seabattlegui;
 public enum ShipType {
     AIRCRAFTCARRIER,  // Aircraft carrier (size 5)
     BATTLESHIP,       // Battle ship (size 4)
-    CRUISER,          // Cruister (size 3)
+    CRUISER,          // Cruiser (size 3)
     SUBMARINE,        // Submarine (size 3)
     MINESWEEPER;      // Mine sweeper (size 2)
 }
