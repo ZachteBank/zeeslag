@@ -4,6 +4,7 @@ import seabattlegame.game.Player;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 public class PlayerTest {
@@ -22,5 +23,13 @@ public class PlayerTest {
         assertEquals("Ferd", player.getName());
         assertEquals(1, player.getId());
         assertNull(player.getGrid());
+    }
+
+    @Test
+    public void testCreateGrid() {
+        Player player = new Player("Ferd");
+        assertNull(player.getGrid());
+        player.createGrid(10);
+        assertNotNull(player.getGrid());
     }
 }
