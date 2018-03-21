@@ -1,6 +1,5 @@
 package seabattlegame.game;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 
 public class Game {
 
@@ -24,9 +23,9 @@ public class Game {
     public Game() {
 	}
 
-	public Game(Player player1, int size) throws InvalidArgumentException {
+	public Game(Player player1, int size) throws IllegalArgumentException {
 	    if(size < 0 || size > 100){
-	        throw new InvalidArgumentException(new String[]{"Size to big or to small"});
+	        throw new IllegalArgumentException();
         }
 		this.player1 = player1;
         this.player1.createGrid(size);
@@ -38,9 +37,9 @@ public class Game {
 	 * @param player1 The first player
 	 * @param player2 The second player
 	 */
-	public Game(Player player1, Player player2, int size) throws InvalidArgumentException {
+	public Game(Player player1, Player player2, int size) throws IllegalArgumentException {
         if(size < 0 || size > 100){
-            throw new InvalidArgumentException(new String[]{"Size to big or to small"});
+            throw new IllegalArgumentException();
         }
         this.player1 = player1;
         this.player2 = player2;
@@ -70,13 +69,13 @@ public class Game {
         return attacked.getGrid().shoot(x, y);
 	}
 
-    public boolean placeShipsAutomatically(int playerNr) throws InvalidArgumentException {
+    public boolean placeShipsAutomatically(int playerNr) throws IllegalArgumentException {
 	    return placeShipsAutomatically(getPlayer(playerNr));
     }
 
-    public boolean placeShipsAutomatically(Player player) throws InvalidArgumentException {
+    public boolean placeShipsAutomatically(Player player) throws IllegalArgumentException {
         if(player == null) {
-            throw new InvalidArgumentException(new String[]{"Player can't be null"});
+            throw new IllegalArgumentException();
         }
         return player.getGrid().placeShipsAutomatically();
     }
