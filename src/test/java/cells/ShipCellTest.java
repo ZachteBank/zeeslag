@@ -34,10 +34,22 @@ public class ShipCellTest {
     @Test
     public void testHitSunk() {
         SquareState state;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < shipCell.getShip().getLength() - 1; i++) {
             shipCell.getShip().hit();
         }
         state = shipCell.hit();
         assertEquals(SquareState.SHIPSUNK, state);
+    }
+
+    @Test
+    public void testCheckShipSunk() {
+        SquareState state;
+        for (int i = 0; i < shipCell.getShip().getLength(); i++) {
+            shipCell.getShip().hit();
+        }
+        shipCell.checkShipSunk();
+
+        assertEquals(SquareState.SHIPSUNK, shipCell.getState());
+
     }
 }
