@@ -1,6 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
 import seabattlegame.game.Grid;
+import seabattlegame.game.SquareState;
+import seabattlegame.game.ships.AircraftCarrier;
 
 import static org.junit.Assert.assertEquals;
 
@@ -23,5 +25,17 @@ public class GridTest {
         assertEquals(0, grid.getShips().size());
     }
 
-    
+    @Test
+    public void testPlaceShip() {
+        AircraftCarrier carrier = new AircraftCarrier();
+        grid.placeShip(carrier, 0, 0, true);
+
+        assertEquals(1, grid.getShips().size());
+        for (int i = 0; i < carrier.getLength(); i++) {
+            assertEquals(SquareState.SHIP, grid.getCells()[0][i].getState());
+        }
+        assertEquals(SquareState.WATER, grid.getCells()[0][carrier.getLength() + 1].getState());
+    }
+
+   
 }
