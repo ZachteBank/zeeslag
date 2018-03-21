@@ -15,7 +15,7 @@ public class GameTest {
     public void testInitalize(){
         player1 = new Player("John doe");
         player2 = new Player("Jane doe");
-        game = new Game(player1, player2);
+        game = new Game();
     }
 
     //TODO: pass players as reference to game
