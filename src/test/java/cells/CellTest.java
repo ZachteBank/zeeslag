@@ -2,7 +2,7 @@ package cells;
 
 import org.junit.Before;
 import org.junit.Test;
-import seabattlegame.game.Cell;
+import seabattlegame.game.cells.Cell;
 import seabattlegame.game.SquareState;
 
 import static org.junit.Assert.assertEquals;

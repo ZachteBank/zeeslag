@@ -2,8 +2,8 @@ package cells;
 
 import org.junit.Before;
 import org.junit.Test;
-import seabattlegame.game.Cell;
-import seabattlegame.game.ShipCell;
+import seabattlegame.game.cells.Cell;
+import seabattlegame.game.cells.ShipCell;
 import seabattlegame.game.SquareState;
 import seabattlegame.game.ships.*;
 
