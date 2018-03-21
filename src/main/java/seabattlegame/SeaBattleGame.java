@@ -52,7 +52,9 @@ public class SeaBattleGame implements ISeaBattleGame {
             return players2.getId();
         }
         try {
-            game = new Game(players1, 10);
+            Player player2 = new Player(1, "AI");
+            game = new Game(players1, player2, 10);
+            placeShipsAutomatically(1);
         } catch (InvalidArgumentException e) {
             e.printStackTrace();
         }
@@ -118,11 +120,13 @@ public class SeaBattleGame implements ISeaBattleGame {
     }
 
     @Override
-    public void updateGrid(int playerId, ISeaBattleGUI application) {
+    public void updateGrid(int playerId, int opponentId, ISeaBattleGUI application) {
         Player player = game.getPlayer(playerId);
+        Player opponent = game.getPlayer(opponentId);
         for (int i = 0; i < player.getGrid().getCells().length; i++) {
             for (int j = 0; j < player.getGrid().getCells().length; j++) {
-                application.showSquarePlayer(player.getId(), i, j, player.getGrid().getCells()[i][j].getState());
+                application.showSquarePlayer(player.getId(), j, i, player.getGrid().getCells()[i][j].getState());
+                application.showSquareOpponent(player.getId(), j, i, opponent.getGrid().getCells()[i][j].getState());
             }
         }
     }
