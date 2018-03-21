@@ -41,8 +41,8 @@ public class Game {
 	}
 
 	public boolean startNewGame(){
-        player1 = null;
-        player2 = null;
+        this.player1 = null;
+        this.player2 = null;
         return true;
     }
 
