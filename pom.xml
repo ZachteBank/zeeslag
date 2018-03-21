@@ -6,7 +6,7 @@
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <sonar.coverage.exclusions>zeeslag\src\main\java\seabattlegui\SeaBattleApplication.java</sonar.coverage.exclusions>
+        <sonar.coverage.exclusions>**/SeaBattleApplication*.java</sonar.coverage.exclusions>
     </properties>
     
     <build>
