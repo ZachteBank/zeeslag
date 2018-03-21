@@ -5,6 +5,7 @@
  */
 package seabattlegame;
 
+import seabattlegame.game.Game;
 import seabattlegame.game.Player;
 import seabattlegame.game.ShotType;
 import seabattlegui.ISeaBattleGUI;
@@ -115,4 +116,6 @@ public interface ISeaBattleGame {
      */
     public boolean startNewGame(int playerNr);
     public void updateGrid(int playerId, int opponentId, ISeaBattleGUI application);
+    public Game getGame();
+
 }

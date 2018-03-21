@@ -5,6 +5,7 @@
  */
 package seabattlegui;
 
+import seabattlegame.game.Game;
 import seabattlegame.game.ShotType;
 import seabattlegame.game.SquareState;
 
