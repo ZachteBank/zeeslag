@@ -10,7 +10,7 @@ public class TestGame {
     private Game game;
 
     @Before
-    public void testInitalize(){
+    public void testInitialize(){
         Player player1 = new Player("John doe");
         Player player2 = new Player("Jane doe");
         try {
@@ -33,7 +33,7 @@ public class TestGame {
    /* @Ignore
     @Test
  /*   public void testAttack(){
-        initalizeGame();
+        initializeGame();
         ShotType shotType = game.attack(0,0);
         assertEquals(ShotType.MISSED, shotType);
 
