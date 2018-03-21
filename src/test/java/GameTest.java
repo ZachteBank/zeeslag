@@ -1,4 +1,3 @@
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.junit.Before;
 import org.junit.Test;
 import seabattlegame.game.Game;
@@ -20,7 +19,7 @@ public class GameTest {
         try {
             game = new Game(player1, player2, 10);
         }
-        catch (InvalidArgumentException e) {
+        catch (IllegalArgumentException e) {
 
         }
     }
