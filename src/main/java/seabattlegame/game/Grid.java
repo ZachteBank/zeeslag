@@ -1,8 +1,8 @@
 package seabattlegame.game;
-import com.sun.javafx.UnmodifiableArrayList;
+import seabattlegame.game.cells.Cell;
+import seabattlegame.game.cells.ShipCell;
 import seabattlegame.game.ships.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -49,7 +49,7 @@ public class Grid {
         }
 
         for (int i = 0; i < ship.getLength(); i++){
-            if(cells[!horizontal ? y + i : y][horizontal ? x + i : x].state != SquareState.WATER|| cells[!horizontal ? y + i : y][horizontal ? x + i : x] instanceof ShipCell){
+            if(cells[!horizontal ? y + i : y][horizontal ? x + i : x].getState() != SquareState.WATER|| cells[!horizontal ? y + i : y][horizontal ? x + i : x] instanceof ShipCell){
                 throw new IllegalArgumentException("cell already occuped");
             }
 

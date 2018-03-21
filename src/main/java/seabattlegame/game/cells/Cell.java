@@ -1,4 +1,7 @@
-package seabattlegame.game;
+package seabattlegame.game.cells;
+
+import seabattlegame.game.SquareState;
+
 public class Cell {
 
 	protected SquareState state;

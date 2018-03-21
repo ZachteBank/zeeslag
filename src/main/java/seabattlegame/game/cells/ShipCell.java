@@ -1,4 +1,5 @@
-package seabattlegame.game;
+package seabattlegame.game.cells;
+import seabattlegame.game.SquareState;
 import seabattlegame.game.ships.*;
 
 public class ShipCell extends Cell {
