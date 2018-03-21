@@ -1,5 +1,7 @@
 package seabattlegame.game.ships;
 
+import seabattlegui.ShipType;
+
 public abstract class Ship {
 
 	private int hits;
@@ -25,5 +27,7 @@ public abstract class Ship {
 	public void hit() {
 	    this.hits++;
 	}
+
+	public abstract ShipType getType();
 
 }

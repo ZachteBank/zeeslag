@@ -111,9 +111,8 @@ public class Grid {
 
         for (int i = 0; i < cells.length; i++){
             for (int j = 0; j < cells.length; j++){
-                if(cells[i][j] instanceof ShipCell &&
-                        ship.getClass().getSuperclass().getName().equals(
-                                ((ShipCell) cells[i][j]).getShip().getClass().getSuperclass().getName())){
+                if((cells[i][j] instanceof ShipCell) &&
+                        ship.getType() == ((ShipCell)cells[i][j]).getShip().getType()){
                     ((ShipCell)cells[i][j]).checkShipSunk();
                 }
             }
