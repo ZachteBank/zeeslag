@@ -114,5 +114,5 @@ public interface ISeaBattleGame {
      * @return true if a new game is started successfully
      */
     public boolean startNewGame(int playerNr);
-    public void updateGrid(int playerId, ISeaBattleGUI application);
+    public void updateGrid(int playerId, int opponentId, ISeaBattleGUI application);
 }
