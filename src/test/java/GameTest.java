@@ -116,13 +116,48 @@ public class GameTest {
     }
 
     @Test
+    public void testAttackPlayerIdInvalidPlayerId() {
+        exception.expect(IllegalArgumentException.class);
+        initializeTwoPlayerGame();
+        game.attack(12418191, 0, 0);
+    }
+
+    @Test
+    public void testAttackPlayerIdXCoordTooLow() {
+        exception.expect(IllegalArgumentException.class);
+        initializeTwoPlayerGame();
+        game.attack(game.getPlayer1().getId(), -1, 0);
+    }
+
+    @Test
+    public void testAttackPlayerIdXCoordTooHigh() {
+        exception.expect(IllegalArgumentException.class);
+        initializeTwoPlayerGame();
+        game.attack(game.getPlayer1().getId(), game.getPlayer1().getGrid().getCells()[0].length, 0);
+    }
+
+    @Test
+    public void testAttackPlayerIdYCoordTooLow() {
+        exception.expect(IllegalArgumentException.class);
+        initializeTwoPlayerGame();
+        game.attack(game.getPlayer1().getId(), 0, -1);
+    }
+
+    @Test
+    public void testAttackPlayerIdYCoordTooHigh() {
+        exception.expect(IllegalArgumentException.class);
+        initializeTwoPlayerGame();
+        game.attack(game.getPlayer1().getId(), 0, game.getPlayer1().getGrid().getCells().length);
+    }
+
+    @Test
     public void testAttackPlayer() {
         initializeTwoPlayerGame();
         ShotType shotType = game.attack(game.getPlayer1(), 0, 0);
         assertEquals(ShotType.MISSED, shotType);
     }
 
-    private void initializeTwoPlayerGame(){
+    private void initializeTwoPlayerGame() {
         player1 = new Player(0, "John doe");
         player2 = new Player(1, "Jane doe");
         game = new Game(player1, player2, 10);
