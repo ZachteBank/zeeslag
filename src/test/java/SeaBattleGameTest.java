@@ -14,8 +14,7 @@ import static org.junit.Assert.*;
 
 @RunWith(JfxRunner.class)
 public class SeaBattleGameTest {
-
-    final JFXPanel fxPanel = new JFXPanel();
+    
     private ISeaBattleGame seaBattleGame;
     private ISeaBattleGUI seaBattleGUI;
 
