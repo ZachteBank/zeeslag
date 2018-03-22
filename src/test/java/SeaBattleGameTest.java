@@ -1,5 +1,4 @@
 import javafx.application.Application;
-import javafx.embed.swing.JFXPanel;
 import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -30,7 +29,7 @@ public class SeaBattleGameTest extends Application {
         };
         t.setDaemon(true);
         t.start();
-        Thread.sleep(500);
+        Thread.sleep(2000);
     }
 
     @Before
