@@ -83,6 +83,7 @@ public class GridTest {
     @Test
     public void testPlaceShipShipIsNull() {
         exception.expect(IllegalArgumentException.class);
+        exception.expectMessage("Passed ship cannot be null.");
         AircraftCarrier carrier = null;
         grid.placeShip(carrier, 0, 0, true);
     }
@@ -98,6 +99,7 @@ public class GridTest {
     @Test
     public void testPlaceShipPlaceShipOfSameType() {
         exception.expect(IllegalArgumentException.class);
+        exception.expectMessage("Tried placing a ship of a type that is already placed.");
         AircraftCarrier carrier1 = new AircraftCarrier();
         grid.placeShip(carrier1, 0, 0, true);
         AircraftCarrier carrier2 = new AircraftCarrier();
@@ -107,6 +109,7 @@ public class GridTest {
     @Test
     public void testPlaceShipXCoordTooLow() {
         exception.expect(IllegalArgumentException.class);
+        exception.expectMessage("One or more of the given coordinates is out of bounds.");
         AircraftCarrier carrier = new AircraftCarrier();
         grid.placeShip(carrier, -1, 0, true);
     }
@@ -114,6 +117,7 @@ public class GridTest {
     @Test
     public void testPlaceShipYCoordTooLow() {
         exception.expect(IllegalArgumentException.class);
+        exception.expectMessage("One or more of the given coordinates is out of bounds.");
         AircraftCarrier carrier = new AircraftCarrier();
         grid.placeShip(carrier, 0, -1, true);
     }
@@ -121,6 +125,7 @@ public class GridTest {
     @Test
     public void testPlaceShipXCoordTooHigh() {
         exception.expect(IllegalArgumentException.class);
+        exception.expectMessage("One or more of the given coordinates is out of bounds.");
         AircraftCarrier carrier = new AircraftCarrier();
         grid.placeShip(carrier, grid.getCells()[0].length + 1, 0, true);
     }
@@ -128,6 +133,7 @@ public class GridTest {
     @Test
     public void testPlaceShipYCoordTooHigh() {
         exception.expect(IllegalArgumentException.class);
+        exception.expectMessage("One or more of the given coordinates is out of bounds.");
         AircraftCarrier carrier = new AircraftCarrier();
         grid.placeShip(carrier, 0, grid.getCells().length + 1, true);
     }
@@ -135,6 +141,7 @@ public class GridTest {
     @Test
     public void testPlaceShipShipDoesntFitHorizontally() {
         exception.expect(IllegalArgumentException.class);
+        exception.expectMessage("Attempted to extend the ship past the grid horizontally.");
         AircraftCarrier carrier = new AircraftCarrier();
         grid.placeShip(carrier, 6, 0, true);
     }
@@ -142,6 +149,7 @@ public class GridTest {
     @Test
     public void testPlaceShipShipDoesntFitVertically() {
         exception.expect(IllegalArgumentException.class);
+        exception.expectMessage("Attempted to extend the ship past the grid vertically.");
         AircraftCarrier carrier = new AircraftCarrier();
         grid.placeShip(carrier, 0, 6, false);
     }
