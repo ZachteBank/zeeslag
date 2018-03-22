@@ -5,6 +5,7 @@ import org.junit.rules.ExpectedException;
 import seabattlegame.game.Grid;
 import seabattlegame.game.SquareState;
 import seabattlegame.game.ships.AircraftCarrier;
+import seabattlegame.game.ships.Minesweeper;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -143,6 +144,16 @@ public class GridTest {
         exception.expect(IllegalArgumentException.class);
         AircraftCarrier carrier = new AircraftCarrier();
         grid.placeShip(carrier, 0, 6, false);
+    }
+
+    @Test
+    public void testPlaceShipCellAlreadyOccupied() {
+        exception.expect(IllegalArgumentException.class);
+        exception.expectMessage("Tried placing a ship on a cell that is already occupied by another ship.");
+        AircraftCarrier carrier = new AircraftCarrier();
+        Minesweeper minesweeper = new Minesweeper();
+        grid.placeShip(carrier, 0, 0, true);
+        grid.placeShip(minesweeper, 0, 0, false);
     }
 
     @Test
