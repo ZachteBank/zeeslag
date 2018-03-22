@@ -1,5 +1,7 @@
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import seabattlegame.game.Grid;
 import seabattlegame.game.SquareState;
 import seabattlegame.game.ships.AircraftCarrier;
@@ -10,6 +12,9 @@ import static org.junit.Assert.assertTrue;
 public class GridTest {
 
     private Grid grid;
+
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
 
     @Before
     public void testInitialize() {
@@ -75,6 +80,21 @@ public class GridTest {
     }
 
     @Test
+    public void testPlaceShipShipIsNull() {
+        exception.expect(IllegalArgumentException.class);
+        AircraftCarrier carrier = null;
+        grid.placeShip(carrier, 0, 0, true);
+    }
+
+    @Test
+    public void testPlaceShipShipAlreadyPlaced() {
+        exception.expect(IllegalArgumentException.class);
+        AircraftCarrier carrier = new AircraftCarrier();
+        grid.placeShip(carrier, 0, 0, true);
+        grid.placeShip(carrier, 4, 4, true);
+    }
+
+    @Test
     public void testRemoveAllShips() {
         AircraftCarrier carrier = new AircraftCarrier();
         grid.placeShip(carrier, 0, 0, true);
@@ -87,6 +107,4 @@ public class GridTest {
         assertEquals(SquareState.WATER, grid.getCells()[0][0].getState());
         assertEquals(0, grid.getShips().size());
     }
-
-
 }
