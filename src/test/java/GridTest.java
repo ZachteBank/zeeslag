@@ -3,6 +3,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import seabattlegame.game.Grid;
+import seabattlegame.game.ShotType;
 import seabattlegame.game.SquareState;
 import seabattlegame.game.ships.AircraftCarrier;
 import seabattlegame.game.ships.Minesweeper;
@@ -177,4 +178,13 @@ public class GridTest {
         assertEquals(SquareState.WATER, grid.getCells()[0][0].getState());
         assertEquals(0, grid.getShips().size());
     }
+
+    @Test
+    public void testShootShotMissed() {
+        assertEquals(SquareState.WATER, grid.getCells()[0][0].getState());
+        assertEquals(ShotType.MISSED, grid.shoot(0, 0));
+    }
+
+    
+
 }
