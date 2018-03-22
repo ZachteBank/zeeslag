@@ -11,7 +11,6 @@ import seabattlegui.SeaBattleApplication;
 
 import static org.junit.Assert.*;
 
-@RunWith(JfxRunner.class)
 public class SeaBattleGameTest {
 
     private ISeaBattleGame seaBattleGame;
