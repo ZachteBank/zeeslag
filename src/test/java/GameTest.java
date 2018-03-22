@@ -119,7 +119,7 @@ public class GameTest {
     public void testAttackPlayerIdInvalidPlayerId() {
         exception.expect(IllegalArgumentException.class);
         initializeTwoPlayerGame();
-        game.attack(12418191, 0, 0);
+        game.attack(2, 0, 0);
     }
 
     @Test
@@ -192,6 +192,36 @@ public class GameTest {
         game.attack(game.getPlayer1(), 0, game.getPlayer1().getGrid().getCells().length);
     }
 
+    @Test
+    public void testPlaceShipsAutomaticallyPlayerId() {
+        initializeTwoPlayerGame();
+        assertTrue(game.placeShipsAutomatically(game.getPlayer1().getId()));
+        assertEquals(5, game.getPlayer1().getGrid().getShips().size());
+        assertEquals(0, game.getPlayer2().getGrid().getShips().size());
+    }
+
+    @Test
+    public void testPlaceShipsAutomaticallyPlayerIdInvalidPlayerId() {
+        exception.expect(IllegalArgumentException.class);
+        initializeTwoPlayerGame();
+        game.placeShipsAutomatically(2);
+    }
+
+    @Test
+    public void testPlaceShipsAutomaticallyPlayer() {
+        initializeTwoPlayerGame();
+        assertTrue(game.placeShipsAutomatically(game.getPlayer1()));
+        assertEquals(5, game.getPlayer1().getGrid().getShips().size());
+        assertEquals(0, game.getPlayer2().getGrid().getShips().size());
+    }
+
+    @Test
+    public void testPlaceShipsAutomaticallyPlayerPlayerIsNull() {
+        exception.expect(IllegalArgumentException.class);
+        initializeTwoPlayerGame();
+        game.placeShipsAutomatically(null);
+    }
+    
     private void initializeTwoPlayerGame() {
         player1 = new Player(0, "John doe");
         player2 = new Player(1, "Jane doe");
