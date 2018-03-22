@@ -8,6 +8,7 @@ import seabattlegame.ISeaBattleGame;
 import seabattlegame.SeaBattleGame;
 import seabattlegui.ISeaBattleGUI;
 import seabattlegui.SeaBattleApplication;
+import seabattlegui.ShipType;
 
 import static org.junit.Assert.*;
 
@@ -84,5 +85,51 @@ public class SeaBattleGameTest {
         seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
         assertTrue(seaBattleGame.getGame().placeShipsAutomatically(0));
         assertEquals(5, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
+    }
+
+    @Test
+    public void testPlaceShipsAutomaticallyInvalidPlayer() {
+        assertFalse(seaBattleGame.getGame().placeShipsAutomatically(0));
+    }
+
+    @Test
+    public void testPlaceShip() {
+        seaBattleGame.registerPlayer("John Doe", seaBattleGUI, true);
+        assertTrue(seaBattleGame.placeShip(0, ShipType.AIRCRAFTCARRIER, 0, 0, true));
+    }
+
+    @Test
+    public void testPlaceShipInvalidPlayer() {
+        assertFalse(seaBattleGame.placeShip(0, ShipType.AIRCRAFTCARRIER, 0, 0, true));
+    }
+
+    @Test
+    public void testPlaceShipShipTypeIsNull() {
+        seaBattleGame.registerPlayer("John Doe", seaBattleGUI, true);
+        assertFalse(seaBattleGame.placeShip(0, null, 0, 0, true));
+    }
+
+    @Test
+    public void testPlaceShipXCoordTooLow() {
+        seaBattleGame.registerPlayer("John Doe", seaBattleGUI, true);
+        assertFalse(seaBattleGame.placeShip(0, ShipType.AIRCRAFTCARRIER, -1, 0, true));
+    }
+
+    @Test
+    public void testPlaceShipXCoordTooHigh() {
+        seaBattleGame.registerPlayer("John Doe", seaBattleGUI, true);
+        assertFalse(seaBattleGame.placeShip(0, ShipType.AIRCRAFTCARRIER, 11, 0, true));
+    }
+
+    @Test
+    public void testPlaceShipYCoordTooLow() {
+        seaBattleGame.registerPlayer("John Doe", seaBattleGUI, true);
+        assertFalse(seaBattleGame.placeShip(0, ShipType.AIRCRAFTCARRIER, 0, -1, true));
+    }
+
+    @Test
+    public void testPlaceShipYCoordTooHigh() {
+        seaBattleGame.registerPlayer("John Doe", seaBattleGUI, true);
+        assertFalse(seaBattleGame.placeShip(0, ShipType.AIRCRAFTCARRIER, 0, 11, true));
     }
 }
