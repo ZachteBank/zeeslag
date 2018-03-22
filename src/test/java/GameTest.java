@@ -221,7 +221,7 @@ public class GameTest {
         initializeTwoPlayerGame();
         game.placeShipsAutomatically(null);
     }
-    
+
     private void initializeTwoPlayerGame() {
         player1 = new Player(0, "John doe");
         player2 = new Player(1, "Jane doe");
