@@ -9,8 +9,7 @@ import seabattlegame.SeaBattleGame;
 import seabattlegui.ISeaBattleGUI;
 import seabattlegui.SeaBattleApplication;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(JfxRunner.class)
 public class SeaBattleGameTest {
@@ -34,8 +33,21 @@ public class SeaBattleGameTest {
     }
 
     @Test
-    public void testStartNewGameInvalidPlayer() {
+    public void testStartNewGameInvalidPlayerId() {
         exception.expect(IllegalArgumentException.class);
         seaBattleGame.startNewGame(2);
+    }
+
+    @Test
+    public void testRegisterPlayerOnePlayerMode() {
+        assertNull(seaBattleGame.getGame().getPlayer1());
+        assertEquals(0, seaBattleGame.registerPlayer("John doe", seaBattleGUI, true));
+        assertNotNull(seaBattleGame.getGame().getPlayer1());
+    }
+
+    @Test
+    public void testRegisterPlayerNameIsNull() {
+        exception.expect(IllegalArgumentException.class);
+        seaBattleGame.registerPlayer(null, seaBattleGUI, true);
     }
 }
