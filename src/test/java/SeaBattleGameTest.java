@@ -46,6 +46,13 @@ public class SeaBattleGameTest {
     }
 
     @Test
+    public void testRegisterPlayerRegisterSecondPlayerInSinglePlayerMode() {
+        exception.expect(IllegalArgumentException.class);
+        assertEquals(0, seaBattleGame.registerPlayer("John doe", seaBattleGUI, true));
+        seaBattleGame.registerPlayer("Jane doe", seaBattleGUI, true);
+    }
+
+    @Test
     public void testRegisterPlayerNameIsNull() {
         exception.expect(IllegalArgumentException.class);
         seaBattleGame.registerPlayer(null, seaBattleGUI, true);
