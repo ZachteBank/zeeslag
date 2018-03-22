@@ -38,9 +38,4 @@ public class SeaBattleGameTest {
         exception.expect(IllegalArgumentException.class);
         seaBattleGame.startNewGame(2);
     }
-
-    @Test
-    public void testStartNewGameStartTwoPlayerGameWithOnlyOnePlayer() {
-
-    }
 }
