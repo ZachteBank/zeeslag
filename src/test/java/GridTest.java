@@ -87,7 +87,16 @@ public class GridTest {
     }
 
     @Test
-    public void testPlaceShipShipTypeAlreadyPlaced() {
+    public void testPlaceSameShipAgain() {
+        exception.expect(IllegalArgumentException.class);
+        AircraftCarrier carrier = new AircraftCarrier();
+        grid.placeShip(carrier, 0, 0, true);
+        grid.placeShip(carrier, 4, 4, true);
+
+    }
+
+    @Test
+    public void testPlaceShipPlaceShipOfSameType() {
         exception.expect(IllegalArgumentException.class);
         AircraftCarrier carrier1 = new AircraftCarrier();
         grid.placeShip(carrier1, 0, 0, true);
