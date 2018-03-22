@@ -199,6 +199,13 @@ public class GridTest {
     }
 
     @Test
+    public void testShootShootAtSameSpot() {
+        assertEquals(SquareState.WATER, grid.getCells()[0][0].getState());
+        assertEquals(ShotType.MISSED, grid.shoot(0, 0));
+        assertEquals(ShotType.MISSED, grid.shoot(0, 0));
+    }
+
+    @Test
     public void testShootXCoordTooLow() {
         exception.expect(IllegalArgumentException.class);
         exception.expectMessage("One or more of the given coordinates is out of bounds");
@@ -224,5 +231,11 @@ public class GridTest {
         exception.expect(IllegalArgumentException.class);
         exception.expectMessage("One or more of the given coordinates is out of bounds");
         grid.shoot(0, grid.getCells().length + 1);
+    }
+
+    @Test
+    public void testPlaceShipsAutomatically() {
+        grid.placeShipsAutomatically();
+        assertEquals(5, grid.getShips().size());
     }
 }
