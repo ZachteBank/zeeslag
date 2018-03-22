@@ -157,6 +157,41 @@ public class GameTest {
         assertEquals(ShotType.MISSED, shotType);
     }
 
+    @Test
+    public void testAttackPlayerPlayerIsNull() {
+        exception.expect(IllegalArgumentException.class);
+        initializeTwoPlayerGame();
+        game.attack(null, 0, 0);
+    }
+
+    @Test
+    public void testAttackPlayerXCoordTooLow() {
+        exception.expect(IllegalArgumentException.class);
+        initializeTwoPlayerGame();
+        game.attack(game.getPlayer1(), -1, 0);
+    }
+
+    @Test
+    public void testAttackPlayerXCoordTooHigh() {
+        exception.expect(IllegalArgumentException.class);
+        initializeTwoPlayerGame();
+        game.attack(game.getPlayer1(), game.getPlayer1().getGrid().getCells()[0].length, 0);
+    }
+
+    @Test
+    public void testAttackPlayerYCoordTooLow() {
+        exception.expect(IllegalArgumentException.class);
+        initializeTwoPlayerGame();
+        game.attack(game.getPlayer1(), 0, -1);
+    }
+
+    @Test
+    public void testAttackPlayerYCoordTooHigh() {
+        exception.expect(IllegalArgumentException.class);
+        initializeTwoPlayerGame();
+        game.attack(game.getPlayer1(), 0, game.getPlayer1().getGrid().getCells().length);
+    }
+
     private void initializeTwoPlayerGame() {
         player1 = new Player(0, "John doe");
         player2 = new Player(1, "Jane doe");
