@@ -6,6 +6,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import seabattlegame.ISeaBattleGame;
 import seabattlegame.SeaBattleGame;
+import seabattlegame.game.ShotType;
 import seabattlegame.game.ships.Ship;
 import seabattlegui.ISeaBattleGUI;
 import seabattlegui.SeaBattleApplication;
@@ -18,6 +19,9 @@ public class SeaBattleGameTest {
 
     private ISeaBattleGame seaBattleGame;
     private ISeaBattleGUI seaBattleGUI;
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
 
     @Before
     public void testInitialize() {
@@ -302,72 +306,97 @@ public class SeaBattleGameTest {
 
     @Test
     public void testFireShotPlayerShotMissed() {
-
+        seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
+        assertEquals(ShotType.MISSED, seaBattleGame.fireShotPlayer(1, 0, 0));
     }
 
     @Test
-    public void testFireShotPlayerShotHit() {
+    public void testFireShotPlayerShotHitFirstCoordinate() {
+        seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
+        seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
+                0, 0, true);
+        assertEquals(ShotType.HIT, seaBattleGame.fireShotPlayer(1, 0, 0));
+    }
 
+    @Test
+    public void testFireShotPlayerShotHitMiddleCoordinate() {
+        seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
+        seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
+                0, 0, true);
+        assertEquals(ShotType.HIT, seaBattleGame.fireShotPlayer(1, 3, 0));
+    }
+
+    @Test
+    public void testFireShotPlayerShotHitLastCoordinate() {
+        seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
+        seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
+                0, 0, true);
+        assertEquals(ShotType.HIT, seaBattleGame.fireShotPlayer(1, 4, 0));
     }
 
     @Test
     public void testFireShotPlayerShipSunk() {
-
+        seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
+        seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
+                0, 0, true);
+        seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.MINESWEEPER,
+                0, 1, true);
+        for (int i = 0; i < 4; i++) {
+            assertEquals(ShotType.HIT, seaBattleGame.fireShotPlayer(1, i, 0));
+        }
+        assertEquals(ShotType.SUNK, seaBattleGame.fireShotPlayer(1, 4, 0));
     }
 
     @Test
     public void testFireShotPlayerAllSunk() {
-
+        seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
+        seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
+                0, 0, true);
+        for (int i = 0; i < 4; i++) {
+            assertEquals(ShotType.HIT, seaBattleGame.fireShotPlayer(1, i, 0));
+        }
+        assertEquals(ShotType.ALLSUNK, seaBattleGame.fireShotPlayer(1, 4, 0));
     }
 
     @Test
     public void testFireShotPlayerXCoordTooLow() {
-
+        exception.expect(IllegalArgumentException.class);
+        seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
+        seaBattleGame.fireShotPlayer(1, -1, 0);
     }
 
     @Test
     public void testFireShotPlayerXCoordTooHigh() {
-
+        exception.expect(IllegalArgumentException.class);
+        seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
+        seaBattleGame.fireShotPlayer(1, seaBattleGame.getGame().getSize(), 0);
     }
 
     @Test
     public void testFireShotPlayerYCoordTooLow() {
+        exception.expect(IllegalArgumentException.class);
+        seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
+        seaBattleGame.fireShotPlayer(1, 0, -1);
 
     }
 
     @Test
     public void testFireShotPlayerYCoordTooHigh() {
-
+        exception.expect(IllegalArgumentException.class);
+        seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
+        seaBattleGame.fireShotPlayer(1, 0, seaBattleGame.getGame().getSize());
     }
 
     @Test
     public void testFireShotPlayerInvalidPlayer() {
-
-    }
-
-    @Test
-    public void testFireShotOpponentShotMissed() {
-
-    }
-
-    @Test
-    public void testFireShotOpponentShotHit() {
-
-    }
-
-    @Test
-    public void testFireShotOpponentShipSunk() {
-
-    }
-
-    @Test
-    public void testFireShotOpponentAllSunk() {
-
+        exception.expect(IllegalArgumentException.class);
+        seaBattleGame.fireShotPlayer(2, 0, 0);
     }
 
     @Test
     public void testFireShotOpponentInvalidPlayer() {
-
+        exception.expect(IllegalArgumentException.class);
+        seaBattleGame.fireShotOpponent(2);
     }
 
     @Test
