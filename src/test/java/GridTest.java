@@ -185,6 +185,31 @@ public class GridTest {
         assertEquals(ShotType.MISSED, grid.shoot(0, 0));
     }
 
-    
+    @Test
+    public void testShootXCoordTooLow() {
+        exception.expect(IllegalArgumentException.class);
+        exception.expectMessage("One or more of the given coordinates is out of bounds");
+        grid.shoot(-1, 0);
+    }
 
+    @Test
+    public void testShootXCoordTooHigh() {
+        exception.expect(IllegalArgumentException.class);
+        exception.expectMessage("One or more of the given coordinates is out of bounds");
+        grid.shoot(11, 0);
+    }
+
+    @Test
+    public void testShootYCoordTooLow() {
+        exception.expect(IllegalArgumentException.class);
+        exception.expectMessage("One or more of the given coordinates is out of bounds");
+        grid.shoot(0, -1);
+    }
+
+    @Test
+    public void testShootYCoordTooHigh() {
+        exception.expect(IllegalArgumentException.class);
+        exception.expectMessage("One or more of the given coordinates is out of bounds");
+        grid.shoot(0, 11);
+    }
 }
