@@ -102,6 +102,13 @@ public class GameTest {
     }
 
     @Test
+    public void testStartGamePlayersNotInitialized() {
+        initializeTwoPlayerGame();
+        assertTrue(game.startNewGame());
+        assertFalse(game.startGame());
+    }
+
+    @Test
     public void testAttackPlayerId() {
         initializeTwoPlayerGame();
         ShotType shotType = game.attack(game.getPlayer1().getId(), 0, 0);
