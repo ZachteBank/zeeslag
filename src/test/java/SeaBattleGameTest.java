@@ -19,9 +19,6 @@ public class SeaBattleGameTest {
     private ISeaBattleGame seaBattleGame;
     private ISeaBattleGUI seaBattleGUI;
 
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
-
     @Before
     public void testInitialize() {
         seaBattleGame = new SeaBattleGame();
@@ -36,8 +33,7 @@ public class SeaBattleGameTest {
 
     @Test
     public void testStartNewGameInvalidPlayerId() {
-        exception.expect(IllegalArgumentException.class);
-        seaBattleGame.startNewGame(2);
+        assertFalse(seaBattleGame.startNewGame(2));
     }
 
     @Test
@@ -96,80 +92,90 @@ public class SeaBattleGameTest {
     @Test
     public void testPlaceShip() {
         seaBattleGame.registerPlayer("John Doe", seaBattleGUI, true);
-        assertTrue(seaBattleGame.placeShip(0, ShipType.AIRCRAFTCARRIER, 0, 0, true));
+        assertTrue(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
+                0, 0, true));
     }
 
     @Test
     public void testPlaceShipInvalidPlayer() {
-        assertFalse(seaBattleGame.placeShip(0, ShipType.AIRCRAFTCARRIER, 0, 0, true));
+        assertFalse(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
+                0, 0, true));
     }
 
     @Test
     public void testPlaceShipShipTypeIsNull() {
         seaBattleGame.registerPlayer("John Doe", seaBattleGUI, true);
-        assertFalse(seaBattleGame.placeShip(0, null, 0, 0, true));
+        assertFalse(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(),
+                null, 0, 0, true));
     }
 
     @Test
     public void testPlaceShipXCoordTooLow() {
         seaBattleGame.registerPlayer("John Doe", seaBattleGUI, true);
-        assertFalse(seaBattleGame.placeShip(0, ShipType.AIRCRAFTCARRIER, -1, 0, true));
+        assertFalse(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
+                -1, 0, true));
     }
 
     @Test
     public void testPlaceShipXCoordTooHigh() {
         seaBattleGame.registerPlayer("John Doe", seaBattleGUI, true);
-        assertFalse(seaBattleGame.placeShip(0, ShipType.AIRCRAFTCARRIER,
+        assertFalse(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
                 seaBattleGame.getGame().getSize(), 0, true));
     }
 
     @Test
     public void testPlaceShipYCoordTooLow() {
         seaBattleGame.registerPlayer("John Doe", seaBattleGUI, true);
-        assertFalse(seaBattleGame.placeShip(0, ShipType.AIRCRAFTCARRIER, 0, -1, true));
+        assertFalse(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
+                0, -1, true));
     }
 
     @Test
     public void testPlaceShipYCoordTooHigh() {
         seaBattleGame.registerPlayer("John Doe", seaBattleGUI, true);
-        assertFalse(seaBattleGame.placeShip(0, ShipType.AIRCRAFTCARRIER, 0,
-                seaBattleGame.getGame().getSize(), true));
+        assertFalse(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
+                0, seaBattleGame.getGame().getSize(), true));
     }
 
     @Test
     public void testRemoveShipRemoveShipAtFirstCoordinate() {
         seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
-        assertTrue(seaBattleGame.placeShip(0, ShipType.AIRCRAFTCARRIER, 0, 0, true));
+        assertTrue(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
+                0, 0, true));
         assertEquals(1, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
-        assertTrue(seaBattleGame.removeShip(0, 0, 0));
+        assertTrue(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), 0, 0));
         assertEquals(0, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
     }
 
     @Test
     public void testRemoveShipRemoveShipAtMiddleCoordinate() {
         seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
-        assertTrue(seaBattleGame.placeShip(0, ShipType.AIRCRAFTCARRIER, 0, 0, true));
+        assertTrue(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
+                0, 0, true));
         assertEquals(1, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
-        assertTrue(seaBattleGame.removeShip(0, 3, 0));
+        assertTrue(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), 3, 0));
         assertEquals(0, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
     }
 
     @Test
     public void testRemoveShipRemoveShipAtLastCoordinate() {
         seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
-        assertTrue(seaBattleGame.placeShip(0, ShipType.AIRCRAFTCARRIER, 0, 0, true));
+        assertTrue(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
+                0, 0, true));
         assertEquals(1, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
-        assertTrue(seaBattleGame.removeShip(0, 5, 0));
+        assertTrue(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), 5, 0));
         assertEquals(0, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
     }
 
     @Test
     public void testRemoveShipMultipleShipsOnGrid() {
         seaBattleGame.registerPlayer("John Doe", seaBattleGUI, true);
-        assertTrue(seaBattleGame.placeShip(0, ShipType.AIRCRAFTCARRIER, 0, 0, true));
-        assertTrue(seaBattleGame.placeShip(0, ShipType.MINESWEEPER, 0, 5, true));
+        assertTrue(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
+                0, 0, true));
+        assertTrue(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.MINESWEEPER,
+                0, 5, true));
         assertEquals(2, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
-        assertTrue(seaBattleGame.removeShip(0, 0, 0));
+        assertTrue(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), 0, 0));
         for (Ship ship : seaBattleGame.getGame().getPlayer1().getGrid().getShips()) {
             if (ship.getType().equals(ShipType.AIRCRAFTCARRIER)) {
                 assertTrue(false);
@@ -187,30 +193,74 @@ public class SeaBattleGameTest {
     @Test
     public void testRemoveShipNoShipAtGivenCoordinate() {
         seaBattleGame.registerPlayer("John Doe", seaBattleGUI, true);
-        assertFalse(seaBattleGame.removeShip(0, 0, 0));
+        assertFalse(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), 0, 0));
     }
 
     @Test
     public void testRemoveShipXCoordTooLow() {
         seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
-        assertFalse(seaBattleGame.removeShip(0, -1, 0));
+        assertFalse(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), -1, 0));
     }
 
     @Test
     public void testRemoveShipXCoordTooHigh() {
         seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
-        assertFalse(seaBattleGame.removeShip(0, seaBattleGame.getGame().getSize(), 0));
+        assertFalse(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(),
+                seaBattleGame.getGame().getSize(), 0));
     }
 
     @Test
     public void testRemoveShipYCoordTooLow() {
         seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
-        assertFalse(seaBattleGame.removeShip(0, 0, -1));
+        assertFalse(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), 0, -1));
     }
 
     @Test
     public void testRemoveShipYCoordTooHigh() {
         seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
-        assertFalse(seaBattleGame.removeShip(0, -1, seaBattleGame.getGame().getSize()));
+        assertFalse(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), -1,
+                seaBattleGame.getGame().getSize()));
+    }
+
+    @Test
+    public void testRemoveAllShipsNoShips() {
+        seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
+        assertTrue(seaBattleGame.removeAllShips(seaBattleGame.getGame().getPlayer1().getId()));
+    }
+
+    @Test
+    public void testRemoveAllShipsOneShip() {
+        seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
+        assertTrue(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
+                0, 0, true));
+        assertEquals(1, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
+        assertTrue(seaBattleGame.removeAllShips(seaBattleGame.getGame().getPlayer1().getId()));
+        assertEquals(0, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
+    }
+
+    @Test
+    public void testRemoveAllShipsRemoveMultipleShips() {
+        seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
+        assertTrue(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
+                0, 0, true));
+        assertTrue(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.MINESWEEPER,
+                0, 3, true));
+        assertEquals(2, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
+        seaBattleGame.removeAllShips(seaBattleGame.getGame().getPlayer1().getId());
+        assertEquals(0, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
+    }
+
+    @Test
+    public void testRemoveAllShipsAllShips() {
+        seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
+        assertTrue(seaBattleGame.placeShipsAutomatically(seaBattleGame.getGame().getPlayer1().getId()));
+        assertEquals(5, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
+        assertTrue(seaBattleGame.removeAllShips(seaBattleGame.getGame().getPlayer1().getId()));
+        assertEquals(0, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
+    }
+
+    @Test
+    public void testRemoveAllShipsInvalidPlayer() {
+        assertFalse(seaBattleGame.removeAllShips(2));
     }
 }
