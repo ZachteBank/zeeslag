@@ -239,13 +239,13 @@ public class SeaBattleGameTest {
     }
 
     @Test
-    public void testRemoveAllShipsRemoveMultipleShips() {
+    public void testRemoveAllShipsRemoveFourShips() {
         seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
-        assertTrue(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
-                0, 0, true));
-        assertTrue(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.MINESWEEPER,
-                0, 3, true));
-        assertEquals(2, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
+        for (int i = 0; i < 4; i++) {
+            assertTrue(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.values()[i],
+                    0, i, true));
+        }
+        assertEquals(4, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
         seaBattleGame.removeAllShips(seaBattleGame.getGame().getPlayer1().getId());
         assertEquals(0, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
     }
@@ -262,5 +262,41 @@ public class SeaBattleGameTest {
     @Test
     public void testRemoveAllShipsInvalidPlayer() {
         assertFalse(seaBattleGame.removeAllShips(2));
+    }
+
+    @Test
+    public void testNotifyWhenReadyAllShipsPlaced() {
+        seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
+        assertTrue(seaBattleGame.placeShipsAutomatically(seaBattleGame.getGame().getPlayer1().getId()));
+        assertTrue(seaBattleGame.notifyWhenReady(seaBattleGame.getGame().getPlayer1().getId()));
+    }
+
+    @Test
+    public void testNotifyWhenReadyInvalidPlayer() {
+        assertFalse(seaBattleGame.notifyWhenReady(2));
+    }
+
+    @Test
+    public void testNotifyWhenReadyNoShipsPlaced() {
+        seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
+        assertFalse(seaBattleGame.notifyWhenReady(seaBattleGame.getGame().getPlayer1().getId()));
+    }
+
+    @Test
+    public void testNotifyWhenReadyOneShipPlaced() {
+        seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
+        seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
+                0, 0, true);
+        assertFalse(seaBattleGame.notifyWhenReady(seaBattleGame.getGame().getPlayer1().getId()));
+    }
+
+    @Test
+    public void testNotifyWhenReadyFourShipsPlaced() {
+        seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
+        for (int i = 0; i < 4; i++) {
+            assertTrue(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.values()[i],
+                    0, i, true));
+        }
+        assertFalse(seaBattleGame.notifyWhenReady(seaBattleGame.getGame().getPlayer1().getId()));
     }
 }
