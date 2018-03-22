@@ -180,6 +180,19 @@ public class GridTest {
     }
 
     @Test
+    public void testShootShipSunk() {
+        AircraftCarrier carrier = new AircraftCarrier();
+        grid.placeShip(carrier, 0, 0, true);
+        for(int i = 0; i < carrier.getLength() - 1; i++) {
+            grid.shoot(i, 0);
+        }
+
+        assertEquals(SquareState.SHIP, grid.getCells()[0][4].getState());
+        assertEquals(ShotType.SUNK, grid.shoot(4, 0));
+        assertEquals(SquareState.SHIPSUNK, grid.getCells()[0][4].getState());
+    }
+
+    @Test
     public void testShootShotMissed() {
         assertEquals(SquareState.WATER, grid.getCells()[0][0].getState());
         assertEquals(ShotType.MISSED, grid.shoot(0, 0));
@@ -196,7 +209,7 @@ public class GridTest {
     public void testShootXCoordTooHigh() {
         exception.expect(IllegalArgumentException.class);
         exception.expectMessage("One or more of the given coordinates is out of bounds");
-        grid.shoot(11, 0);
+        grid.shoot(grid.getCells()[0].length + 1, 0);
     }
 
     @Test
@@ -210,6 +223,6 @@ public class GridTest {
     public void testShootYCoordTooHigh() {
         exception.expect(IllegalArgumentException.class);
         exception.expectMessage("One or more of the given coordinates is out of bounds");
-        grid.shoot(0, 11);
+        grid.shoot(0, grid.getCells().length + 1);
     }
 }
