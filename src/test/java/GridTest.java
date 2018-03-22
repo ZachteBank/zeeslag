@@ -92,7 +92,6 @@ public class GridTest {
         AircraftCarrier carrier = new AircraftCarrier();
         grid.placeShip(carrier, 0, 0, true);
         grid.placeShip(carrier, 4, 4, true);
-
     }
 
     @Test
@@ -102,6 +101,34 @@ public class GridTest {
         grid.placeShip(carrier1, 0, 0, true);
         AircraftCarrier carrier2 = new AircraftCarrier();
         grid.placeShip(carrier2, 4, 4, true);
+    }
+
+    @Test
+    public void testPlaceShipXCoordTooLow() {
+        exception.expect(IllegalArgumentException.class);
+        AircraftCarrier carrier = new AircraftCarrier();
+        grid.placeShip(carrier, -1, 0, true);
+    }
+
+    @Test
+    public void testPlaceShipYCoordTooLow() {
+        exception.expect(IllegalArgumentException.class);
+        AircraftCarrier carrier = new AircraftCarrier();
+        grid.placeShip(carrier, 0, -1, true);
+    }
+
+    @Test
+    public void testPlaceShipXCoordTooHigh() {
+        exception.expect(IllegalArgumentException.class);
+        AircraftCarrier carrier = new AircraftCarrier();
+        grid.placeShip(carrier, 11, 0, true);
+    }
+
+    @Test
+    public void testPlaceShipYCoordTooHigh() {
+        exception.expect(IllegalArgumentException.class);
+        AircraftCarrier carrier = new AircraftCarrier();
+        grid.placeShip(carrier, 0, 11, true);
     }
 
     @Test
