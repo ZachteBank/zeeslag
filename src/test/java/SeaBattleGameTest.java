@@ -46,15 +46,36 @@ public class SeaBattleGameTest {
     }
 
     @Test
+    public void testRegisterPlayerTwoPlayerMode() {
+        assertNull(seaBattleGame.getGame().getPlayer1());
+        assertNull(seaBattleGame.getGame().getPlayer2());
+        assertEquals(0, seaBattleGame.registerPlayer("John doe", seaBattleGUI, false));
+        assertEquals(1, seaBattleGame.registerPlayer("Jane doe", seaBattleGUI, false));
+        assertNotNull(seaBattleGame.getGame().getPlayer1());
+        assertNotNull(seaBattleGame.getGame().getPlayer2());
+    }
+
+    @Test
+    public void testRegisterPlayerNameAlreadyInUse() {
+        assertEquals(0, seaBattleGame.registerPlayer("John doe", seaBattleGUI, false));
+        assertEquals(-1, seaBattleGame.registerPlayer("John doe", seaBattleGUI, false));
+    }
+
+    @Test
     public void testRegisterPlayerRegisterSecondPlayerInSinglePlayerMode() {
-        exception.expect(IllegalArgumentException.class);
         assertEquals(0, seaBattleGame.registerPlayer("John doe", seaBattleGUI, true));
-        seaBattleGame.registerPlayer("Jane doe", seaBattleGUI, true);
+        assertEquals(-1, seaBattleGame.registerPlayer("Jane doe", seaBattleGUI, true));
     }
 
     @Test
     public void testRegisterPlayerNameIsNull() {
-        exception.expect(IllegalArgumentException.class);
-        seaBattleGame.registerPlayer(null, seaBattleGUI, true);
+        assertEquals(-1, seaBattleGame.registerPlayer(null, seaBattleGUI, true));
+    }
+
+    @Test
+    public void testRegisterPlayerRegisterThirdPlayer() {
+        assertEquals(0, seaBattleGame.registerPlayer("John doe", seaBattleGUI, false));
+        assertEquals(1, seaBattleGame.registerPlayer("Jane doe", seaBattleGUI, false));
+        assertEquals(-1, seaBattleGame.registerPlayer("Jake doe", seaBattleGUI, false));
     }
 }
