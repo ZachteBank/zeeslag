@@ -87,11 +87,12 @@ public class GridTest {
     }
 
     @Test
-    public void testPlaceShipShipAlreadyPlaced() {
+    public void testPlaceShipShipTypeAlreadyPlaced() {
         exception.expect(IllegalArgumentException.class);
-        AircraftCarrier carrier = new AircraftCarrier();
-        grid.placeShip(carrier, 0, 0, true);
-        grid.placeShip(carrier, 4, 4, true);
+        AircraftCarrier carrier1 = new AircraftCarrier();
+        grid.placeShip(carrier1, 0, 0, true);
+        AircraftCarrier carrier2 = new AircraftCarrier();
+        grid.placeShip(carrier2, 4, 4, true);
     }
 
     @Test
