@@ -32,25 +32,28 @@ public class Grid {
 	public void placeShip(Ship ship, int x, int y, boolean horizontal) throws IllegalArgumentException {
 	    boolean error;
 
-	    error = ship == null || ships.contains(ship);
+	    if(ship == null) {
+	        throw new IllegalArgumentException("Passed ship cannot be null.");
+        }
 
+        for(Ship placedShips : ships) {
+            if(placedShips.getType().equals(ship.getType())) {
+                throw new IllegalArgumentException("Tried placing a ship of a type that is already placed.");
+            }
+        }
 	    if(x < 0 || y < 0 || x > getCells().length || y > getCells().length){
-	        error = true;
+	        throw new IllegalArgumentException("One or more of the given coordinates is out of bounds.");
         }
 
-        if (!error && horizontal && x + ship.getLength() > getCells().length) {
-            error = true;
-        }else if (!error && y + ship.getLength() > getCells().length && !horizontal){
-            error = true;
-        }
-
-        if(error){
-	        throw new IllegalArgumentException();
+        if (horizontal && x + ship.getLength() > getCells().length) {
+            throw new IllegalArgumentException("Attempted to extend the ship past the grid horizontally.");
+        }else if (y + ship.getLength() > getCells().length && !horizontal){
+            throw new IllegalArgumentException("Attempted to extend the ship past the grid vertically.");
         }
 
         for (int i = 0; i < ship.getLength(); i++){
             if(cells[!horizontal ? y + i : y][horizontal ? x + i : x].getState() != SquareState.WATER|| cells[!horizontal ? y + i : y][horizontal ? x + i : x] instanceof ShipCell){
-                throw new IllegalArgumentException("cell already occuped");
+                throw new IllegalArgumentException("Tried placing a ship on a cell that is already occupied by another ship.");
             }
 
         }
