@@ -299,4 +299,86 @@ public class SeaBattleGameTest {
         }
         assertFalse(seaBattleGame.notifyWhenReady(seaBattleGame.getGame().getPlayer1().getId()));
     }
+
+    @Test
+    public void testFireShotPlayerShotMissed() {
+
+    }
+
+    @Test
+    public void testFireShotPlayerShotHit() {
+
+    }
+
+    @Test
+    public void testFireShotPlayerShipSunk() {
+
+    }
+
+    @Test
+    public void testFireShotPlayerAllSunk() {
+
+    }
+
+    @Test
+    public void testFireShotPlayerXCoordTooLow() {
+
+    }
+
+    @Test
+    public void testFireShotPlayerXCoordTooHigh() {
+
+    }
+
+    @Test
+    public void testFireShotPlayerYCoordTooLow() {
+
+    }
+
+    @Test
+    public void testFireShotPlayerYCoordTooHigh() {
+
+    }
+
+    @Test
+    public void testFireShotPlayerInvalidPlayer() {
+
+    }
+
+    @Test
+    public void testFireShotOpponentShotMissed() {
+
+    }
+
+    @Test
+    public void testFireShotOpponentShotHit() {
+
+    }
+
+    @Test
+    public void testFireShotOpponentShipSunk() {
+
+    }
+
+    @Test
+    public void testFireShotOpponentAllSunk() {
+
+    }
+
+    @Test
+    public void testFireShotOpponentInvalidPlayer() {
+
+    }
+
+    @Test
+    public void testUpdateGridInvalidPlayerId() {
+
+    }
+
+    @Test
+    public void testUpdateGridInvalidOpponentId() {
+
+    }
+
+    //TODO: Few more updateGrid tests
 }
