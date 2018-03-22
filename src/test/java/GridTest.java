@@ -121,15 +121,17 @@ public class GridTest {
     public void testPlaceShipXCoordTooHigh() {
         exception.expect(IllegalArgumentException.class);
         AircraftCarrier carrier = new AircraftCarrier();
-        grid.placeShip(carrier, 11, 0, true);
+        grid.placeShip(carrier, grid.getCells()[0].length + 1, 0, true);
     }
 
     @Test
     public void testPlaceShipYCoordTooHigh() {
         exception.expect(IllegalArgumentException.class);
         AircraftCarrier carrier = new AircraftCarrier();
-        grid.placeShip(carrier, 0, 11, true);
+        grid.placeShip(carrier, 0, grid.getCells().length + 1, true);
     }
+
+
 
     @Test
     public void testRemoveAllShips() {
