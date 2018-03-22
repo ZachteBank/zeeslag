@@ -1,10 +1,10 @@
-import javafx.application.Application;
-import javafx.stage.Stage;
+import de.saxsys.javafx.test.JfxRunner;
+import javafx.embed.swing.JFXPanel;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 import seabattlegame.ISeaBattleGame;
 import seabattlegame.SeaBattleGame;
 import seabattlegui.ISeaBattleGUI;
@@ -12,25 +12,15 @@ import seabattlegui.SeaBattleApplication;
 
 import static org.junit.Assert.*;
 
-public class SeaBattleGameTest extends Application {
+@RunWith(JfxRunner.class)
+public class SeaBattleGameTest {
 
+    final JFXPanel fxPanel = new JFXPanel();
     private ISeaBattleGame seaBattleGame;
     private ISeaBattleGUI seaBattleGUI;
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
-
-    @BeforeClass
-    public static void setUpClass() throws InterruptedException {
-        Thread t = new Thread("JavaFX Init Thread") {
-            public void run() {
-                Application.launch(SeaBattleGameTest.class);
-            }
-        };
-        t.setDaemon(true);
-        t.start();
-        Thread.sleep(2000);
-    }
 
     @Before
     public void testInitialize() {
@@ -68,10 +58,5 @@ public class SeaBattleGameTest extends Application {
     public void testRegisterPlayerNameIsNull() {
         exception.expect(IllegalArgumentException.class);
         seaBattleGame.registerPlayer(null, seaBattleGUI, true);
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-
     }
 }
