@@ -42,6 +42,12 @@ public class GameTest {
     }
 
     @Test
+    public void testOnePlayerConstructorPlayerIsNull() {
+        exception.expect(IllegalArgumentException.class);
+        game = new Game(player1, 10);
+    }
+
+    @Test
     public void testTwoPlayersConstructor() {
         initializeTwoPlayerGame();
         assertEquals("John doe", game.getPlayer(0).getName());
@@ -63,6 +69,20 @@ public class GameTest {
         player1 = new Player(0, "John doe");
         player2 = new Player(1, "Jane doe");
         game = new Game(player1, player2, 101);
+    }
+
+    @Test
+    public void testTwoPlayersConstructorPlayer1IsNull() {
+        exception.expect(IllegalArgumentException.class);
+        player2 = new Player(1, "Jane doe");
+        game = new Game(player1, player2, 10);
+    }
+
+    @Test
+    public void testTwoPlayersConstructorPlayer2IsNull() {
+        exception.expect(IllegalArgumentException.class);
+        player1 = new Player(0, "John doe");
+        game = new Game(player1, player2, 10);
     }
 
     @Test
