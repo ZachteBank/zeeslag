@@ -97,17 +97,20 @@ public class GameTest {
 
     @Test
     public void testStartGame() {
+        initializeTwoPlayerGame();
         assertTrue(game.startGame());
     }
 
     @Test
     public void testAttackPlayerId() {
+        initializeTwoPlayerGame();
         ShotType shotType = game.attack(game.getPlayer1().getId(), 0, 0);
         assertEquals(ShotType.MISSED, shotType);
     }
 
     @Test
     public void testAttackPlayer() {
+        initializeTwoPlayerGame();
         ShotType shotType = game.attack(game.getPlayer1(), 0, 0);
         assertEquals(ShotType.MISSED, shotType);
     }
