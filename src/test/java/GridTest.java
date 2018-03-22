@@ -131,7 +131,19 @@ public class GridTest {
         grid.placeShip(carrier, 0, grid.getCells().length + 1, true);
     }
 
+    @Test
+    public void testPlaceShipShipDoesntFitHorizontally() {
+        exception.expect(IllegalArgumentException.class);
+        AircraftCarrier carrier = new AircraftCarrier();
+        grid.placeShip(carrier, 6, 0, true);
+    }
 
+    @Test
+    public void testPlaceShipShipDoesntFitVertically() {
+        exception.expect(IllegalArgumentException.class);
+        AircraftCarrier carrier = new AircraftCarrier();
+        grid.placeShip(carrier, 0, 6, false);
+    }
 
     @Test
     public void testRemoveAllShips() {
