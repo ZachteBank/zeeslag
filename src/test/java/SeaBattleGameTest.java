@@ -78,4 +78,11 @@ public class SeaBattleGameTest {
         assertEquals(1, seaBattleGame.registerPlayer("Jane doe", seaBattleGUI, false));
         assertEquals(-1, seaBattleGame.registerPlayer("Jake doe", seaBattleGUI, false));
     }
+
+    @Test
+    public void testPlaceShipsAutomatically() {
+        seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
+        assertTrue(seaBattleGame.getGame().placeShipsAutomatically(0));
+        assertEquals(5, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
+    }
 }
