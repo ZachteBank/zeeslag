@@ -9,6 +9,11 @@ public class ShipFactory {
 
         Ship ship = null;
 
+        if (shipType == null) {
+            throw new IllegalArgumentException("ShipType cannot be null.");
+        }
+
+
         switch (shipType) {
             case CRUISER:
                 ship = new Cruiser();
@@ -25,6 +30,8 @@ public class ShipFactory {
             case BATTLESHIP:
                 ship = new Battleship();
                 break;
+            default:
+                return ship;
         }
         return ship;
     }

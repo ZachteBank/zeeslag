@@ -1,4 +1,6 @@
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import seabattlegame.game.shipfactory.ShipFactory;
 import seabattlegame.game.ships.*;
 import seabattlegui.ShipType;
@@ -6,6 +8,9 @@ import seabattlegui.ShipType;
 import static org.junit.Assert.*;
 
 public class ShipFactoryTest {
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
 
     @Test
     public void testCreateShipAircraftCarrier() {
@@ -39,6 +44,8 @@ public class ShipFactoryTest {
 
     @Test
     public void testCreateShipShipIsNull() {
+        exception.expect(IllegalArgumentException.class);
+        exception.expectMessage("ShipType cannot be null.");
         ShipFactory.createShip(null);
     }
 }
