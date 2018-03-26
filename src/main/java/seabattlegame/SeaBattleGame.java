@@ -15,6 +15,7 @@ import seabattlegui.ISeaBattleGUI;
 import seabattlegui.ShipType;
 
 import java.util.Random;
+import java.util.logging.Logger;
 
 /**
  * The Sea Battle game. To be implemented.
@@ -50,7 +51,7 @@ public class SeaBattleGame implements ISeaBattleGame {
             try {
                 game = new Game(players1, players2, 10);
             } catch (IllegalArgumentException e) {
-                e.printStackTrace();
+                return -1;
             }
             return players2.getId();
         }
@@ -59,7 +60,7 @@ public class SeaBattleGame implements ISeaBattleGame {
             game = new Game(players1, player2, 10);
             placeShipsAutomatically(1);
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            return -1;
         }
         return players1.getId();
     }
