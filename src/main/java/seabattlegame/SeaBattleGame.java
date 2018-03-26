@@ -80,7 +80,6 @@ public class SeaBattleGame implements ISeaBattleGame {
         try {
             game.getPlayer(playerNr).getGrid().placeShip(ship, bowX, bowY, horizontal);
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
             return false;
         }
         return true;
