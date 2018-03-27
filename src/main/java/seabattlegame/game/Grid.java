@@ -25,13 +25,21 @@ public class Grid {
         return Collections.unmodifiableList(ships);
     }
 
+    public boolean allShipsDead(){
+	    boolean allDead = false;
+        for (Ship ship : ships) {
+            if(ship.isSunk()){
+                allDead = true;
+            }
+        }
+        return allDead;
+    }
+
     /**
 	 * 
 	 * @param ship
 	 */
 	public void placeShip(Ship ship, int x, int y, boolean horizontal) throws IllegalArgumentException {
-	    boolean error;
-
 	    if(ship == null) {
 	        throw new IllegalArgumentException("Passed ship cannot be null.");
         }
