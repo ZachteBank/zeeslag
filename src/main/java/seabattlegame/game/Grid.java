@@ -93,6 +93,7 @@ public class Grid {
 	    SquareState state = cells[y][x].hit();
 	    if(state == SquareState.SHIPSUNK){
 	        setAllCellsShipSunk(x, y);
+
         }
 	    switch (state){
             case WATER:

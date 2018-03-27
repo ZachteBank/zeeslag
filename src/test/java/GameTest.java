@@ -36,6 +36,7 @@ public class GameTest {
     @Test
     public void testOnePlayerConstructorSizeTooLow() {
         exception.expect(IllegalArgumentException.class);
+
         player1 = new Player("John Doe");
         game = new Game(player1, -1);
     }
@@ -80,6 +81,7 @@ public class GameTest {
     @Test
     public void testTwoPlayersConstructorPlayer2IsNull() {
         exception.expect(IllegalArgumentException.class);
+        exception.expectMessage("One of both players equals null");
         player1 = new Player(0, "John doe");
         game = new Game(player1, player2, 10);
     }
