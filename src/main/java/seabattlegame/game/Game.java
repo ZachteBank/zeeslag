@@ -27,6 +27,9 @@ public class Game {
         if (size < 0 || size > 100) {
             throw new IllegalArgumentException();
         }
+        if(player1 == null){
+            throw new IllegalArgumentException();
+        }
         this.player1 = player1;
         this.player1.createGrid(size);
         this.size = size;
@@ -65,11 +68,17 @@ public class Game {
     }
 
     public ShotType attack(int attackedid, Integer x, Integer y) {
+        if (attackedid > 1) {
+            throw new IllegalArgumentException();
+        }
         return attack(getPlayer(attackedid), x, y);
     }
 
     public ShotType attack(Player attacked, Integer x, Integer y) {
-        return attacked.getGrid().shoot(x, y);
+        if (attacked != null) {
+            return attacked.getGrid().shoot(x, y);
+        }
+        throw new IllegalArgumentException();
     }
 
     public boolean placeShipsAutomatically(int playerNr) throws IllegalArgumentException {
