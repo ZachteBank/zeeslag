@@ -7,15 +7,15 @@ package seabattlegame;
 
 import seabattlegame.game.Game;
 import seabattlegame.game.Player;
+import seabattlegame.game.SquareState;
 import seabattlegame.game.shipfactory.ShipFactory;
 import seabattlegame.game.ships.Ship;
+import seabattlegame.game.ShotType;
 import seabattlegui.ISeaBattleGUI;
 import seabattlegui.ShipType;
-import seabattlegui.ShotType;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
 
 /**
  * The Sea Battle game. To be implemented.
@@ -25,6 +25,10 @@ import java.util.Random;
 public class SeaBattleGame implements ISeaBattleGame {
 
     private Game game;
+
+    public Game getGame() {
+        return game;
+    }
 
     public SeaBattleGame() {
         game = new Game();
@@ -44,11 +48,21 @@ public class SeaBattleGame implements ISeaBattleGame {
         if (!singlePlayerMode) {
             Player players2 = new Player(1, name);
             application.setOpponentName(1, name);
-            game = new Game(players1, players2);
-            return 0;
+            try {
+                game = new Game(players1, players2, 10);
+            } catch (IllegalArgumentException e) {
+                return -1;
+            }
+            return players2.getId();
         }
-        game = new Game(players1);
-        return 0;
+        try {
+            Player player2 = new Player(1, "AI");
+            game = new Game(players1, player2, 10);
+            placeShipsAutomatically(1);
+        } catch (IllegalArgumentException e) {
+            return -1;
+        }
+        return players1.getId();
     }
 
     @Override
@@ -65,7 +79,7 @@ public class SeaBattleGame implements ISeaBattleGame {
         Ship ship = ShipFactory.createShip(shipType);
         try {
             game.getPlayer(playerNr).getGrid().placeShip(ship, bowX, bowY, horizontal);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             return false;
         }
         return true;
@@ -95,11 +109,34 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     @Override
     public ShotType fireShotPlayer(int playerNr, int posX, int posY) {
-        throw new UnsupportedOperationException("Method fireShotPlayer() not implemented.");
+        if (game.getPlayer(playerNr).getId() == game.getPlayer1().getId()) {
+            return game.attack(game.getPlayer2().getId(), posX, posY);
+        } else {
+            return game.attack(game.getPlayer1(), posX, posY);
+        }
     }
 
     @Override
     public ShotType fireShotOpponent(int playerNr) {
-        throw new UnsupportedOperationException("Method fireShotOpponent() not implemented.");
+        Random random = new Random();
+        return game.attack(playerNr, random.nextInt(10), random.nextInt(10));
+
     }
+
+    @Override
+    public void updateGrid(int playerId, int opponentId, ISeaBattleGUI application) {
+        Player player = game.getPlayer(playerId);
+        Player opponent = game.getPlayer(1);
+        for (int i = 0; i < player.getGrid().getCells().length; i++) {
+            for (int j = 0; j < player.getGrid().getCells().length; j++) {
+                application.showSquarePlayer(playerId, j, i, player.getGrid().getCells()[i][j].getState());
+                SquareState state = opponent.getGrid().getCells()[i][j].getState();
+                if (!state.equals(SquareState.SHIP)) {
+                    application.showSquareOpponent(playerId, j, i, state);
+                }
+            }
+        }
+    }
+
 }
+

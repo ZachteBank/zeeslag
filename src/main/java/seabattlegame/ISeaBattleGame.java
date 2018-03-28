@@ -5,9 +5,11 @@
  */
 package seabattlegame;
 
+import seabattlegame.game.Game;
+import seabattlegame.game.Player;
+import seabattlegame.game.ShotType;
 import seabattlegui.ISeaBattleGUI;
 import seabattlegui.ShipType;
-import seabattlegui.ShotType;
 
 /**
  * Interface provided by the sea battle game to the graphical user interface.
@@ -113,4 +115,7 @@ public interface ISeaBattleGame {
      * @return true if a new game is started successfully
      */
     public boolean startNewGame(int playerNr);
+    public void updateGrid(int playerId, int opponentId, ISeaBattleGUI application);
+    public Game getGame();
+
 }
