@@ -188,6 +188,7 @@ public class SeaBattleGameTest {
         }
     }
 
+    //TODO look at this
     @Test
     public void testRemoveShipInvalidPlayerId() {
         seaBattleGame.registerPlayer("John Doe", seaBattleGUI, true);
