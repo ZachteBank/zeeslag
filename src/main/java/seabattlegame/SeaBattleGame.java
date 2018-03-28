@@ -87,8 +87,10 @@ public class SeaBattleGame implements ISeaBattleGame {
     }
 
     @Override
-    public boolean removeShip(int playerNr, int posX, int posY) {
-        return false;
+    public boolean removeShip(int playerNr, int posX, int posY, ISeaBattleGUI application) {
+        boolean result = game.getPlayer(playerNr).getGrid().removeShip(posX, posY);
+        updateGrid(playerNr, 1, application);
+        return result;
     }
 
     @Override
@@ -96,7 +98,7 @@ public class SeaBattleGame implements ISeaBattleGame {
 
         game.getPlayer(playerNr).getGrid().removeAllShips();
         updateGrid(playerNr, 1, application);
-        if (game.getPlayer(playerNr).getGrid().getShips().size() == 0) {
+        if (game.getPlayer(playerNr).getGrid().getShips().isEmpty()) {
             return true;
         }
         return false;

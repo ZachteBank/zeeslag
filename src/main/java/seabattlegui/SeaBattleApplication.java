@@ -766,7 +766,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
         if (squareSelectedInOceanArea) {
             int posX = selectedSquareX;
             int posY = selectedSquareY;
-            boolean success = game.removeShip(playerNr, posX, posY);
+            boolean success = game.removeShip(playerNr, posX, posY, this);
             if (!success) {
                 showMessage("Cannot remove ship");
             }

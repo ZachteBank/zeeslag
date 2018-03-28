@@ -62,7 +62,7 @@ public interface ISeaBattleGame {
      * @param posY     y-coordinate of square where ship was placed
      * @return true if a ship was successfully removed, false otherwise.
      */
-    public boolean removeShip(int playerNr, int posX, int posY);
+    public boolean removeShip(int playerNr, int posX, int posY, ISeaBattleGUI application);
     
     /**
      * Remove all ships that are placed.

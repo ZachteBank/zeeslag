@@ -2,6 +2,7 @@ import de.saxsys.javafx.test.JfxRunner;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.internal.runners.model.EachTestNotifier;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import seabattlegame.ISeaBattleGame;
@@ -147,7 +148,7 @@ public class SeaBattleGameTest {
         assertTrue(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
                 0, 0, true));
         assertEquals(1, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
-        assertTrue(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), 0, 0));
+        assertTrue(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), 0, 0, seaBattleGUI));
         assertEquals(0, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
     }
 
@@ -157,7 +158,7 @@ public class SeaBattleGameTest {
         assertTrue(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
                 0, 0, true));
         assertEquals(1, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
-        assertTrue(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), 3, 0));
+        assertTrue(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), 3, 0, seaBattleGUI));
         assertEquals(0, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
     }
 
@@ -167,7 +168,7 @@ public class SeaBattleGameTest {
         assertTrue(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
                 0, 0, true));
         assertEquals(1, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
-        assertTrue(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), 5, 0));
+        assertTrue(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), 5, 0, seaBattleGUI));
         assertEquals(0, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
     }
 
@@ -179,7 +180,7 @@ public class SeaBattleGameTest {
         assertTrue(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.MINESWEEPER,
                 0, 5, true));
         assertEquals(2, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
-        assertTrue(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), 0, 0));
+        assertTrue(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), 0, 0, seaBattleGUI));
         for (Ship ship : seaBattleGame.getGame().getPlayer1().getGrid().getShips()) {
             if (ship.getType().equals(ShipType.AIRCRAFTCARRIER)) {
                 assertTrue(false);
@@ -191,39 +192,39 @@ public class SeaBattleGameTest {
     public void testRemoveShipInvalidPlayerId() {
         seaBattleGame.registerPlayer("John Doe", seaBattleGUI, true);
         assertTrue(seaBattleGame.placeShip(0, ShipType.AIRCRAFTCARRIER, 0, 0, true));
-        assertFalse(seaBattleGame.removeShip(2, 0, 0));
+        assertFalse(seaBattleGame.removeShip(2, 0, 0,seaBattleGUI));
     }
 
     @Test
     public void testRemoveShipNoShipAtGivenCoordinate() {
         seaBattleGame.registerPlayer("John Doe", seaBattleGUI, true);
-        assertFalse(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), 0, 0));
+        assertFalse(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), 0, 0, seaBattleGUI));
     }
 
     @Test
     public void testRemoveShipXCoordTooLow() {
         seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
-        assertFalse(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), -1, 0));
+        assertFalse(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), -1, 0,seaBattleGUI));
     }
 
     @Test
     public void testRemoveShipXCoordTooHigh() {
         seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
         assertFalse(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(),
-                seaBattleGame.getGame().getSize(), 0));
+                seaBattleGame.getGame().getSize(), 0, seaBattleGUI));
     }
 
     @Test
     public void testRemoveShipYCoordTooLow() {
         seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
-        assertFalse(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), 0, -1));
+        assertFalse(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), 0, -1, seaBattleGUI));
     }
 
     @Test
     public void testRemoveShipYCoordTooHigh() {
         seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
         assertFalse(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), -1,
-                seaBattleGame.getGame().getSize()));
+                seaBattleGame.getGame().getSize(), seaBattleGUI));
     }
 
     @Test
