@@ -229,7 +229,7 @@ public class SeaBattleGameTest {
     @Test
     public void testRemoveAllShipsNoShips() {
         seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
-        assertTrue(seaBattleGame.removeAllShips(seaBattleGame.getGame().getPlayer1().getId()));
+        assertTrue(seaBattleGame.removeAllShips(seaBattleGame.getGame().getPlayer1().getId(), seaBattleGUI));
     }
 
     @Test
@@ -238,7 +238,7 @@ public class SeaBattleGameTest {
         assertTrue(seaBattleGame.placeShip(seaBattleGame.getGame().getPlayer1().getId(), ShipType.AIRCRAFTCARRIER,
                 0, 0, true));
         assertEquals(1, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
-        assertTrue(seaBattleGame.removeAllShips(seaBattleGame.getGame().getPlayer1().getId()));
+        assertTrue(seaBattleGame.removeAllShips(seaBattleGame.getGame().getPlayer1().getId(), seaBattleGUI));
         assertEquals(0, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
     }
 
@@ -250,7 +250,7 @@ public class SeaBattleGameTest {
                     0, i, true));
         }
         assertEquals(4, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
-        seaBattleGame.removeAllShips(seaBattleGame.getGame().getPlayer1().getId());
+        seaBattleGame.removeAllShips(seaBattleGame.getGame().getPlayer1().getId(), seaBattleGUI);
         assertEquals(0, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
     }
 
@@ -259,13 +259,13 @@ public class SeaBattleGameTest {
         seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
         assertTrue(seaBattleGame.placeShipsAutomatically(seaBattleGame.getGame().getPlayer1().getId()));
         assertEquals(5, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
-        assertTrue(seaBattleGame.removeAllShips(seaBattleGame.getGame().getPlayer1().getId()));
+        assertTrue(seaBattleGame.removeAllShips(seaBattleGame.getGame().getPlayer1().getId(), seaBattleGUI));
         assertEquals(0, seaBattleGame.getGame().getPlayer1().getGrid().getShips().size());
     }
 
     @Test
     public void testRemoveAllShipsInvalidPlayer() {
-        assertFalse(seaBattleGame.removeAllShips(2));
+        assertFalse(seaBattleGame.removeAllShips(2, seaBattleGUI));
     }
 
     @Test

@@ -684,7 +684,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
      */
     private void removeAllShips() {
         // Remove the player's ships
-        game.removeAllShips(playerNr);
+        game.removeAllShips(playerNr, this);
     }
 
     /**

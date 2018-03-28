@@ -69,7 +69,7 @@ public interface ISeaBattleGame {
      * @param playerNr  identification of player for which ships will be removed
      * @return true if all ships were successfully removed, false otherwise.
      */
-    public boolean removeAllShips(int playerNr);
+    public boolean removeAllShips(int playerNr, ISeaBattleGUI application);
 
     /**
      * Notify that the player is ready to play the game, i.e., all ships have

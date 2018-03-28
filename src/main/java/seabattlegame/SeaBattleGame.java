@@ -5,6 +5,7 @@
  */
 package seabattlegame;
 
+import javafx.application.Application;
 import seabattlegame.game.Game;
 import seabattlegame.game.Player;
 import seabattlegame.game.SquareState;
@@ -87,12 +88,14 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     @Override
     public boolean removeShip(int playerNr, int posX, int posY) {
-        throw new UnsupportedOperationException("Method removeShip() not implemented.");
+        return false;
     }
 
     @Override
-    public boolean removeAllShips(int playerNr) {
+    public boolean removeAllShips(int playerNr, ISeaBattleGUI application) {
+
         game.getPlayer(playerNr).getGrid().removeAllShips();
+        updateGrid(playerNr, 1, application);
         if (game.getPlayer(playerNr).getGrid().getShips().size() == 0) {
             return true;
         }
@@ -109,7 +112,7 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     @Override
     public ShotType fireShotPlayer(int playerNr, int posX, int posY) {
-        if (game.getPlayer(playerNr).getId() == game.getPlayer1().getId()) {
+        if (playerNr == game.getPlayer1().getId()) {
             return game.attack(game.getPlayer2().getId(), posX, posY);
         } else {
             return game.attack(game.getPlayer1(), posX, posY);
