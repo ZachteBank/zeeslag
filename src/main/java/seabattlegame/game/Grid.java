@@ -69,8 +69,26 @@ public class Grid {
             cells[!horizontal ? y + i : y][horizontal ? x + i : x] = new ShipCell(ship);
         }
 	    ships.add(ship);
-
 	}
+
+	public boolean removeShip(Ship ship){
+	    if(ship == null){
+	        throw new IllegalArgumentException("Ship can't be null");
+        }
+
+        if(!this.ships.contains(ship)){
+	        return false;
+        }
+
+        for (int i = 0; i < this.cells.length; i++){
+            for (int j = 0; j < this.cells.length; j++){
+                if(cells[i][j] instanceof ShipCell && ((ShipCell)cells[i][j]).getShip().getType() == ship.getType()){
+                    cells[i][j] = new Cell();
+                }
+            }
+        }
+        return true;
+    }
 
 	public boolean removeAllShips(){
 	    initalisizeCells();
@@ -97,7 +115,10 @@ public class Grid {
 	 * @param x
 	 * @param y
 	 */
-	public ShotType shoot(Integer x, Integer y) {
+	public ShotType shoot(int x, int y) {
+	    if(x < 0 || x > this.cells.length || y < 0 || y > this.cells.length){
+	        throw new IllegalArgumentException("Coord out of bound");
+        }
 	    SquareState state = cells[y][x].hit();
 	    if(state == SquareState.SHIPSUNK){
 	        setAllCellsShipSunk(x, y);
