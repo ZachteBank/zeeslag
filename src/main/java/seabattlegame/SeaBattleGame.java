@@ -77,6 +77,10 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     @Override
     public boolean placeShip(int playerNr, ShipType shipType, int bowX, int bowY, boolean horizontal) {
+        if (shipType == null) {
+            throw new IllegalArgumentException();
+        }
+
         Ship ship = ShipFactory.createShip(shipType);
         try {
             game.getPlayer(playerNr).getGrid().placeShip(ship, bowX, bowY, horizontal);
@@ -114,6 +118,9 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     @Override
     public ShotType fireShotPlayer(int playerNr, int posX, int posY) {
+        if (playerNr > 1) {
+            throw new IllegalArgumentException();
+        }
         if (playerNr == game.getPlayer1().getId()) {
             return game.attack(game.getPlayer2().getId(), posX, posY);
         } else {

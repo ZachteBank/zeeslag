@@ -48,7 +48,7 @@ public class Grid {
                 throw new IllegalArgumentException("Tried placing a ship of a type that is already placed.");
             }
         }
-	    if(x < 0 || y < 0 || x > getCells().length || y > getCells().length){
+	    if(x < 0 || y < 0 || x > getCells().length || y >= getCells().length){
 	        throw new IllegalArgumentException("One or more of the given coordinates is out of bounds.");
         }
 
