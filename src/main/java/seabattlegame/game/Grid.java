@@ -43,8 +43,10 @@ public class Grid {
 	    if(ship == null) {
 	        throw new IllegalArgumentException("Passed ship cannot be null.");
         }
-        if(this.ships.contains(ship)) {
-            throw new IllegalArgumentException("Tried placing a ship of a type that is already placed.");
+        for (Ship ship1 : ships) {
+            if(ship.getType() == ship1.getType()){
+                throw new IllegalArgumentException("Tried placing a ship of a type that is already placed.");
+            }
         }
 	    if(x < 0 || y < 0 || x > getCells().length || y > getCells().length){
 	        throw new IllegalArgumentException("One or more of the given coordinates is out of bounds.");
@@ -121,7 +123,7 @@ public class Grid {
 	 */
 	public ShotType shoot(int x, int y) {
 	    if(x < 0 || x > this.cells.length || y < 0 || y > this.cells.length){
-	        throw new IllegalArgumentException("Coord out of bound");
+	        throw new IllegalArgumentException("One or more of the given coordinates is out of bounds");
         }
 	    SquareState state = cells[y][x].hit();
 	    if(state == SquareState.SHIPSUNK){
