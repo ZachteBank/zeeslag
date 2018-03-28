@@ -95,7 +95,13 @@ public class Game {
     public Player getPlayer(int playerNr) {
         if (player1 == null || player2 == null) return null;
 
-        return player1.getId() == playerNr ? player1 : player2;
+        if(player1.getId() == playerNr){
+        	return player1;
+		}else if(player2.getId() == playerNr){
+        	return player2;
+		}
+		return null;
+        //return player1.getId() == playerNr ? player1 : player2;
     }
 
 
