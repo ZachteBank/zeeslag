@@ -85,8 +85,10 @@ public class Grid {
 	        throw new IllegalArgumentException("Ship can't be null");
         }
 
-        if(!this.ships.contains(ship)){
-	        return false;
+        for (Ship ship1 : ships) {
+            if(ship.getType() == ship1.getType()){
+                return false;
+            }
         }
 
         for (int i = 0; i < this.cells.length; i++){
