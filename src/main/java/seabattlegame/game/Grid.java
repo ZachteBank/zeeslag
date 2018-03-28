@@ -68,6 +68,13 @@ public class Grid {
 	    ships.add(ship);
 	}
 
+	public boolean removeShip(int x, int y){
+        if(x < 0 || y < 0 || x > getCells().length || y > getCells().length){
+            throw new IllegalArgumentException("One or more of the given coordinates is out of bounds.");
+        }
+        return removeShip(((ShipCell)cells[y][x]).getShip());
+    }
+
 	public boolean removeShip(Ship ship){
 	    if(ship == null){
 	        throw new IllegalArgumentException("Ship can't be null");
