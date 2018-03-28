@@ -125,7 +125,7 @@ public class Grid {
 	 * @param y
 	 */
 	public ShotType shoot(int x, int y) {
-	    if(x < 0 || x > this.cells.length || y < 0 || y > this.cells.length){
+	    if(x < 0 || x > this.cells.length || y < 0 || y >= this.cells.length){
 	        throw new IllegalArgumentException("One or more of the given coordinates is out of bounds");
         }
 	    SquareState state = cells[y][x].hit();

@@ -44,6 +44,9 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     @Override
     public int registerPlayer(String name, ISeaBattleGUI application, boolean singlePlayerMode) {
+        if(name == null){
+            return -1;
+        }
         Player players1 = new Player(0, name);
         application.setPlayerName(0, name);
         if (!singlePlayerMode) {
@@ -78,7 +81,7 @@ public class SeaBattleGame implements ISeaBattleGame {
     @Override
     public boolean placeShip(int playerNr, ShipType shipType, int bowX, int bowY, boolean horizontal) {
         if (shipType == null) {
-            throw new IllegalArgumentException();
+            return false;
         }
 
         Ship ship = ShipFactory.createShip(shipType);
@@ -99,7 +102,9 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     @Override
     public boolean removeAllShips(int playerNr, ISeaBattleGUI application) {
-
+        if(playerNr >1){
+            return false;
+        }
         game.getPlayer(playerNr).getGrid().removeAllShips();
         updateGrid(playerNr, 1, application);
         if (game.getPlayer(playerNr).getGrid().getShips().isEmpty()) {

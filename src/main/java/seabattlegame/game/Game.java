@@ -87,8 +87,9 @@ public class Game {
 
     public boolean placeShipsAutomatically(Player player) throws IllegalArgumentException {
         if (player == null) {
-            throw new IllegalArgumentException();
+        return false;
         }
+
         return player.getGrid().placeShipsAutomatically();
     }
 
