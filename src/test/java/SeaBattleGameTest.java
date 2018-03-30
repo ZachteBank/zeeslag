@@ -403,16 +403,4 @@ public class SeaBattleGameTest {
         exception.expect(IllegalArgumentException.class);
         seaBattleGame.fireShotOpponent(2);
     }
-
-    @Test
-    public void testUpdateGridInvalidPlayerId() {
-
-    }
-
-    @Test
-    public void testUpdateGridInvalidOpponentId() {
-
-    }
-
-    //TODO: Few more updateGrid tests
 }
