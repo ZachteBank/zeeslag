@@ -44,7 +44,7 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     @Override
     public int registerPlayer(String name, ISeaBattleGUI application, boolean singlePlayerMode) {
-        if(name == null){
+        if (name == null) {
             return -1;
         }
         Player players1 = new Player(0, name);
@@ -102,7 +102,7 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     @Override
     public boolean removeAllShips(int playerNr, ISeaBattleGUI application) {
-        if(playerNr >1){
+        if (playerNr > 1) {
             return false;
         }
         game.getPlayer(playerNr).getGrid().removeAllShips();
@@ -115,6 +115,9 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     @Override
     public boolean notifyWhenReady(int playerNr) {
+        if (playerNr < 0 || playerNr > 1) {
+            return false;
+        }
         if (game.getPlayer(playerNr).getGrid().getShips().size() == 5) {
             return true;
         }
