@@ -227,7 +227,7 @@ public class SeaBattleGameTest {
     @Test
     public void testRemoveShipYCoordTooHigh() {
         seaBattleGame.registerPlayer("John doe", seaBattleGUI, true);
-        assertFalse(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), -1,
+        assertFalse(seaBattleGame.removeShip(seaBattleGame.getGame().getPlayer1().getId(), 0,
                 seaBattleGame.getGame().getSize(), seaBattleGUI));
     }
 

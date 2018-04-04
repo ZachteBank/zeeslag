@@ -72,7 +72,7 @@ public class Grid {
 
 	public boolean removeShip(int x, int y){
         if(x < 0 || y < 0 || x > getCells().length || y > getCells().length){
-            throw new IllegalArgumentException("One or more of the given coordinates is out of bounds.");
+            return false;
         }
         if(!(cells[y][x] instanceof ShipCell)){
             return false;
@@ -133,7 +133,9 @@ public class Grid {
 	    SquareState state = cells[y][x].hit();
 	    if(state == SquareState.SHIPSUNK){
 	        setAllCellsShipSunk(x, y);
-
+	        if(allShipsDead()){
+	            return ShotType.ALLSUNK;
+            }
         }
 	    switch (state){
             case WATER:
