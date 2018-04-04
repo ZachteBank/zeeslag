@@ -6,6 +6,8 @@
 package seabattlegame;
 
 import javafx.application.Application;
+import org.eclipse.jetty.util.component.LifeCycle;
+import seabattlegame.client.ClientEndpointSocket;
 import seabattlegame.game.Game;
 import seabattlegame.game.Player;
 import seabattlegame.game.SquareState;
@@ -15,6 +17,10 @@ import seabattlegame.game.ShotType;
 import seabattlegui.ISeaBattleGUI;
 import seabattlegui.ShipType;
 
+import javax.websocket.ContainerProvider;
+import javax.websocket.Session;
+import javax.websocket.WebSocketContainer;
+import java.net.URI;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -54,6 +60,7 @@ public class SeaBattleGame implements ISeaBattleGame {
             application.setOpponentName(1, name);
             try {
                 game = new Game(players1, players2, 10);
+                connectToServer();
             } catch (IllegalArgumentException e) {
                 return -1;
             }
@@ -67,6 +74,31 @@ public class SeaBattleGame implements ISeaBattleGame {
             return -1;
         }
         return players1.getId();
+    }
+    private void connectToServer() {
+        URI uri = URI.create("ws://localhost:8085/seabattle/");
+        try {
+            WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+            try {
+                // Attempt Connect
+                Session session = container.connectToServer(ClientEndpointSocket.class, uri);
+                // Send a message
+                session.getBasicRemote().sendText("Hello");
+                // Close session
+                Thread.sleep(10000);
+                session.close();
+            } finally {
+                // Force lifecycle stop when done with container.
+                // This is to free up threads and resources that the
+                // JSR-356 container allocates. But unfortunately
+                // the JSR-356 spec does not handle lifecycles (yet)
+                if (container instanceof LifeCycle) {
+                    ((LifeCycle) container).stop();
+                }
+            }
+        } catch (Throwable t) {
+            t.printStackTrace(System.err);
+        }
     }
 
     @Override

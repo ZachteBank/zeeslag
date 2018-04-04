@@ -17,7 +17,7 @@ public class SeaBattleServer {
         server.addConnector(connector);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.setContextPath("/");
+        context.setContextPath("/seabattle/");
         server.setHandler(context);
 
         try {
