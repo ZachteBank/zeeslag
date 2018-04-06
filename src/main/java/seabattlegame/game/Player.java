@@ -1,7 +1,7 @@
 package seabattlegame.game;
 public class Player {
 
-	private int id;
+	private String UUID;
 	private String name;
 	private Grid grid;
 
@@ -19,18 +19,29 @@ public class Player {
 	 */
     public Player(String name) {
         this.name = name;
+        this.UUID = "0";
     }
 
-    public Player(int id, String name) {
-        this.id = id;
+    public Player(String UUID, String name) {
+        this.UUID = UUID;
         this.name = name;
     }
+
+    public Player(Integer UUID, String name) {
+        this.UUID = UUID.toString();
+        this.name = name;
+    }
+
 
     public void createGrid(int size){
     	this.grid = new Grid(size);
 	}
 
-    public int getId() {
-        return id;
-    }
+	public String getUUID() {
+		return UUID;
+	}
+
+	public int getId(){
+    	return Integer.parseInt(this.UUID);
+	}
 }

@@ -154,7 +154,7 @@ public class GameTest {
     @Test
     public void testAttackPlayer() {
         initializeTwoPlayerGame();
-        ShotType shotType = game.attack(game.getPlayer1(), 0, 0);
+        ShotType shotType = game.attackPlayer(game.getPlayer1(), 0, 0);
         assertEquals(ShotType.MISSED, shotType);
     }
 
@@ -169,28 +169,28 @@ public class GameTest {
     public void testAttackPlayerXCoordTooLow() {
         exception.expect(IllegalArgumentException.class);
         initializeTwoPlayerGame();
-        game.attack(game.getPlayer1(), -1, 0);
+        game.attackPlayer(game.getPlayer1(), -1, 0);
     }
 
     @Test
     public void testAttackPlayerXCoordTooHigh() {
         exception.expect(IllegalArgumentException.class);
         initializeTwoPlayerGame();
-        game.attack(game.getPlayer1(), game.getPlayer1().getGrid().getCells()[0].length, 0);
+        game.attackPlayer(game.getPlayer1(), game.getPlayer1().getGrid().getCells()[0].length, 0);
     }
 
     @Test
     public void testAttackPlayerYCoordTooLow() {
         exception.expect(IllegalArgumentException.class);
         initializeTwoPlayerGame();
-        game.attack(game.getPlayer1(), 0, -1);
+        game.attackPlayer(game.getPlayer1(), 0, -1);
     }
 
     @Test
     public void testAttackPlayerYCoordTooHigh() {
         exception.expect(IllegalArgumentException.class);
         initializeTwoPlayerGame();
-        game.attack(game.getPlayer1(), 0, game.getPlayer1().getGrid().getCells().length);
+        game.attackPlayer(game.getPlayer1(), 0, game.getPlayer1().getGrid().getCells().length);
     }
 
     @Test
@@ -211,7 +211,7 @@ public class GameTest {
     @Test
     public void testPlaceShipsAutomaticallyPlayer() {
         initializeTwoPlayerGame();
-        assertTrue(game.placeShipsAutomatically(game.getPlayer1()));
+        assertTrue(game.placeShipsAutomaticallyPlayer(game.getPlayer1()));
         assertEquals(5, game.getPlayer1().getGrid().getShips().size());
         assertEquals(0, game.getPlayer2().getGrid().getShips().size());
     }
@@ -220,7 +220,7 @@ public class GameTest {
     public void testPlaceShipsAutomaticallyPlayerPlayerIsNull() {
         exception.expect(IllegalArgumentException.class);
         initializeTwoPlayerGame();
-        game.placeShipsAutomatically(null);
+        game.placeShipsAutomaticallyPlayer(null);
     }
 
     private void initializeTwoPlayerGame() {

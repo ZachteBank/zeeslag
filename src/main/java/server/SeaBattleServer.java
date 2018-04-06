@@ -25,6 +25,7 @@ public class SeaBattleServer {
             container.addEndpoint(EventServerSocket.class);
             server.start();
             server.join();
+
         }catch (Throwable t){
             t.printStackTrace(System.err);
         }

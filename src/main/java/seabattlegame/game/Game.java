@@ -67,38 +67,48 @@ public class Game {
         return true;
     }
 
+    public ShotType attack(String attackedid, Integer x, Integer y){
+        return attackPlayer(getPlayer(attackedid), x, y);
+    }
+
     public ShotType attack(int attackedid, Integer x, Integer y) {
         if (attackedid > 1) {
             throw new IllegalArgumentException();
         }
-        return attack(getPlayer(attackedid), x, y);
+        Integer id = attackedid;
+        return attack(id.toString(), x, y);
     }
 
-    public ShotType attack(Player attacked, Integer x, Integer y) {
+    public ShotType attackPlayer(Player attacked, Integer x, Integer y) {
         if (attacked != null) {
+
             return attacked.getGrid().shoot(x, y);
         }
         throw new IllegalArgumentException();
     }
 
-    public boolean placeShipsAutomatically(int playerNr) throws IllegalArgumentException {
-        return placeShipsAutomatically(getPlayer(playerNr));
+    public boolean placeShipsAutomatically(String playerNr){
+        return placeShipsAutomaticallyPlayer(getPlayer(playerNr));
     }
 
-    public boolean placeShipsAutomatically(Player player) throws IllegalArgumentException {
-        if (player == null) {
-        return false;
-        }
-
-        return player.getGrid().placeShipsAutomatically();
+    public boolean placeShipsAutomatically(Integer playerNr){
+        return placeShipsAutomatically(playerNr.toString());
     }
 
-    public Player getPlayer(int playerNr) {
+    public boolean placeShipsAutomaticallyPlayer(Player player){
+        return player != null && player.getGrid().placeShipsAutomatically();
+    }
+
+    public Player getPlayer(Integer playerNr){
+        return getPlayer(playerNr.toString());
+    }
+
+    public Player getPlayer(String playerNr) {
         if (player1 == null || player2 == null) return null;
 
-        if(player1.getId() == playerNr){
+        if(player1.getUUID().equals(playerNr)){
         	return player1;
-		}else if(player2.getId() == playerNr){
+		}else if(player2.getUUID().equals(playerNr)){
         	return player2;
 		}
 		return null;

@@ -53,10 +53,10 @@ public class SeaBattleGame implements ISeaBattleGame {
         if (name == null) {
             return -1;
         }
-        Player players1 = new Player(0, name);
+        Player players1 = new Player("0", name);
         application.setPlayerName(0, name);
         if (!singlePlayerMode) {
-            Player players2 = new Player(1, name);
+            Player players2 = new Player("1", name);
             application.setOpponentName(1, name);
             try {
                 game = new Game(players1, players2, 10);
@@ -67,7 +67,7 @@ public class SeaBattleGame implements ISeaBattleGame {
             return players2.getId();
         }
         try {
-            Player player2 = new Player(1, "AI");
+            Player player2 = new Player("1", "AI");
             game = new Game(players1, player2, 10);
             placeShipsAutomatically(1);
         } catch (IllegalArgumentException e) {
@@ -162,9 +162,9 @@ public class SeaBattleGame implements ISeaBattleGame {
             throw new IllegalArgumentException();
         }
         if (playerNr == game.getPlayer1().getId()) {
-            return game.attack(game.getPlayer2().getId(), posX, posY);
+            return game.attack(game.getPlayer2().getUUID(), posX, posY);
         } else {
-            return game.attack(game.getPlayer1(), posX, posY);
+            return game.attackPlayer(game.getPlayer1(), posX, posY);
         }
     }
 
