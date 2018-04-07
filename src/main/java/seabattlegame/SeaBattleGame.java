@@ -56,15 +56,14 @@ public class SeaBattleGame implements ISeaBattleGame {
         Player players1 = new Player("0", name);
         application.setPlayerName(0, name);
         if (!singlePlayerMode) {
-            Player players2 = new Player("1", name);
+            Player players2 = new Player(1, name);
             application.setOpponentName(1, name);
             try {
-                game = new Game(players1, players2, 10);
-                connectToServer();
+                connectToServerAndRegister(name);
             } catch (IllegalArgumentException e) {
                 return -1;
             }
-            return players2.getId();
+            return players1.getId();
         }
         try {
             Player player2 = new Player("1", "AI");
@@ -75,18 +74,16 @@ public class SeaBattleGame implements ISeaBattleGame {
         }
         return players1.getId();
     }
-    private void connectToServer() {
-        URI uri = URI.create("ws://localhost:8085/seabattle/");
+
+    private void connectToServerAndRegister(String name) {
+        URI uri = URI.create("ws://localhost:9090/seabattleserver/");
         try {
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             try {
                 // Attempt Connect
                 Session session = container.connectToServer(ClientEndpointSocket.class, uri);
                 // Send a message
-                session.getBasicRemote().sendText("Hello");
-                // Close session
-                Thread.sleep(10000);
-                session.close();
+                session.getBasicRemote().sendText("Register|" + name);
             } finally {
                 // Force lifecycle stop when done with container.
                 // This is to free up threads and resources that the

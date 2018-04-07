@@ -13,11 +13,11 @@ public class SeaBattleServer {
     public static void main(String[] args) {
         Server server = new Server();
         ServerConnector connector = new ServerConnector(server);
-        connector.setPort(8085);
+        connector.setPort(9090);
         server.addConnector(connector);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.setContextPath("/seabattle/");
+        context.setContextPath("/");
         server.setHandler(context);
 
         try {
