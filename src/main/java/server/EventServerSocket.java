@@ -7,8 +7,7 @@ import sun.rmi.runtime.Log;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 // https://github.com/jetty-project/embedded-jetty-websocket-examples/tree/master/javax.websocket-example/src/main/java/org/eclipse/jetty/demo
 
@@ -22,18 +21,20 @@ import java.util.Set;
 
 @ServerEndpoint(value = "/seabattleserver/")
 public class EventServerSocket {
-    private static Set<Session> sessions = new HashSet<>();
+    private static Map<String, Session> map = new HashMap<>();
+    private static Map<String, Session> sessions = Collections.synchronizedMap(map);
 
     private Game game;
     private Player player1;
     private Player player2;
+    private static int size = 10;
 
     @OnOpen
     public void onConnect(Session session) {
         System.out.println("[Connected] SessionID:" + session.getId());
         String message = String.format("[New client with client side session ID]: %s", session.getId());
         broadcast(message);
-        sessions.add(session);
+        sessions.put(session.getId(), session);
         System.out.println("[#sessions]: " + sessions.size());
 
         if (sessions.size() == 0) {
@@ -60,7 +61,9 @@ public class EventServerSocket {
         switch (action){
             case "register":
                 try {
-                    registerPlayer(session, extractedMessage);
+                    if(!registerPlayer(session, extractedMessage)){
+                        sendMessage("Couldn't register player", session);
+                    }
                 } catch (Exception e) {
                     sendMessage(e.getMessage(), session);
                 }
@@ -73,13 +76,27 @@ public class EventServerSocket {
     @OnClose
     public void onClose(CloseReason reason, Session session) {
         System.out.println("[Session ID] : " + session.getId() + "[Socket Closed: " + reason);
-        sessions.remove(session);
+        sessions.remove(session.getId());
     }
 
     @OnError
     public void onError(Throwable cause, Session session) {
         System.out.println("[Session ID] : " + session.getId() + "[ERROR]: ");
         cause.printStackTrace(System.err);
+    }
+
+    private void startGame(){
+        game = new Game(player1, player2, size);
+        broadcast("Game started, place your ships!");
+        Player turn = game.getTurn();
+        broadcast(turn.getName()+" has the first turn");
+        Session session = findSessionById(turn.getUUID());
+        if(session == null){
+            broadcast("Something went very wrong");
+        }else{
+            sendMessage("It's your turn!", session);
+        }
+
     }
 
     private boolean registerPlayer(Session session, String[] args) {
@@ -103,6 +120,7 @@ public class EventServerSocket {
         } else if (player2 == null) {
             player2 = new Player(session.getId(), name);
             sendMessage("Registerd as player 2", session);
+            startGame();
             return true;
         }
         return false;
@@ -110,10 +128,10 @@ public class EventServerSocket {
 
     public void broadcast(String s) {
         System.out.println("[Broadcast] { " + s + " } to:");
-        for(Session session : sessions) {
+        for(Map.Entry<String, Session> entry : sessions.entrySet()) {
             try {
-                session.getBasicRemote().sendText(s);
-                System.out.println("\t\t >> Client associated with server side session ID: " + session.getId());
+                entry.getValue().getBasicRemote().sendText(s);
+                System.out.println("\t\t >> Client associated with server side session ID: " + entry.getValue().getId());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -129,5 +147,12 @@ public class EventServerSocket {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private Session findSessionById(String id){
+        if(sessions.containsKey(id)){
+            return sessions.get(id);
+        }
+        return null;
     }
 }

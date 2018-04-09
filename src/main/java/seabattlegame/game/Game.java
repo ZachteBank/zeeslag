@@ -1,6 +1,8 @@
 package seabattlegame.game;
 
 
+import java.util.Random;
+
 public class Game {
 
     private Player player1;
@@ -52,6 +54,19 @@ public class Game {
 
         this.player1.createGrid(size);
         this.player2.createGrid(size);
+
+        turn = (Math.random() <= 0.5) ? 1 : 2;
+    }
+
+    public Player getTurn() {
+        if(startGame()) {
+            if (turn == 1) {
+                return player1;
+            } else {
+                return player2;
+            }
+        }
+        return null;
     }
 
     public boolean startGame() {
