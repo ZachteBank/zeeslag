@@ -7,6 +7,7 @@ package seabattlegame;
 
 import javafx.application.Application;
 import org.eclipse.jetty.util.component.LifeCycle;
+import seabattlegame.client.ClientConnection;
 import seabattlegame.client.ClientEndpointSocket;
 import seabattlegame.game.Game;
 import seabattlegame.game.Player;
@@ -18,9 +19,12 @@ import seabattlegui.ISeaBattleGUI;
 import seabattlegui.ShipType;
 
 import javax.websocket.ContainerProvider;
+import javax.websocket.DeploymentException;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
+import java.io.IOException;
 import java.net.URI;
+import java.util.Observable;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -32,7 +36,7 @@ import java.util.logging.Logger;
 public class SeaBattleGame implements ISeaBattleGame {
 
     private Game game;
-
+private ClientConnection clientConnection;
     public Game getGame() {
         return game;
     }
@@ -56,10 +60,12 @@ public class SeaBattleGame implements ISeaBattleGame {
         Player players1 = new Player("0", name);
         application.setPlayerName(0, name);
         if (!singlePlayerMode) {
-            Player players2 = new Player(1, name);
-            application.setOpponentName(1, name);
+
             try {
-                connectToServerAndRegister(name);
+                clientConnection = new ClientConnection();
+                clientConnection.register(name);
+                Player players2 = new Player(1, "opponent");
+                application.setOpponentName(0, name);
             } catch (IllegalArgumentException e) {
                 return -1;
             }
@@ -75,28 +81,7 @@ public class SeaBattleGame implements ISeaBattleGame {
         return players1.getId();
     }
 
-    private void connectToServerAndRegister(String name) {
-        URI uri = URI.create("ws://localhost:9090/seabattleserver/");
-        try {
-            WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-            try {
-                // Attempt Connect
-                Session session = container.connectToServer(ClientEndpointSocket.class, uri);
-                // Send a message
-                session.getBasicRemote().sendText("Register|" + name);
-            } finally {
-                // Force lifecycle stop when done with container.
-                // This is to free up threads and resources that the
-                // JSR-356 container allocates. But unfortunately
-                // the JSR-356 spec does not handle lifecycles (yet)
-                if (container instanceof LifeCycle) {
-                    ((LifeCycle) container).stop();
-                }
-            }
-        } catch (Throwable t) {
-            t.printStackTrace(System.err);
-        }
-    }
+
 
     @Override
     public boolean placeShipsAutomatically(int playerNr) {
