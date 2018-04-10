@@ -1,11 +1,6 @@
 package seabattlegame.client;
 
-import seabattlegame.SeaBattleGame;
-
 import javax.websocket.*;
-import javax.websocket.server.ServerEndpoint;
-
-// https://github.com/jetty-project/embedded-jetty-websocket-examples/tree/master/javax.websocket-example/src/main/java/org/eclipse/jetty/demo
 
 @ClientEndpoint
 public class ClientEndpointSocket {
@@ -16,7 +11,9 @@ public class ClientEndpointSocket {
 
     @OnMessage
     public void onWebSocketText(String message) {
+        if(message.equals("Registered as player 1")) {
 
+        }
         System.out.println("[Received]: " + message);
     }
 

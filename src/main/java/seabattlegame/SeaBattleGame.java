@@ -36,7 +36,8 @@ import java.util.logging.Logger;
 public class SeaBattleGame implements ISeaBattleGame {
 
     private Game game;
-private ClientConnection clientConnection;
+    private ClientConnection clientConnection;
+
     public Game getGame() {
         return game;
     }
@@ -60,12 +61,9 @@ private ClientConnection clientConnection;
         Player players1 = new Player("0", name);
         application.setPlayerName(0, name);
         if (!singlePlayerMode) {
-
             try {
                 clientConnection = new ClientConnection();
                 clientConnection.register(name);
-                Player players2 = new Player(1, "opponent");
-                application.setOpponentName(0, name);
             } catch (IllegalArgumentException e) {
                 return -1;
             }
@@ -80,8 +78,6 @@ private ClientConnection clientConnection;
         }
         return players1.getId();
     }
-
-
 
     @Override
     public boolean placeShipsAutomatically(int playerNr) {
