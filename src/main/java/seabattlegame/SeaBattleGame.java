@@ -36,7 +36,8 @@ import java.util.logging.Logger;
 public class SeaBattleGame implements ISeaBattleGame {
 
     private Game game;
-private ClientConnection clientConnection;
+    private ClientConnection clientConnection;
+
     public Game getGame() {
         return game;
     }
@@ -77,8 +78,6 @@ private ClientConnection clientConnection;
         }
         return players1.getId();
     }
-
-
 
     @Override
     public boolean placeShipsAutomatically(int playerNr) {
