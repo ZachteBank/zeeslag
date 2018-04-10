@@ -111,19 +111,16 @@ public class EventServerSocket {
         if (args.length != 2) {
             throw new IllegalArgumentException("Args isn't in correct format");
         }
-        if (this.game == null) {
-            return false;
-        }
 
         String name = args[1];
 
         if (player1 == null) {
             player1 = new Player(session.getId(), name);
-            sendMessage("Registered as player 1", session);
+            sendMessage("Registerd as player 1", session);
             return true;
         } else if (player2 == null) {
             player2 = new Player(session.getId(), name);
-            sendMessage("Registered as player 2", session);
+            sendMessage("Registerd as player 2", session);
             startGame();
             return true;
         }
