@@ -119,11 +119,11 @@ public class EventServerSocket {
 
         if (player1 == null) {
             player1 = new Player(session.getId(), name);
-            sendMessage("Registerd as player 1", session);
+            sendMessage("Registered as player 1", session);
             return true;
         } else if (player2 == null) {
             player2 = new Player(session.getId(), name);
-            sendMessage("Registerd as player 2", session);
+            sendMessage("Registered as player 2", session);
             startGame();
             return true;
         }
