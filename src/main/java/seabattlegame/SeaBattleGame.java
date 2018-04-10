@@ -60,12 +60,9 @@ private ClientConnection clientConnection;
         Player players1 = new Player("0", name);
         application.setPlayerName(0, name);
         if (!singlePlayerMode) {
-
             try {
                 clientConnection = new ClientConnection();
                 clientConnection.register(name);
-                Player players2 = new Player(1, "opponent");
-                application.setOpponentName(0, name);
             } catch (IllegalArgumentException e) {
                 return -1;
             }
