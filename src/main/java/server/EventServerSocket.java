@@ -55,7 +55,7 @@ public class EventServerSocket {
             return;
         }
 
-        String extractedMessage[] = message.split("|");
+        String extractedMessage[] = message.split("[|]");
         String action = extractedMessage[0];
 
         switch (action){
@@ -115,10 +115,6 @@ public class EventServerSocket {
             return false;
         }
 
-        if (game.getPlayer(session.getId()) != null) {
-            return false;
-        }
-
         String name = args[1];
 
         if (player1 == null) {
@@ -146,6 +142,7 @@ public class EventServerSocket {
         }
         System.out.println("[End of Broadcast]");
     }
+
     private void sendMessage(String message, Session session){
         if(message == null || session == null){
             throw new IllegalArgumentException("Message or session can't be null");
