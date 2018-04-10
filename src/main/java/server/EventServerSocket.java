@@ -2,6 +2,9 @@ package server;
 
 import seabattlegame.game.Game;
 import seabattlegame.game.Player;
+import seabattlegame.game.shipfactory.ShipFactory;
+import seabattlegame.game.ships.Ship;
+import seabattlegui.ShipType;
 import sun.rmi.runtime.Log;
 
 import javax.websocket.*;
@@ -71,6 +74,8 @@ public class EventServerSocket {
             case "placeShip":
                 if(!placeShip(session, extractedMessage)){
                     sendMessage("Couldn't place ship", session);
+                }else{
+                    sendMessage("Ship placed", session);
                 }
                 break;
             case "fire":
@@ -103,8 +108,52 @@ public class EventServerSocket {
         }
     }
 
-    private boolean placeShip(Session session, String[] args){
+    private boolean placeShipsAutomatically(Session session, String[] args){
+        if(args.length != 2){
+            return false;
+        }
         return false;
+
+    }
+
+    private boolean placeShip(Session session, String[] args){
+        Player player = game.getPlayer(session.getId());
+        if(player == null){
+            return false;
+        }
+
+        if(args.length != 5){
+            return false;
+        }
+
+        if(!tryParseInt(args[1]) || !tryParseInt(args[2])){
+            return false;
+        }
+
+        boolean horzontal = args[4].equals("true");
+
+        int x = Integer.parseInt(args[1]);
+        int y = Integer.parseInt(args[2]);
+
+        ShipType shipType = ShipType.valueOf(args[3].toUpperCase());
+        Ship ship = ShipFactory.createShip(shipType);
+
+        try {
+            player.getGrid().placeShip(ship, x, y, horzontal);
+            return true;
+        }catch (Exception e){
+            sendMessage(e.getMessage(), session);
+            return false;
+        }
+    }
+
+    private boolean tryParseInt(String value) {
+        try {
+            Integer.parseInt(value);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     private boolean registerPlayer(Session session, String[] args) {

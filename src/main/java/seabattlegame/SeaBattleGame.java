@@ -45,6 +45,7 @@ public class SeaBattleGame implements ISeaBattleGame{
     public SeaBattleGame() {
         game = new Game();
 
+
     }
 
     @Override
@@ -77,6 +78,7 @@ public class SeaBattleGame implements ISeaBattleGame{
         }
         return players1.getId();
     }
+
 
 
     @Override
