@@ -68,6 +68,11 @@ public class EventServerSocket {
                     sendMessage(e.getMessage(), session);
                 }
                 break;
+            case "placeShip":
+                if(!placeShip(session, extractedMessage)){
+                    sendMessage("Couldn't place ship", session);
+                }
+                break;
             case "fire":
                 break;
         }
@@ -96,7 +101,10 @@ public class EventServerSocket {
         }else{
             sendMessage("It's your turn!", session);
         }
+    }
 
+    private boolean placeShip(Session session, String[] args){
+        return false;
     }
 
     private boolean registerPlayer(Session session, String[] args) {
@@ -143,7 +151,8 @@ public class EventServerSocket {
             throw new IllegalArgumentException("Message or session can't be null");
         }
         try {
-            session.getBasicRemote().sendText("No message found");
+            session.getBasicRemote().sendText(message);
+            System.out.println("Send message to "+session.getId()+" with: \""+message+"\"");
         } catch (IOException e) {
             e.printStackTrace();
         }
