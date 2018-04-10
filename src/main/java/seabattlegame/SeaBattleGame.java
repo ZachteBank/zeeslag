@@ -33,17 +33,17 @@ import java.util.logging.Logger;
  *
  * @author Nico Kuijpers
  */
-public class SeaBattleGame implements ISeaBattleGame {
+public class SeaBattleGame implements ISeaBattleGame{
 
     private Game game;
-private ClientConnection clientConnection;
+    private ClientConnection clientConnection;
+
     public Game getGame() {
         return game;
     }
 
     public SeaBattleGame() {
         game = new Game();
-
 
     }
 
@@ -77,7 +77,6 @@ private ClientConnection clientConnection;
         }
         return players1.getId();
     }
-
 
 
     @Override

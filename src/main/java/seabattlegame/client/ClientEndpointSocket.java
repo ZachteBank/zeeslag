@@ -11,9 +11,7 @@ public class ClientEndpointSocket {
 
     @OnMessage
     public void onWebSocketText(String message) {
-        if(message.equals("Registered as player 1")) {
 
-        }
         System.out.println("[Received]: " + message);
     }
 
