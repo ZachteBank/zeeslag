@@ -5,10 +5,8 @@
  */
 package seabattlegame;
 
-import javafx.application.Application;
-import org.eclipse.jetty.util.component.LifeCycle;
-import seabattlegame.client.ClientConnection;
 import seabattlegame.client.ClientEndpointSocket;
+import seabattlegame.client.IMessageHandler;
 import seabattlegame.game.Game;
 import seabattlegame.game.Player;
 import seabattlegame.game.SquareState;
@@ -18,25 +16,20 @@ import seabattlegame.game.ShotType;
 import seabattlegui.ISeaBattleGUI;
 import seabattlegui.ShipType;
 
-import javax.websocket.ContainerProvider;
-import javax.websocket.DeploymentException;
-import javax.websocket.Session;
-import javax.websocket.WebSocketContainer;
-import java.io.IOException;
-import java.net.URI;
 import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
-import java.util.logging.Logger;
 
 /**
  * The Sea Battle game. To be implemented.
  *
  * @author Nico Kuijpers
  */
-public class SeaBattleGame implements ISeaBattleGame{
+public class SeaBattleGame implements ISeaBattleGame, Observer {
 
     private Game game;
-    private ClientConnection clientConnection;
+    private ClientEndpointSocket clientEndpointSocket;
+    private ClientSocketResponseHandler clientSocketResponseHandler;
 
     public Game getGame() {
         return game;
@@ -44,7 +37,6 @@ public class SeaBattleGame implements ISeaBattleGame{
 
     public SeaBattleGame() {
         game = new Game();
-
 
     }
 
@@ -62,10 +54,17 @@ public class SeaBattleGame implements ISeaBattleGame{
         application.setPlayerName(0, name);
         if (!singlePlayerMode) {
             try {
-                clientConnection = new ClientConnection();
-                clientConnection.register(name);
+                clientEndpointSocket = new ClientEndpointSocket();
+                IMessageHandler clientSocketResponseHandler = new ClientSocketResponseHandler();
+
+                clientEndpointSocket.addMessageHandler(clientSocketResponseHandler);
+                clientEndpointSocket.sendMessage("register|" + name);
+                wait();
+
             } catch (IllegalArgumentException e) {
                 return -1;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
             return players1.getId();
         }
@@ -78,7 +77,6 @@ public class SeaBattleGame implements ISeaBattleGame{
         }
         return players1.getId();
     }
-
 
 
     @Override
@@ -170,5 +168,9 @@ public class SeaBattleGame implements ISeaBattleGame{
         }
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+
+    }
 }
 
