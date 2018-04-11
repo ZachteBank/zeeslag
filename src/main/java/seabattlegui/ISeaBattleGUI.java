@@ -35,7 +35,7 @@ public interface ISeaBattleGUI {
      * MISSED  - No ship was hit
      * HIT     - A ship was hit
      * SUNK    - A ship was sunk
-     * ALLSUNK - All ships are sunk
+     * ALLSUNK - All seabattlegame.ships are sunk
      * @param playerNr identification of player
      * @param shotType result of shot fired by opponent
      */
@@ -44,7 +44,7 @@ public interface ISeaBattleGUI {
     /**
      * Show state of a square in the ocean area.
      * The new state of the square will be shown in the area where
-     * the ships of the player are placed (ocean area).
+     * the seabattlegame.ships of the player are placed (ocean area).
      * @param playerNr identification of player
      * @param posX        x-position of square
      * @param posY        y-position of square
@@ -55,7 +55,7 @@ public interface ISeaBattleGUI {
     /**
      * Show state of a square in the target area.
      * The new state of the square will be shown in the area where
-     * the ships of the opponent are placed (target area)
+     * the seabattlegame.ships of the opponent are placed (target area)
      * @param playerNr identification of player
      * @param posX        x-position of square
      * @param posY        y-position of square

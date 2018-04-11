@@ -1,3 +1,5 @@
+package seabattlegame;
+
 import de.saxsys.javafx.test.JfxRunner;
 import org.junit.Before;
 import org.junit.Ignore;

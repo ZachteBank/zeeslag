@@ -1,4 +1,4 @@
-package cells;
+package seabattlegame.cells;
 
 import org.junit.Before;
 import org.junit.Test;

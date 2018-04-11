@@ -1,4 +1,4 @@
-package ships;
+package seabattlegame.ships;
 
 import org.junit.Test;
 import seabattlegame.game.ships.Battleship;

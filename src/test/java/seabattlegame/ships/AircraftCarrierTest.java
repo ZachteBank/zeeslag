@@ -1,4 +1,4 @@
-package ships;
+package seabattlegame.ships;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;

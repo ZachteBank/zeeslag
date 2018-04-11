@@ -63,7 +63,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
     // Label for opponent's name
     private Label labelOpponentName;
 
-    // Target area, a 10 x 10 grid where the opponent's ships are placed
+    // Target area, a 10 x 10 grid where the opponent's seabattlegame.ships are placed
     private Rectangle targetArea;
 
     // Squares for the target area
@@ -85,7 +85,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
     private Label labelYourName;
     private TextField textFieldPlayerName;
 
-    // Ocean area, a 10 x 10 grid where the player's ships are placed
+    // Ocean area, a 10 x 10 grid where the player's seabattlegame.ships are placed
     private Rectangle oceanArea;
 
     // Squares for the ocean area
@@ -116,7 +116,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
     private RadioButton radioHorizontal;
     private RadioButton radioVertical;
 
-    // Buttons to register player, start the game, and place or remove ships
+    // Buttons to register player, start the game, and place or remove seabattlegame.ships
     Button buttonRegisterPlayer;
     Button buttonPlaceAllShips;
     Button buttonRemoveAllShips;
@@ -161,7 +161,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
         labelOpponentName.setMinWidth(AREAWIDTH);
         grid.add(labelOpponentName, 0, 0, 1, 2);
 
-        // Target area, a 10 x 10 grid where the opponent's ships are placed
+        // Target area, a 10 x 10 grid where the opponent's seabattlegame.ships are placed
         targetArea = new Rectangle(BORDERSIZE, 3 * BORDERSIZE, AREAWIDTH, AREAHEIGHT);
         targetArea.setFill(Color.WHITE);
         root.getChildren().add(targetArea);
@@ -198,7 +198,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
         labelPlayerName.setMinWidth(AREAWIDTH);
         grid.add(labelPlayerName, 0, 35, 1, 2);
 
-        // Ocean area, a 10 x 10 grid where the player's ships are placed
+        // Ocean area, a 10 x 10 grid where the player's seabattlegame.ships are placed
         oceanArea = new Rectangle(BORDERSIZE, 46 * BORDERSIZE, AREAWIDTH, AREAHEIGHT);
         oceanArea.setFill(Color.WHITE);
         root.getChildren().add(oceanArea);
@@ -285,11 +285,11 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
         });
         grid.add(buttonRegisterPlayer, 1, 14, 1, 3);
 
-        // Button to place the player's ships automatically
-        buttonPlaceAllShips = new Button("Place ships for me");
+        // Button to place the player's seabattlegame.ships automatically
+        buttonPlaceAllShips = new Button("Place seabattlegame.ships for me");
         buttonPlaceAllShips.setMinWidth(BUTTONWIDTH);
         Tooltip tooltipPlaceShips =
-                new Tooltip("Press this button to let the computer place your ships");
+                new Tooltip("Press this button to let the computer place your seabattlegame.ships");
         buttonPlaceAllShips.setTooltip(tooltipPlaceShips);
         buttonPlaceAllShips.setOnAction(new EventHandler() {
             @Override
@@ -300,11 +300,11 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
         buttonPlaceAllShips.setDisable(true);
         grid.add(buttonPlaceAllShips, 1, 18, 1, 3);
 
-        // Button to remove the player's ships that are already placed
-        buttonRemoveAllShips = new Button("Remove all my ships");
+        // Button to remove the player's seabattlegame.ships that are already placed
+        buttonRemoveAllShips = new Button("Remove all my seabattlegame.ships");
         buttonRemoveAllShips.setMinWidth(BUTTONWIDTH);
         Tooltip tooltipRemoveAllShips =
-                new Tooltip("Press this button to remove all your ships");
+                new Tooltip("Press this button to remove all your seabattlegame.ships");
         buttonRemoveAllShips.setTooltip(tooltipRemoveAllShips);
         buttonRemoveAllShips.setOnAction(new EventHandler() {
             @Override
@@ -345,7 +345,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
         buttonStartNewGame.setDisable(true);
         grid.add(buttonStartNewGame, 1, 30, 1, 3);
 
-        // Radio buttons to place ships horizontally or vertically
+        // Radio buttons to place seabattlegame.ships horizontally or vertically
         labelHorizontalVertical = new Label("Place next ship: ");
         radioHorizontal = new RadioButton("horizontally");
         Tooltip tooltipHorizontal = new Tooltip("Place next ship horizontally");
@@ -537,7 +537,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
      * MISSED  - No ship was hit
      * HIT     - A ship was hit
      * SUNK    - A ship was sunk
-     * ALLSUNK - All ships are sunk
+     * ALLSUNK - All seabattlegame.ships are sunk
      *
      * @param playerNr identification of player
      * @param shotType result of shot fired by opponent
@@ -679,19 +679,19 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
     }
 
     /**
-     * Place the player's ships automatically.
+     * Place the player's seabattlegame.ships automatically.
      */
     private void placeShipsAutomatically() {
-        // Place the player's ships automatically.
+        // Place the player's seabattlegame.ships automatically.
         game.placeShipsAutomatically(playerNr);
         game.updateGrid(playerNr, 1, this);
     }
 
     /**
-     * Remove the player's ships.
+     * Remove the player's seabattlegame.ships.
      */
     private void removeAllShips() {
-        // Remove the player's ships
+        // Remove the player's seabattlegame.ships
         game.removeAllShips(playerNr, this);
     }
 
@@ -716,7 +716,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
             buttonPlaceMineSweeper.setDisable(true);
             buttonRemoveShip.setDisable(true);
         } else {
-            showMessage("Place all ships and then press Ready to play");
+            showMessage("Place all seabattlegame.ships and then press Ready to play");
         }
     }
 
@@ -843,7 +843,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
             if (gameEnded) {
                 showMessage("Press Start new game");
             } else {
-                showMessage("Select square in " + playerName + "\'s grid to place ships");
+                showMessage("Select square in " + playerName + "\'s grid to place seabattlegame.ships");
             }
         }
         game.updateGrid(playerNr,1,this);

@@ -25,7 +25,7 @@ public class ClientSocketResponseHandler extends Observable implements IMessageH
             case "registered as player 2":
                 registerResponse();
                 break;
-            case "Game started, place your ships!":
+            case "Game started, place your seabattlegame.ships!":
                 startGame();
                 break;
         }

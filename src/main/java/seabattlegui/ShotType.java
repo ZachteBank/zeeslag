@@ -13,5 +13,5 @@ public enum ShotType {
     MISSED,   // Shot missed
     HIT,      // Shot hit
     SUNK,     // Ship sunk
-    ALLSUNK;  // All ships sunk
+    ALLSUNK;  // All seabattlegame.ships sunk
 }

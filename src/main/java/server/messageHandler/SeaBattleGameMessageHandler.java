@@ -26,7 +26,14 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
     public void handleMessage(String json, Session session) {
 
         Gson g = new Gson();
-        Message message = g.fromJson(json, Message.class);
+        Message message = null;
+        try {
+            message = g.fromJson(json, Message.class);
+        }catch (Exception e){
+            System.out.println(json);
+            sendMessage(e.getMessage(), session);
+            return;
+        }
 
         switch (message.getAction()){
             case "register":
@@ -53,7 +60,7 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
 
     private void startGame(){
         game = new Game(player1.getPlayer(), player2.getPlayer(), size);
-        broadcast("Game started, place your ships!");
+        broadcast("Game started, place your seabattlegame.ships!");
         Player turn = game.getTurn();
         broadcast(turn.getName()+" has the first turn");
         PlayerSession playerSession = getPlayerSessionWithUUID(turn.getUUID());
