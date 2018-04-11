@@ -29,10 +29,6 @@ public class EventServerSocket {
 
     private static IMessageHandler messageHandler;
 
-    public static IMessageHandler getMessageHandler() {
-        return messageHandler;
-    }
-
     public static void setMessageHandler(IMessageHandler messageHandler) {
         EventServerSocket.messageHandler = messageHandler;
     }
@@ -50,10 +46,15 @@ public class EventServerSocket {
     public void onText(String message,Session session) {
         System.out.println("[Session ID] : " + session.getId() + " [Received] : " + message);
 
+        if(messageHandler == null){
+            throw new NullPointerException("No messageHandler found");
+        }
+
         if(message.isEmpty()){
             sendMessage("No message found", session);
             return;
         }
+
         messageHandler.handleMessage(message, session);
     }
 

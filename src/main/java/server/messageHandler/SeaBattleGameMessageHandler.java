@@ -1,12 +1,17 @@
 package server.messageHandler;
 
+import com.google.gson.Gson;
 import seabattlegame.game.Game;
 import seabattlegame.game.Player;
 import seabattlegame.game.shipfactory.ShipFactory;
 import seabattlegame.game.ships.Ship;
 import seabattlegui.ShipType;
+import server.json.Message;
+import server.json.actions.IAction;
+import server.json.actions.Register;
 import server.messageHandler.game.PlayerSession;
 
+import javax.json.JsonObject;
 import javax.websocket.Session;
 import java.io.IOException;
 
@@ -18,19 +23,16 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
     private static int size = 10;
 
     @Override
-    public void handleMessage(String message, Session session) {
-        if(!message.contains("|")){
-            sendMessage("Message wasn't in correct format", session);
-            return;
-        }
+    public void handleMessage(String json, Session session) {
 
-        String extractedMessage[] = message.split("[|]");
-        String action = extractedMessage[0];
+        Gson g = new Gson();
+        Message message = g.fromJson(json, Message.class);
 
-        switch (action){
+        switch (message.getAction()){
             case "register":
+                message.parseData(Register.class);
                 try {
-                    if(!registerPlayer(session, extractedMessage)){
+                    if(!registerPlayer(session, message.getData())){
                         sendMessage("Couldn't register player", session);
                     }
                 } catch (Exception e) {
@@ -38,7 +40,7 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
                 }
                 break;
             case "placeShip":
-                if(!placeShip(session, extractedMessage)){
+                if(!placeShip(session, message.getData())){
                     sendMessage("Couldn't place ship", session);
                 }else{
                     sendMessage("Ship placed", session);
@@ -62,19 +64,18 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         }
     }
 
-    private boolean registerPlayer(Session session, String[] args) {
-        if (args.length != 2) {
-            throw new IllegalArgumentException("Args isn't in correct format");
+    private boolean registerPlayer(Session session, IAction args) {
+        if(!(args instanceof Register)){
+            return false;
         }
-
-        String name = args[1];
+        Register data = (Register) args;
 
         if (player1 == null) {
-            player1 = new PlayerSession(session, new Player(session.getId(), name));
+            player1 = new PlayerSession(session, new Player(session.getId(), data.getName()));
             sendMessage("Registered as player 1", session);
             return true;
         } else if (player2 == null) {
-            player1 = new PlayerSession(session, new Player(session.getId(), name));
+            player1 = new PlayerSession(session, new Player(session.getId(), data.getName()));
             sendMessage("Registered as player 2", session);
             startGame();
             return true;
@@ -90,8 +91,9 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
 
     }
 
-    private boolean placeShip(Session session, String[] args){
-        Player player = game.getPlayer(session.getId());
+    private boolean placeShip(Session session, IAction args){
+        return false;
+        /*Player player = game.getPlayer(session.getId());
         if(player == null){
             return false;
         }
@@ -118,7 +120,7 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         }catch (Exception e){
             sendMessage(e.getMessage(), session);
             return false;
-        }
+        }*/
     }
 
     private boolean tryParseInt(String value) {

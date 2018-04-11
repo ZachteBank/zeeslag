@@ -1,6 +1,6 @@
 package server.json.actions;
 
-public class Register{
+public class Register implements IAction{
     private String name;
 
     public Register(String name) {
