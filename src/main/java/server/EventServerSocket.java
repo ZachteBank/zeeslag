@@ -27,10 +27,14 @@ public class EventServerSocket {
     private static Map<String, Session> map = new HashMap<>();
     private static Map<String, Session> sessions = Collections.synchronizedMap(map);
 
-    private IMessageHandler messageHandler;
+    private static IMessageHandler messageHandler;
 
-    public EventServerSocket(IMessageHandler messageHandler) {
-        this.messageHandler = messageHandler;
+    public static IMessageHandler getMessageHandler() {
+        return messageHandler;
+    }
+
+    public static void setMessageHandler(IMessageHandler messageHandler) {
+        EventServerSocket.messageHandler = messageHandler;
     }
 
     @OnOpen

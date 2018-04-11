@@ -5,6 +5,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.websocket.jsr356.server.deploy.WebSocketServerContainerInitializer;
+import server.messageHandler.SeaBattleGameMessageHandler;
 
 import javax.websocket.server.ServerContainer;
 
@@ -22,6 +23,7 @@ public class SeaBattleServer {
 
         try {
             ServerContainer container = WebSocketServerContainerInitializer.configureContext(context);
+            EventServerSocket.setMessageHandler(new SeaBattleGameMessageHandler());
             container.addEndpoint(EventServerSocket.class);
             server.start();
             server.join();
