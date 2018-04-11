@@ -1,5 +1,8 @@
 package seabattlegame.client;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
@@ -51,9 +54,11 @@ public class ClientEndpointSocket {
         this.messageHandler = messageHandler;
     }
 
-    public void sendMessage(String message) {
+    public void sendMessage(MessageJson message) {
         try {
-            session.getBasicRemote().sendText(message);
+            Gson json = new GsonBuilder().create();
+            String jsontosend = json.toJson(message);
+            session.getBasicRemote().sendText(jsontosend);
         } catch (IOException e) {
             e.printStackTrace();
         }
