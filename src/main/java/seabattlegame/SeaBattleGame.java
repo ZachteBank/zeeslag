@@ -46,7 +46,7 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
     }
 
     @Override
-    public int registerPlayer(String name, ISeaBattleGUI application, boolean singlePlayerMode) {
+    public synchronized int registerPlayer(String name, ISeaBattleGUI application, boolean singlePlayerMode) {
         if (name == null) {
             return -1;
         }
@@ -56,7 +56,7 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
             try {
                 clientEndpointSocket = new ClientEndpointSocket();
                 IMessageHandler clientSocketResponseHandler = new ClientSocketResponseHandler();
-
+                ((ClientSocketResponseHandler) clientSocketResponseHandler).addObserver(this);
                 clientEndpointSocket.addMessageHandler(clientSocketResponseHandler);
                 clientEndpointSocket.sendMessage("register|" + name);
                 wait();

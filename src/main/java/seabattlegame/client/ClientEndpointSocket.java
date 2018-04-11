@@ -16,7 +16,7 @@ public class ClientEndpointSocket {
         try {
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             // Attempt Connect
-            session = container.connectToServer(ClientEndpointSocket.class, uri);
+            session = container.connectToServer(this, uri);
 
         } catch (DeploymentException | IOException e) {
             e.printStackTrace();
