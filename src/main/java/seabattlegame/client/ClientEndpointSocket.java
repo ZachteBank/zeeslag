@@ -12,6 +12,9 @@ public class ClientEndpointSocket {
     private Session session;
 
     public ClientEndpointSocket() {
+    }
+
+    public void connect() {
         URI uri = URI.create("ws://localhost:9090/seabattleserver/");
         try {
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();

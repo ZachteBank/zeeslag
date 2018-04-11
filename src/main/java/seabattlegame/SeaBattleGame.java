@@ -55,6 +55,7 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
         if (!singlePlayerMode) {
             try {
                 clientEndpointSocket = new ClientEndpointSocket();
+                clientEndpointSocket.connect();
                 IMessageHandler clientSocketResponseHandler = new ClientSocketResponseHandler();
                 ((ClientSocketResponseHandler) clientSocketResponseHandler).addObserver(this);
                 clientEndpointSocket.addMessageHandler(clientSocketResponseHandler);
