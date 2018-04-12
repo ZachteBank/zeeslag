@@ -1,6 +1,8 @@
 package server.messageHandler;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import seabattlegame.game.Game;
 import seabattlegame.game.Player;
 import seabattlegame.game.shipfactory.ShipFactory;
@@ -11,7 +13,6 @@ import server.json.actions.IAction;
 import server.json.actions.Register;
 import server.messageHandler.game.PlayerSession;
 
-import javax.json.JsonObject;
 import javax.websocket.Session;
 import java.io.IOException;
 
@@ -27,8 +28,12 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
 
         Gson g = new Gson();
         Message message = null;
+
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = jsonParser.parse(json).getAsJsonObject();
+
         try {
-            message = g.fromJson(json, Message.class);
+            message = g.fromJson(jsonObject, Message.class);
         }catch (Exception e){
             System.out.println(json);
             sendMessage(e.getMessage(), session);
