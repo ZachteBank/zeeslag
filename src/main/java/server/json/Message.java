@@ -1,6 +1,8 @@
 package server.json;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import server.json.actions.IAction;
 import server.json.actions.Register;
 
@@ -27,7 +29,9 @@ public class Message {
     }
 
     public void parseData(Class<? extends IAction> iAction){
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = jsonParser.parse(content).getAsJsonObject();
         Gson g = new Gson();
-        this.data = g.fromJson(content, iAction);
+        this.data = g.fromJson(jsonObject, iAction);
     }
 }
