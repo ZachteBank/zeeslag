@@ -16,6 +16,12 @@ public class Message {
         this.content = content;
     }
 
+    public Message(String action, IAction data) {
+        this.action = action;
+        Gson gson = new Gson();
+        this.content = gson.toJson(data);
+    }
+
     public String getAction() {
         return action;
     }

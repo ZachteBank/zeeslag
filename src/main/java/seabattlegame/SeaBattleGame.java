@@ -16,6 +16,8 @@ import seabattlegame.game.ships.Ship;
 import seabattlegame.game.ShotType;
 import seabattlegui.ISeaBattleGUI;
 import seabattlegui.ShipType;
+import server.json.Message;
+import server.json.actions.Register;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -60,7 +62,8 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
                 IMessageHandler clientSocketResponseHandler = new ClientSocketResponseHandler();
                 ((ClientSocketResponseHandler) clientSocketResponseHandler).addObserver(this);
                 clientEndpointSocket.addMessageHandler(clientSocketResponseHandler);
-                clientEndpointSocket.sendMessage(new MessageJson("register", name));
+                Register register = new Register(name);
+                clientEndpointSocket.sendMessage(new Message("register", register));
                 wait();
 
             } catch (IllegalArgumentException e) {

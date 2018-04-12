@@ -2,6 +2,7 @@ package seabattlegame.client;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import server.json.Message;
 
 import javax.websocket.*;
 import java.io.IOException;
@@ -54,7 +55,7 @@ public class ClientEndpointSocket {
         this.messageHandler = messageHandler;
     }
 
-    public void sendMessage(MessageJson message) {
+    public void sendMessage(Message message) {
         try {
             Gson json = new GsonBuilder().create();
             String jsontosend = json.toJson(message);
