@@ -30,14 +30,12 @@ import java.util.Random;
  *
  * @author Nico Kuijpers
  */
-public class SeaBattleGame implements ISeaBattleGame, Observer {
+public class SeaBattleGame implements ISeaBattleGame {
 
     private Game game;
     private ClientEndpointSocket clientEndpointSocket;
     private ClientSocketResponseHandler clientSocketResponseHandler;
-    private SeaBattleApplication application;
     private boolean singleplayermode;
-    private boolean wait = false;
 
     public Game getGame() {
         return game;
@@ -54,12 +52,13 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
     }
 
     @Override
-    public synchronized int registerPlayer(String name, ISeaBattleGUI application, boolean singlePlayerMode) {
+    public int registerPlayer(String name, ISeaBattleGUI application, boolean singlePlayerMode) {
         this.singleplayermode = singlePlayerMode;
-        this.application = (SeaBattleApplication) application;
+
         if (name == null) {
             return -1;
         }
+
         Player players1 = new Player("0", name);
         application.setPlayerName(0, name);
         if (!singlePlayerMode) {
@@ -84,15 +83,8 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
         } catch (IllegalArgumentException e) {
             return -1;
         }
-        foundOpponent();
         return players1.getId();
     }
-
-    public void foundOpponent() {
-        ((SeaBattleApplication) application).showMessage("Found opponent, please place your ships!");
-        application.foundOpponent();
-    }
-
 
     @Override
     public boolean placeShipsAutomatically(int playerNr) {
@@ -104,7 +96,7 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
     }
 
     @Override
-    public synchronized boolean placeShip(int playerNr, ShipType shipType, int bowX, int bowY, boolean horizontal) {
+    public boolean placeShip(int playerNr, ShipType shipType, int bowX, int bowY, boolean horizontal) {
         if (shipType == null) {
             return false;
         }
@@ -120,17 +112,9 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
         }
         PlaceShip placeShip = new PlaceShip(bowX, bowY, horizontal, shipType.toString());
         clientEndpointSocket.sendMessage(new Message("placeship", placeShip));
-        try {
-            wait = true;
-            while (wait) {
-                wait();
-            }
-            return true;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            return false;
-        }
+        return true;
     }
+
 
     @Override
     public boolean removeShip(int playerNr, int posX, int posY, ISeaBattleGUI application) {
@@ -195,11 +179,6 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
                 }
             }
         }
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        wait = false;
     }
 }
 

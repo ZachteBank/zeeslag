@@ -15,14 +15,6 @@ public class ClientSocketResponseHandler implements IMessageHandler {
         this.game = game;
     }
 
-    private void registerResponse() {
-
-    }
-
-    private void startGame() {
-        game.foundOpponent();
-    }
-
     @Override
     public void handleMessage(String json) {
 
