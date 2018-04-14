@@ -87,7 +87,7 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
             sendMessage("Registered as player 1", session);
             return true;
         } else if (player2 == null) {
-            player1 = new PlayerSession(session, new Player(session.getId(), data.getName()));
+            player2 = new PlayerSession(session, new Player(session.getId(), data.getName()));
             sendMessage("Registered as player 2", session);
             startGame();
             return true;
