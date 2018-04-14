@@ -18,8 +18,8 @@ import seabattlegui.ISeaBattleGUI;
 import seabattlegui.SeaBattleApplication;
 import seabattlegui.ShipType;
 import server.json.Message;
+import server.json.actions.PlaceShip;
 import server.json.actions.Register;
-import server.json.actions.placeShip;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -37,6 +37,7 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
     private ClientSocketResponseHandler clientSocketResponseHandler;
     private SeaBattleApplication application;
     private boolean singleplayermode;
+    private boolean wait = false;
 
     public Game getGame() {
         return game;
@@ -65,7 +66,7 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
             try {
                 clientEndpointSocket = new ClientEndpointSocket();
 
-                IMessageHandler clientSocketResponseHandler = new ClientSocketResponseHandler(this);
+                clientSocketResponseHandler = new ClientSocketResponseHandler(this);
                 clientEndpointSocket.addMessageHandler(clientSocketResponseHandler);
                 clientEndpointSocket.connect();
                 Register register = new Register(name);
@@ -103,7 +104,7 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
     }
 
     @Override
-    public boolean placeShip(int playerNr, ShipType shipType, int bowX, int bowY, boolean horizontal) {
+    public synchronized boolean placeShip(int playerNr, ShipType shipType, int bowX, int bowY, boolean horizontal) {
         if (shipType == null) {
             return false;
         }
@@ -117,10 +118,13 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
             }
             return true;
         }
-        placeShip placeShip = new placeShip(bowX, bowY, horizontal, shipType.toString());
+        PlaceShip placeShip = new PlaceShip(bowX, bowY, horizontal, shipType.toString());
         clientEndpointSocket.sendMessage(new Message("placeship", placeShip));
         try {
-            wait();
+            wait = true;
+            while (wait) {
+                wait();
+            }
             return true;
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -195,7 +199,7 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        wait = false;
     }
 }
 
