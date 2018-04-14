@@ -44,6 +44,7 @@ public class ClientSocketResponseHandler implements IMessageHandler {
                 else {
                     game.getGame().setPlayer2(new Player(data.getName()));
                 }
+                break;
 
 
         }
