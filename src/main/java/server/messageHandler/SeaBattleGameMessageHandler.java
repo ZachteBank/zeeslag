@@ -12,6 +12,7 @@ import server.json.Message;
 import server.json.actions.IAction;
 import server.json.actions.PlaceShip;
 import server.json.actions.Register;
+import server.json.actions.Shot;
 import server.messageHandler.game.PlayerSession;
 
 import javax.websocket.Session;
@@ -60,7 +61,17 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
                     sendMessage("Ship placed", session);
                 }
                 break;
-            case "fire":
+            case "shot":
+                message.parseData(Shot.class);
+                try {
+                    if(!shot(session, message.getData())){
+                        sendMessage("Couldn't place ship", session);
+                    }else{
+                        sendMessage("Ship placed", session);
+                    }
+                } catch (Exception e) {
+                    sendMessage(e.getMessage(), session);
+                }
                 break;
         }
     }
@@ -103,6 +114,33 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         }
         return false;
 
+    }
+
+    private boolean shot(Session session, IAction args) throws Exception {
+        if(!(args instanceof Shot)){
+            return false;
+        }
+        Shot data = (Shot) args;
+        Player player = game.getOpponent();
+
+        if(player == null){
+            return false;
+        }
+
+        if(player == game.getPlayer(session.getId())){
+            throw new Exception("You can't attack yourself");
+        }
+        if(game.getTurn() != game.getPlayer(session.getId())){
+            throw new Exception("It isn't your turn");
+        }
+
+        try {
+            game.attack(player.getId(), data.getX(), data.getY());
+            return true;
+        }catch (Exception e){
+            sendMessage(e.getMessage(), session);
+            return false;
+        }
     }
 
     private boolean placeShip(Session session, IAction args){

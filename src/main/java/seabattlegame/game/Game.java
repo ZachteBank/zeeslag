@@ -69,6 +69,17 @@ public class Game {
         return null;
     }
 
+    public Player getOpponent(){
+        if(startGame()) {
+            if (turn == 1) {
+                return player2;
+            } else {
+                return player1;
+            }
+        }
+        return null;
+    }
+
     public boolean startGame() {
         if (player1 == null || player2 == null) {
             return false;
