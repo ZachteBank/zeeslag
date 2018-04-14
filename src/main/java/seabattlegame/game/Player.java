@@ -2,9 +2,10 @@ package seabattlegame.game;
 public class Player {
 
 	private String UUID;
-	private String name;
-	private Grid grid;
 
+	private String name;
+
+	private Grid grid;
 	public String getName() {
 		return this.name;
 	}
@@ -13,8 +14,12 @@ public class Player {
 		return this.grid;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	/**
-	 * 
+	 *
 	 * @param name
 	 */
     public Player(String name) {

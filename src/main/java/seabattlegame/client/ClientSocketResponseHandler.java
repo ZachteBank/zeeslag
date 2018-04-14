@@ -1,19 +1,20 @@
 package seabattlegame.client;
 
-import seabattlegame.client.IMessageHandler;
+import seabattlegame.SeaBattleGame;
 
-import java.util.Observable;
+public class ClientSocketResponseHandler implements IMessageHandler {
+    private SeaBattleGame game;
 
-public class ClientSocketResponseHandler extends Observable implements IMessageHandler {
-    public ClientSocketResponseHandler() {
+    public ClientSocketResponseHandler(SeaBattleGame game) {
+        this.game = game;
     }
 
     private void registerResponse() {
-        notifyObservers();
+
     }
 
     private void startGame() {
-        notifyObservers();
+        game.foundOpponent();
     }
 
     @Override

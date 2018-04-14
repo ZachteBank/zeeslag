@@ -2,6 +2,7 @@ package seabattlegame.client;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import seabattlegame.SeaBattleGame;
 import server.json.Message;
 
 import javax.websocket.*;
@@ -12,7 +13,6 @@ import java.net.URI;
 public class ClientEndpointSocket {
 
     private IMessageHandler messageHandler;
-
     private Session session;
 
     public ClientEndpointSocket() {

@@ -15,6 +15,7 @@ import seabattlegame.game.shipfactory.ShipFactory;
 import seabattlegame.game.ships.Ship;
 import seabattlegame.game.ShotType;
 import seabattlegui.ISeaBattleGUI;
+import seabattlegui.SeaBattleApplication;
 import seabattlegui.ShipType;
 import server.json.Message;
 import server.json.actions.Register;
@@ -33,6 +34,7 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
     private Game game;
     private ClientEndpointSocket clientEndpointSocket;
     private ClientSocketResponseHandler clientSocketResponseHandler;
+    private SeaBattleApplication application;
 
     public Game getGame() {
         return game;
@@ -50,6 +52,7 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
 
     @Override
     public synchronized int registerPlayer(String name, ISeaBattleGUI application, boolean singlePlayerMode) {
+        this.application = (SeaBattleApplication) application;
         if (name == null) {
             return -1;
         }
@@ -58,19 +61,13 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
         if (!singlePlayerMode) {
             try {
                 clientEndpointSocket = new ClientEndpointSocket();
-                IMessageHandler clientSocketResponseHandler = new ClientSocketResponseHandler();
-                ((ClientSocketResponseHandler) clientSocketResponseHandler).addObserver(this);
+                IMessageHandler clientSocketResponseHandler = new ClientSocketResponseHandler(this);
                 clientEndpointSocket.addMessageHandler(clientSocketResponseHandler);
                 clientEndpointSocket.connect();
                 Register register = new Register(name);
                 clientEndpointSocket.sendMessage(new Message("register", register));
-                wait();
-
-
             } catch (IllegalArgumentException e) {
                 return -1;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
             return players1.getId();
         }
@@ -81,7 +78,13 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
         } catch (IllegalArgumentException e) {
             return -1;
         }
+        foundOpponent();
         return players1.getId();
+    }
+
+    public void foundOpponent() {
+        ((SeaBattleApplication) application).showMessage("Found opponent, please place your ships!");
+        application.foundOpponent();
     }
 
 

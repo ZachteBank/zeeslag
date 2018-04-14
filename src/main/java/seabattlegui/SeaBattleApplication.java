@@ -652,7 +652,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
         } else {
             labelPlayerName.setText(playerName + "\'s grid");
             playerNr = game.registerPlayer(playerName, (ISeaBattleGUI) this, singlePlayerMode);
-            if (playerNr != -1) {
+         /*   if (playerNr != -1) {
                 labelYourName.setDisable(true);
                 textFieldPlayerName.setDisable(true);
                 labelSingleMultiPlayer.setDisable(true);
@@ -674,8 +674,29 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
                 // showMessage("Player " + playerName + " registered");
             } else {
                 showMessage("Name already defined");
-            }
+            }*/
         }
+    }
+
+    public void foundOpponent() {
+        labelYourName.setDisable(true);
+        textFieldPlayerName.setDisable(true);
+        labelSingleMultiPlayer.setDisable(true);
+        radioSinglePlayer.setDisable(true);
+        radioMultiPlayer.setDisable(true);
+        buttonRegisterPlayer.setDisable(true);
+        labelHorizontalVertical.setDisable(false);
+        radioHorizontal.setDisable(false);
+        radioVertical.setDisable(false);
+        buttonPlaceAllShips.setDisable(false);
+        buttonRemoveAllShips.setDisable(false);
+        buttonReadyToPlay.setDisable(false);
+        buttonPlaceAircraftCarrier.setDisable(false);
+        buttonPlaceBattleShip.setDisable(false);
+        buttonPlaceCruiser.setDisable(false);
+        buttonPlaceSubmarine.setDisable(false);
+        buttonPlaceMineSweeper.setDisable(false);
+        buttonRemoveShip.setDisable(false);
     }
 
     /**
@@ -787,7 +808,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
      * Show an alert message.
      * The message will disappear when the user presses ok.
      */
-    private void showMessage(final String message) {
+    public void showMessage(final String message) {
         // Use Platform.runLater() to ensure that code concerning 
         // the Alert message is executed by the JavaFX Application Thread
         Platform.runLater(new Runnable() {
@@ -846,7 +867,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
                 showMessage("Select square in " + playerName + "\'s grid to place seabattlegame.ships");
             }
         }
-        game.updateGrid(playerNr,1,this);
+        game.updateGrid(playerNr, 1, this);
 
     }
 
