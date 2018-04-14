@@ -10,7 +10,9 @@ import seabattlegame.game.ships.Ship;
 import seabattlegui.ShipType;
 import server.json.Message;
 import server.json.actions.IAction;
+import server.json.actions.PlaceShip;
 import server.json.actions.Register;
+import server.json.actions.Shot;
 import server.messageHandler.game.PlayerSession;
 
 import javax.websocket.Session;
@@ -52,13 +54,24 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
                 }
                 break;
             case "placeShip":
+                message.parseData(PlaceShip.class);
                 if(!placeShip(session, message.getData())){
                     sendMessage("Couldn't place ship", session);
                 }else{
                     sendMessage("Ship placed", session);
                 }
                 break;
-            case "fire":
+            case "shot":
+                message.parseData(Shot.class);
+                try {
+                    if(!shot(session, message.getData())){
+                        sendMessage("Couldn't place ship", session);
+                    }else{
+                        sendMessage("Ship placed", session);
+                    }
+                } catch (Exception e) {
+                    sendMessage(e.getMessage(), session);
+                }
                 break;
         }
     }
@@ -87,7 +100,7 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
             sendMessage("Registered as player 1", session);
             return true;
         } else if (player2 == null) {
-            player1 = new PlayerSession(session, new Player(session.getId(), data.getName()));
+            player2 = new PlayerSession(session, new Player(session.getId(), data.getName()));
             sendMessage("Registered as player 2", session);
             startGame();
             return true;
@@ -103,36 +116,53 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
 
     }
 
-    private boolean placeShip(Session session, IAction args){
-        return false;
-        /*Player player = game.getPlayer(session.getId());
+    private boolean shot(Session session, IAction args) throws Exception {
+        if(!(args instanceof Shot)){
+            return false;
+        }
+        Shot data = (Shot) args;
+        Player player = game.getOpponent();
+
         if(player == null){
             return false;
         }
 
-        if(args.length != 5){
-            return false;
+        if(player == game.getPlayer(session.getId())){
+            throw new Exception("You can't attack yourself");
         }
-
-        if(!tryParseInt(args[1]) || !tryParseInt(args[2])){
-            return false;
+        if(game.getTurn() != game.getPlayer(session.getId())){
+            throw new Exception("It isn't your turn");
         }
-
-        boolean horzontal = args[4].equals("true");
-
-        int x = Integer.parseInt(args[1]);
-        int y = Integer.parseInt(args[2]);
-
-        ShipType shipType = ShipType.valueOf(args[3].toUpperCase());
-        Ship ship = ShipFactory.createShip(shipType);
 
         try {
-            player.getGrid().placeShip(ship, x, y, horzontal);
+            game.attack(player.getId(), data.getX(), data.getY());
             return true;
         }catch (Exception e){
             sendMessage(e.getMessage(), session);
             return false;
-        }*/
+        }
+    }
+
+    private boolean placeShip(Session session, IAction args){
+        if(!(args instanceof PlaceShip)){
+            return false;
+        }
+        PlaceShip data = (PlaceShip) args;
+        Player player = game.getPlayer(session.getId());
+        if(player == null){
+            return false;
+        }
+
+        ShipType shipType = ShipType.valueOf(data.getShipType().toUpperCase());
+        Ship ship = ShipFactory.createShip(shipType);
+
+        try {
+            player.getGrid().placeShip(ship, data.getX(), data.getY(), data.isHorizontal());
+            return true;
+        }catch (Exception e){
+            sendMessage(e.getMessage(), session);
+            return false;
+        }
     }
 
     private boolean tryParseInt(String value) {

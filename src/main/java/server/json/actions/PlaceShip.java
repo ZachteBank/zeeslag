@@ -1,12 +1,12 @@
 package server.json.actions;
 
-public class placeShip implements IAction {
+public class PlaceShip implements IAction {
     private int x;
     private int y;
     private boolean horizontal;
     private String shipType;
 
-    public placeShip(int x, int y, boolean horizontal, String shipType) {
+    public PlaceShip(int x, int y, boolean horizontal, String shipType) {
         this.x = x;
         this.y = y;
         this.horizontal = horizontal;
