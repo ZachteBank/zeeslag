@@ -65,7 +65,7 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
 
     private void startGame(){
         game = new Game(player1.getPlayer(), player2.getPlayer(), size);
-        broadcast("Game started, place your seabattlegame.ships!");
+        broadcast("Game started, place your ships!");
         Player turn = game.getTurn();
         broadcast(turn.getName()+" has the first turn");
         PlayerSession playerSession = getPlayerSessionWithUUID(turn.getUUID());

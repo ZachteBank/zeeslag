@@ -2,11 +2,12 @@ package seabattlegame.client;
 
 import seabattlegame.SeaBattleGame;
 
-public class ClientSocketResponseHandler implements IMessageHandler {
+public class ClientSocketResponseHandler extends java.util.Observable implements IMessageHandler {
     private SeaBattleGame game;
 
     public ClientSocketResponseHandler(SeaBattleGame game) {
         this.game = game;
+        addObserver(game);
     }
 
     private void registerResponse() {
@@ -26,8 +27,11 @@ public class ClientSocketResponseHandler implements IMessageHandler {
             case "registered as player 2":
                 registerResponse();
                 break;
-            case "Game started, place your seabattlegame.ships!":
+            case "Game started, place your ships!":
                 startGame();
+                break;
+            case "Ship placed":
+                notifyObservers();
                 break;
         }
     }

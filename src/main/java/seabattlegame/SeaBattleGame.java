@@ -19,6 +19,7 @@ import seabattlegui.SeaBattleApplication;
 import seabattlegui.ShipType;
 import server.json.Message;
 import server.json.actions.Register;
+import server.json.actions.placeShip;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -35,6 +36,7 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
     private ClientEndpointSocket clientEndpointSocket;
     private ClientSocketResponseHandler clientSocketResponseHandler;
     private SeaBattleApplication application;
+    private boolean singleplayermode;
 
     public Game getGame() {
         return game;
@@ -52,6 +54,7 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
 
     @Override
     public synchronized int registerPlayer(String name, ISeaBattleGUI application, boolean singlePlayerMode) {
+        this.singleplayermode = singlePlayerMode;
         this.application = (SeaBattleApplication) application;
         if (name == null) {
             return -1;
@@ -61,11 +64,13 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
         if (!singlePlayerMode) {
             try {
                 clientEndpointSocket = new ClientEndpointSocket();
+
                 IMessageHandler clientSocketResponseHandler = new ClientSocketResponseHandler(this);
                 clientEndpointSocket.addMessageHandler(clientSocketResponseHandler);
                 clientEndpointSocket.connect();
                 Register register = new Register(name);
                 clientEndpointSocket.sendMessage(new Message("register", register));
+                ((SeaBattleApplication) application).showMessage("Please wait for opponent!");
             } catch (IllegalArgumentException e) {
                 return -1;
             }
@@ -104,12 +109,23 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
         }
 
         Ship ship = ShipFactory.createShip(shipType);
+        if (singleplayermode) {
+            try {
+                game.getPlayer(playerNr).getGrid().placeShip(ship, bowX, bowY, horizontal);
+            } catch (IllegalArgumentException e) {
+                return false;
+            }
+            return true;
+        }
+        placeShip placeShip = new placeShip(bowX, bowY, horizontal, shipType.toString());
+        clientEndpointSocket.sendMessage(new Message("placeship", placeShip));
         try {
-            game.getPlayer(playerNr).getGrid().placeShip(ship, bowX, bowY, horizontal);
-        } catch (IllegalArgumentException e) {
+            wait();
+            return true;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
             return false;
         }
-        return true;
     }
 
     @Override
