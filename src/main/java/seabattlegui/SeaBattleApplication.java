@@ -855,6 +855,8 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
                     ShotType resultOpponent = game.fireShotOpponent(playerNr);
                     opponentFiresShot(playerNr, resultOpponent);
                     game.updateGrid(playerNr, 1, this);
+                } else {
+                    ((SeaBattleGame)game).fireShotMultiPlayer(x, y);
                 }
             } else {
                 // It is not this player's turn yet

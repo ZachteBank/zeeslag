@@ -20,6 +20,7 @@ import seabattlegui.ShipType;
 import server.json.Message;
 import server.json.actions.PlaceShip;
 import server.json.actions.Register;
+import server.json.actions.Shot;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -125,6 +126,7 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
             while (wait) {
                 wait();
             }
+            game.getPlayer(playerNr).getGrid().placeShip(ship, bowX, bowY, horizontal);
             return true;
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -173,6 +175,11 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
         } else {
             return game.attackPlayer(game.getPlayer1(), posX, posY);
         }
+    }
+
+    public void fireShotMultiPlayer(int x, int y) {
+        Shot shot = new Shot(x, y);
+        clientEndpointSocket.sendMessage(new Message("shot", shot));
     }
 
     @Override
