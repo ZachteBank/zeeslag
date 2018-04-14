@@ -1,4 +1,4 @@
-package seabattlegame;
+package seabattlegame.client;
 
 import seabattlegame.client.IMessageHandler;
 
@@ -9,7 +9,7 @@ public class ClientSocketResponseHandler extends Observable implements IMessageH
     }
 
     private void registerResponse() {
-
+        notifyObservers();
     }
 
     private void startGame() {
@@ -19,7 +19,7 @@ public class ClientSocketResponseHandler extends Observable implements IMessageH
     @Override
     public void handleMessage(String message) {
         switch (message) {
-            case "registered as player 1":
+            case "Registered as player 1":
                 registerResponse();
                 break;
             case "registered as player 2":

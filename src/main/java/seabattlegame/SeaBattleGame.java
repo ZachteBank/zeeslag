@@ -6,8 +6,8 @@
 package seabattlegame;
 
 import seabattlegame.client.ClientEndpointSocket;
+import seabattlegame.client.ClientSocketResponseHandler;
 import seabattlegame.client.IMessageHandler;
-import seabattlegame.client.MessageJson;
 import seabattlegame.game.Game;
 import seabattlegame.game.Player;
 import seabattlegame.game.SquareState;
@@ -58,13 +58,14 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
         if (!singlePlayerMode) {
             try {
                 clientEndpointSocket = new ClientEndpointSocket();
-                clientEndpointSocket.connect();
                 IMessageHandler clientSocketResponseHandler = new ClientSocketResponseHandler();
                 ((ClientSocketResponseHandler) clientSocketResponseHandler).addObserver(this);
                 clientEndpointSocket.addMessageHandler(clientSocketResponseHandler);
+                clientEndpointSocket.connect();
                 Register register = new Register(name);
                 clientEndpointSocket.sendMessage(new Message("register", register));
                 wait();
+
 
             } catch (IllegalArgumentException e) {
                 return -1;
