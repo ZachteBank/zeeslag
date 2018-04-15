@@ -286,10 +286,10 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
         grid.add(buttonRegisterPlayer, 1, 14, 1, 3);
 
         // Button to place the player's seabattlegame.ships automatically
-        buttonPlaceAllShips = new Button("Place seabattlegame.ships for me");
+        buttonPlaceAllShips = new Button("Place ships for me");
         buttonPlaceAllShips.setMinWidth(BUTTONWIDTH);
         Tooltip tooltipPlaceShips =
-                new Tooltip("Press this button to let the computer place your seabattlegame.ships");
+                new Tooltip("Press this button to let the computer place your ships");
         buttonPlaceAllShips.setTooltip(tooltipPlaceShips);
         buttonPlaceAllShips.setOnAction(new EventHandler() {
             @Override
@@ -301,10 +301,10 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
         grid.add(buttonPlaceAllShips, 1, 18, 1, 3);
 
         // Button to remove the player's seabattlegame.ships that are already placed
-        buttonRemoveAllShips = new Button("Remove all my seabattlegame.ships");
+        buttonRemoveAllShips = new Button("Remove all my ships");
         buttonRemoveAllShips.setMinWidth(BUTTONWIDTH);
         Tooltip tooltipRemoveAllShips =
-                new Tooltip("Press this button to remove all your seabattlegame.ships");
+                new Tooltip("Press this button to remove all your ships");
         buttonRemoveAllShips.setTooltip(tooltipRemoveAllShips);
         buttonRemoveAllShips.setOnAction(new EventHandler() {
             @Override
@@ -494,9 +494,8 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
         if (playerNr != this.playerNr) {
             showMessage("ERROR: Wrong player number method setPlayerName()");
             return;
-        } else {
-            showMessage("Player name " + name + " registered");
         }
+
         playerName = name;
         Platform.runLater(new Runnable() {
             @Override
@@ -652,51 +651,54 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
         } else {
             labelPlayerName.setText(playerName + "\'s grid");
             playerNr = game.registerPlayer(playerName, (ISeaBattleGUI) this, singlePlayerMode);
-         /*   if (playerNr != -1) {
-                labelYourName.setDisable(true);
-                textFieldPlayerName.setDisable(true);
-                labelSingleMultiPlayer.setDisable(true);
-                radioSinglePlayer.setDisable(true);
-                radioMultiPlayer.setDisable(true);
-                buttonRegisterPlayer.setDisable(true);
-                labelHorizontalVertical.setDisable(false);
-                radioHorizontal.setDisable(false);
-                radioVertical.setDisable(false);
-                buttonPlaceAllShips.setDisable(false);
-                buttonRemoveAllShips.setDisable(false);
-                buttonReadyToPlay.setDisable(false);
-                buttonPlaceAircraftCarrier.setDisable(false);
-                buttonPlaceBattleShip.setDisable(false);
-                buttonPlaceCruiser.setDisable(false);
-                buttonPlaceSubmarine.setDisable(false);
-                buttonPlaceMineSweeper.setDisable(false);
-                buttonRemoveShip.setDisable(false);
-                // showMessage("Player " + playerName + " registered");
+            if (playerNr != -1) {
+                if (radioMultiPlayer.isSelected()) {
+                    labelYourName.setDisable(true);
+                    textFieldPlayerName.setDisable(true);
+                    labelSingleMultiPlayer.setDisable(true);
+                    radioSinglePlayer.setDisable(true);
+                    radioMultiPlayer.setDisable(true);
+                    buttonRegisterPlayer.setDisable(true);
+                    labelHorizontalVertical.setDisable(true);
+                    radioHorizontal.setDisable(true);
+                    radioSinglePlayer.setSelected(true);
+                    radioVertical.setDisable(true);
+                    buttonPlaceAllShips.setDisable(true);
+                    buttonRemoveAllShips.setDisable(true);
+                    buttonReadyToPlay.setDisable(true);
+                    buttonPlaceAircraftCarrier.setDisable(true);
+                    buttonPlaceBattleShip.setDisable(true);
+                    buttonPlaceCruiser.setDisable(true);
+                    buttonPlaceSubmarine.setDisable(true);
+                    buttonPlaceMineSweeper.setDisable(true);
+                    showMessage("Waiting for an opponent...");
+                }
+                else {
+                    labelYourName.setDisable(true);
+                    textFieldPlayerName.setDisable(true);
+                    labelSingleMultiPlayer.setDisable(true);
+                    radioSinglePlayer.setDisable(true);
+                    radioMultiPlayer.setDisable(true);
+                    buttonRegisterPlayer.setDisable(true);
+                    labelHorizontalVertical.setDisable(false);
+                    radioHorizontal.setDisable(false);
+                    radioVertical.setDisable(false);
+                    buttonPlaceAllShips.setDisable(false);
+                    buttonRemoveAllShips.setDisable(false);
+                    buttonReadyToPlay.setDisable(false);
+                    buttonPlaceAircraftCarrier.setDisable(false);
+                    buttonPlaceBattleShip.setDisable(false);
+                    buttonPlaceCruiser.setDisable(false);
+                    buttonPlaceSubmarine.setDisable(false);
+                    buttonPlaceMineSweeper.setDisable(false);
+                    buttonRemoveShip.setDisable(false);
+                    showMessage("Ready to place ships!");
+                }
+
             } else {
                 showMessage("Name already defined");
-            }*/
+            }
         }
-    }
-
-    public void foundOpponent() {
-        labelYourName.setDisable(true);
-        textFieldPlayerName.setDisable(true);
-        labelSingleMultiPlayer.setDisable(true);
-        radioSinglePlayer.setDisable(true);
-        radioMultiPlayer.setDisable(true);
-        buttonRegisterPlayer.setDisable(true);
-        labelHorizontalVertical.setDisable(false);
-        radioHorizontal.setDisable(false);
-        radioVertical.setDisable(false);
-        buttonPlaceAllShips.setDisable(false);
-        buttonRemoveAllShips.setDisable(false);
-        buttonReadyToPlay.setDisable(false);
-        buttonPlaceAircraftCarrier.setDisable(false);
-        buttonPlaceBattleShip.setDisable(false);
-        buttonPlaceCruiser.setDisable(false);
-        buttonPlaceSubmarine.setDisable(false);
-        buttonPlaceMineSweeper.setDisable(false);
-        buttonRemoveShip.setDisable(false);
     }
 
     /**
@@ -737,7 +739,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
             buttonPlaceMineSweeper.setDisable(true);
             buttonRemoveShip.setDisable(true);
         } else {
-            showMessage("Place all seabattlegame.ships and then press Ready to play");
+            showMessage("Place all ships and then press Ready to play");
         }
     }
 

@@ -28,14 +28,6 @@ public class ClientSocketResponseHandler implements IMessageHandler {
 
         switch(message.getAction()) {
             case "register":
-                message.parseData(Register.class);
-                Register data = (Register) message.getData();
-                if (game.getGame().getPlayer1() == null) {
-                    game.getGame().setPlayer1(new Player(data.getName()));
-                }
-                else {
-                    game.getGame().setPlayer2(new Player(data.getName()));
-                }
                 break;
 
 

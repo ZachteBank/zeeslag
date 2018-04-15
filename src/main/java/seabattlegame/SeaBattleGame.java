@@ -59,31 +59,36 @@ public class SeaBattleGame implements ISeaBattleGame {
             return -1;
         }
 
-        Player players1 = new Player("0", name);
         application.setPlayerName(0, name);
-        if (!singlePlayerMode) {
-            try {
-                clientEndpointSocket = new ClientEndpointSocket();
+        Player player1 = new Player("0", name);
 
+        if (!singlePlayerMode) {
+            if (game.getPlayer1() == null) {
+                clientEndpointSocket = new ClientEndpointSocket();
                 clientSocketResponseHandler = new ClientSocketResponseHandler(this);
                 clientEndpointSocket.addMessageHandler(clientSocketResponseHandler);
                 clientEndpointSocket.connect();
+
                 Register register = new Register(name);
+
                 clientEndpointSocket.sendMessage(new Message("register", register));
-                ((SeaBattleApplication) application).showMessage("Please wait for opponent!");
-            } catch (IllegalArgumentException e) {
-                return -1;
+                return player1.getId();
             }
-            return players1.getId();
+
+            application.setOpponentName(1, name);
+            Player player2 = new Player("1", name);
+            game = new Game(player1, player2, 10);
+            return player2.getId();
         }
+
         try {
             Player player2 = new Player("1", "AI");
-            game = new Game(players1, player2, 10);
+            game = new Game(player1, player2, 10);
             placeShipsAutomatically(1);
+            return player1.getId();
         } catch (IllegalArgumentException e) {
             return -1;
         }
-        return players1.getId();
     }
 
     @Override
