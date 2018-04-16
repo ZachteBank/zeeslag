@@ -45,6 +45,9 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         }
 
         switch (message.getAction()){
+            case "ready":
+                ready(session);
+                break;
             case "register":
                 message.parseData(Register.class);
                 try {
@@ -75,6 +78,16 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
                     sendMessage(new Message("error", e.getMessage()), session);
                 }
                 break;
+        }
+    }
+
+    private void ready(Session session){
+        PlayerSession playerSession = getPlayerSessionWithUUID(session.getId());
+        if(playerSession == null){
+            sendMessage(new Message("ready", "Player isn't registered"), session);
+        }
+        if(playerSession.getPlayer().getGrid().getShips().size() == 5){
+            playerSession.setReady();
         }
     }
 
