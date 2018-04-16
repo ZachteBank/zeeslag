@@ -76,6 +76,13 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         }
     }
 
+    private void ready(Session session){
+        PlayerSession playerSession = getPlayerSessionWithUUID(session.getId());
+        if(playerSession == null){
+            sendMessage("Not registered", session);
+        }
+    }
+
     private void startGame(){
         game = new Game(player1.getPlayer(), player2.getPlayer(), size);
         broadcast("Game started, place your ships!");
