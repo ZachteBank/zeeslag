@@ -46,7 +46,7 @@ public class EventServerSocket {
 
     @OnMessage
     public void onText(String message,Session session) {
-        System.out.println("[Session ID] : " + session.getId() + " [Received] : " + message);
+        System.out.println("[Received] From : " + session.getId() + " | Content  : " + message);
 
         if(messageHandler == null){
             throw new NullPointerException("No messageHandler found");
