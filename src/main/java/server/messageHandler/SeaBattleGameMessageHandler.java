@@ -206,7 +206,7 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         }
 
         try {
-            ShotType shotType = game.attack(player.getId(), data.getX(), data.getY());
+            ShotType shotType = game.attack(player.getUUID(), data.getX(), data.getY());
             sendMessage(new Message("shotHit", shotType.toString()), session);
             hit(getPlayerSessionWithUUID(player.getUUID()), data.getX(), data.getY());
             return true;
