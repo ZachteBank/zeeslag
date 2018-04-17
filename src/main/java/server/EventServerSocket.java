@@ -31,6 +31,10 @@ public class EventServerSocket {
 
     private static IMessageHandler messageHandler;
 
+    public static IMessageHandler getMessageHandler() {
+        return messageHandler;
+    }
+
     public static void setMessageHandler(IMessageHandler messageHandler) {
         EventServerSocket.messageHandler = messageHandler;
     }

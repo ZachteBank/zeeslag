@@ -29,6 +29,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import seabattlegame.SeaBattleGame;
 import seabattlegame.client.ClientEndpointSocket;
+import seabattlegame.client.RestClient;
 import seabattlegame.game.ShotType;
 import seabattlegame.game.SquareState;
 
@@ -673,8 +674,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
                     buttonRemoveShip.setDisable(false);
                     showMessage("Ready to place ships!");
                 }
-            }
-             else {
+            } else {
                 showMessage("Name already defined");
             }
         }
@@ -818,25 +818,25 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
             // Game is in playing mode
             squaresTargetArea[x][y].setFill(Color.YELLOW);
 
-                // It is this player's turn
-                // Player fires a shot at the selected target area
-                ShotType resultPlayer = game.fireShotPlayer(playerNr, x, y);
-                if (resultPlayer.equals(ShotType.SUNK)) {
-                    showMessage("Ship of " + opponentName + " is sunk");
-                }
-                if (resultPlayer.equals(ShotType.ALLSUNK)) {
-                    showMessage("Winner: " + playerName + ".\nPress Start new game to continue");
-                    buttonStartNewGame.setDisable(false);
-                    gameEnded = true;
-                }
+            // It is this player's turn
+            // Player fires a shot at the selected target area
+            ShotType resultPlayer = game.fireShotPlayer(playerNr, x, y);
+            if (resultPlayer.equals(ShotType.SUNK)) {
+                showMessage("Ship of " + opponentName + " is sunk");
+            }
+            if (resultPlayer.equals(ShotType.ALLSUNK)) {
+                showMessage("Winner: " + playerName + ".\nPress Start new game to continue");
+                buttonStartNewGame.setDisable(false);
+                gameEnded = true;
+            }
 
-                // Opponent's turn
-                switchTurn();
-                if (singlePlayerMode) {
-                    ShotType resultOpponent = game.fireShotOpponent(playerNr);
-                    opponentFiresShot(playerNr, resultOpponent);
-                    game.updateGrid(playerNr, 1, this);
-                }
+            // Opponent's turn
+            switchTurn();
+            if (singlePlayerMode) {
+                ShotType resultOpponent = game.fireShotOpponent(playerNr);
+                opponentFiresShot(playerNr, resultOpponent);
+                game.updateGrid(playerNr, 1, this);
+            }
 
         } else {
             if (gameEnded) {
@@ -920,7 +920,11 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
         buttonPlaceSubmarine.setDisable(false);
         buttonPlaceMineSweeper.setDisable(false);
         buttonRemoveShip.setDisable(false);
-        showMessage("Found an opponent!");
+        RestClient restClient = new RestClient();
+        String opponentName = restClient.getOpponentName(1);
+
+        showMessage("Found an opponent!" + opponentName);
+
     }
 
     /**
