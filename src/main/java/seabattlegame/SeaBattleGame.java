@@ -112,6 +112,11 @@ public class SeaBattleGame implements ISeaBattleGame {
         } catch (IllegalArgumentException e) {
             return false;
         }
+
+        if (!singleplayermode) {
+            PlaceShip placeShip = new PlaceShip(bowX, bowY, horizontal, shipType.toString());
+            clientEndpointSocket.sendMessage(new Message("placeShip", placeShip));
+        }
         return true;
     }
 
