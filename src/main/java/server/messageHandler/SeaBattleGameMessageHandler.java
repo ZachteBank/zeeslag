@@ -164,6 +164,15 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         Shot data = (Shot) args;
         Player player = game.getOpponent();
 
+        if(!player1.isReady()){
+            sendMessage(new Message("notReady", "Player1 isn't ready"), session);
+            return false;
+        }
+        if(!player2.isReady()){
+            sendMessage(new Message("notReady", "Player2 isn't ready"), session);
+            return false;
+        }
+
         if(player == null){
             return false;
         }
