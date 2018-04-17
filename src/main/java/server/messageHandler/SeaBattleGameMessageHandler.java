@@ -253,7 +253,6 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
     }
 
     private void sendMessage(Message message, Session session){
-
         Gson json = new GsonBuilder().create();
 
         if(message == null || session == null){
@@ -285,5 +284,12 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
             return player2;
         }
         return null;
+    }
+
+    public String getPlayer1Name(){
+        return player1.getPlayer().getName();
+    }
+    public String getPlayer2Name(){
+        return player2.getPlayer().getName();
     }
 }

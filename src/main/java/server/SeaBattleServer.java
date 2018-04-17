@@ -21,12 +21,15 @@ public class SeaBattleServer {
         context.setContextPath("/");
         server.setHandler(context);
 
+        SeaBattleGameMessageHandler messageHandler = new SeaBattleGameMessageHandler();
+
         try {
             ServerContainer container = WebSocketServerContainerInitializer.configureContext(context);
-            EventServerSocket.setMessageHandler(new SeaBattleGameMessageHandler());
+            EventServerSocket.setMessageHandler(messageHandler);
             container.addEndpoint(EventServerSocket.class);
             server.start();
             server.join();
+            
 
         }catch (Throwable t){
             t.printStackTrace(System.err);
