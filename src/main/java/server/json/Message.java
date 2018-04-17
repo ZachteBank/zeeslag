@@ -11,6 +11,10 @@ public class Message {
     private String content;
     private IAction data;
 
+    public Message(String action) {
+        this.action = action;
+    }
+
     public Message(String action, String content) {
         this.action = action;
         this.content = content;
