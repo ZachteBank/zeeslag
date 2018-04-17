@@ -652,26 +652,28 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
             labelPlayerName.setText(playerName + "\'s grid");
             playerNr = game.registerPlayer(playerName, (ISeaBattleGUI) this, singlePlayerMode);
             if (playerNr != -1) {
-                labelYourName.setDisable(true);
-                textFieldPlayerName.setDisable(true);
-                labelSingleMultiPlayer.setDisable(true);
-                radioSinglePlayer.setDisable(true);
-                radioMultiPlayer.setDisable(true);
-                buttonRegisterPlayer.setDisable(true);
-                labelHorizontalVertical.setDisable(false);
-                radioHorizontal.setDisable(false);
-                radioVertical.setDisable(false);
-                buttonPlaceAllShips.setDisable(false);
-                buttonRemoveAllShips.setDisable(false);
-                buttonReadyToPlay.setDisable(false);
-                buttonPlaceAircraftCarrier.setDisable(false);
-                buttonPlaceBattleShip.setDisable(false);
-                buttonPlaceCruiser.setDisable(false);
-                buttonPlaceSubmarine.setDisable(false);
-                buttonPlaceMineSweeper.setDisable(false);
-                buttonRemoveShip.setDisable(false);
-                showMessage("Ready to place ships!");
-            } else {
+                    labelYourName.setDisable(true);
+                    textFieldPlayerName.setDisable(true);
+                    labelSingleMultiPlayer.setDisable(true);
+                    radioSinglePlayer.setDisable(true);
+                    radioMultiPlayer.setDisable(true);
+                    buttonRegisterPlayer.setDisable(true);
+                    labelHorizontalVertical.setDisable(false);
+                    radioHorizontal.setDisable(false);
+                    radioVertical.setDisable(false);
+                    buttonPlaceAllShips.setDisable(false);
+                    buttonRemoveAllShips.setDisable(false);
+                    buttonReadyToPlay.setDisable(false);
+                    buttonPlaceAircraftCarrier.setDisable(false);
+                    buttonPlaceBattleShip.setDisable(false);
+                    buttonPlaceCruiser.setDisable(false);
+                    buttonPlaceSubmarine.setDisable(false);
+                    buttonPlaceMineSweeper.setDisable(false);
+                    buttonRemoveShip.setDisable(false);
+                    showMessage("Ready to place ships!");
+                }
+
+             else {
                 showMessage("Name already defined");
             }
         }
@@ -814,7 +816,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
         if (playingMode && !gameEnded) {
             // Game is in playing mode
             squaresTargetArea[x][y].setFill(Color.YELLOW);
-            if (playersTurn()) {
+
                 // It is this player's turn
                 // Player fires a shot at the selected target area
                 ShotType resultPlayer = game.fireShotPlayer(playerNr, x, y);
@@ -834,10 +836,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
                     opponentFiresShot(playerNr, resultOpponent);
                     game.updateGrid(playerNr, 1, this);
                 }
-            } else {
-                // It is not this player's turn yet
-                showMessage("Wait till " + opponentName + " has fired a shot");
-            }
+
         } else {
             if (gameEnded) {
                 showMessage("Press Start new game");

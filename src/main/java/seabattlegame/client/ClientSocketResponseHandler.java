@@ -77,6 +77,23 @@ public class ClientSocketResponseHandler implements IMessageHandler {
                     }
                 }
                 break;
+
+            case "opponentGrid":
+                message.parseData(Grid.class);
+                Grid opponentGrid = (Grid) message.getData();
+                for (int i = 0; i < opponentGrid.getCells().length; i++) {
+                    for (int j = 0; j < opponentGrid.getCells().length; j++) {
+                        SquareState state = opponentGrid.getCells()[i][j].getState();
+                        if (!state.equals(SquareState.SHIP)) {
+                            application.showSquareOpponent(0, j, i, state);
+                        }
+                    }
+                }
+                break;
+
+            case "error":
+                application.showResult(message.getContent());
+                break;
         }
     }
 }

@@ -172,6 +172,7 @@ public class SeaBattleGame implements ISeaBattleGame {
             if (!singleplayermode) {
                 Shot shot = new Shot(posX, posY);
                 clientEndpointSocket.sendMessage(new Message("shot", shot));
+                clientEndpointSocket.sendMessage(new Message("grid"));
             }
             return game.attack(game.getPlayer2().getUUID(), posX, posY);
 
