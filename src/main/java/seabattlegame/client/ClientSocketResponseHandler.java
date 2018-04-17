@@ -91,6 +91,10 @@ public class ClientSocketResponseHandler implements IMessageHandler {
                 }
                 break;
 
+            case "startGame":
+                application.playerFound();
+                break;
+
             case "error":
                 application.showResult(message.getContent());
                 break;

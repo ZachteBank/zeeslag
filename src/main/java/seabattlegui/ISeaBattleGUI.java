@@ -64,4 +64,6 @@ public interface ISeaBattleGUI {
     public void showSquareOpponent(int playerNr, int posX, int posY, SquareState squareState);
 
     public void showResult(String message);
+    public void playerFound();
+
 }

@@ -652,6 +652,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
             labelPlayerName.setText(playerName + "\'s grid");
             playerNr = game.registerPlayer(playerName, (ISeaBattleGUI) this, singlePlayerMode);
             if (playerNr != -1) {
+                if (singlePlayerMode) {
                     labelYourName.setDisable(true);
                     textFieldPlayerName.setDisable(true);
                     labelSingleMultiPlayer.setDisable(true);
@@ -672,7 +673,7 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
                     buttonRemoveShip.setDisable(false);
                     showMessage("Ready to place ships!");
                 }
-
+            }
              else {
                 showMessage("Name already defined");
             }
@@ -898,6 +899,28 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
 
     public void showResult(String message) {
         showMessage(message);
+    }
+
+    public void playerFound() {
+        labelYourName.setDisable(true);
+        textFieldPlayerName.setDisable(true);
+        labelSingleMultiPlayer.setDisable(true);
+        radioSinglePlayer.setDisable(true);
+        radioMultiPlayer.setDisable(true);
+        buttonRegisterPlayer.setDisable(true);
+        labelHorizontalVertical.setDisable(false);
+        radioHorizontal.setDisable(false);
+        radioVertical.setDisable(false);
+        buttonPlaceAllShips.setDisable(false);
+        buttonRemoveAllShips.setDisable(false);
+        buttonReadyToPlay.setDisable(false);
+        buttonPlaceAircraftCarrier.setDisable(false);
+        buttonPlaceBattleShip.setDisable(false);
+        buttonPlaceCruiser.setDisable(false);
+        buttonPlaceSubmarine.setDisable(false);
+        buttonPlaceMineSweeper.setDisable(false);
+        buttonRemoveShip.setDisable(false);
+        showMessage("Found an opponent!");
     }
 
     /**

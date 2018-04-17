@@ -118,4 +118,5 @@ public interface ISeaBattleGame {
     public void updateGrid(int playerId, int opponentId, ISeaBattleGUI application);
     public Game getGame();
 
+
 }
