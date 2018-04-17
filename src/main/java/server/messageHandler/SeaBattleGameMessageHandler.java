@@ -7,6 +7,7 @@ import com.google.gson.JsonParser;
 import seabattlegame.game.Game;
 import seabattlegame.game.Player;
 import seabattlegame.game.ShotType;
+import seabattlegame.game.SquareState;
 import seabattlegame.game.shipfactory.ShipFactory;
 import seabattlegame.game.ships.Ship;
 import seabattlegui.ShipType;
@@ -15,6 +16,7 @@ import server.json.actions.IAction;
 import server.json.actions.PlaceShip;
 import server.json.actions.Register;
 import server.json.actions.Shot;
+import server.json.actions.client.Hit;
 import server.messageHandler.game.PlayerSession;
 
 import javax.websocket.Session;
@@ -162,11 +164,17 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         try {
             ShotType shotType = game.attack(player.getId(), data.getX(), data.getY());
             sendMessage(new Message("shotHit", shotType.toString()), session);
+            hit(getPlayerSessionWithUUID(player.getUUID()), data.getX(), data.getY());
             return true;
         }catch (Exception e){
             sendMessage(new Message("error", e.getMessage()), session);
             return false;
         }
+    }
+
+    private void hit(PlayerSession attackedPlayer, int x, int y){
+        SquareState squareState = attackedPlayer.getPlayer().getGrid().getCells()[y][x].getState();
+        sendMessage(new Message("hit", new Hit(x, y, squareState)), attackedPlayer.getSession());
     }
 
     private boolean placeShip(Session session, IAction args){
