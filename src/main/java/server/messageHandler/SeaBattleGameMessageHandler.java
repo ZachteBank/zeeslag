@@ -32,7 +32,6 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
     private PlayerSession player2;
     private static int size = 10;
 
-    //TODO: Remove nulls from shot
     @Override
     public void handleMessage(String json, Session session) {
 
