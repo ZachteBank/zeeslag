@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import seabattlegame.game.Game;
 import seabattlegame.game.Player;
+
 import seabattlegame.game.ShotType;
 import seabattlegame.game.SquareState;
 import seabattlegame.game.shipfactory.ShipFactory;
@@ -17,6 +18,7 @@ import server.json.actions.PlaceShip;
 import server.json.actions.Register;
 import server.json.actions.Shot;
 import server.json.actions.client.Grid;
+import server.json.actions.*;
 import server.json.actions.client.Hit;
 import server.messageHandler.game.PlayerSession;
 
@@ -70,14 +72,14 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
                 if(!placeShip(session, message.getData())){
                     sendMessage(new Message("error", "Couldn't place ship"), session);
                 }else{
-                    sendMessage(new Message("shipPlaced", "Ship placed"), session);
+                    sendMessage(new Message("shipPlaced", new Result(true)), session);
                 }
                 break;
             case "placeShipAutomatically":
                 if(!placeShipsAutomatically(session)){
                     sendMessage(new Message("error", "Couldn't place ships"), session);
                 }else{
-                    sendMessage(new Message("plaeShipAutomatically", "Ships placed"), session);
+                    sendMessage(new Message("placeShipAutomatically", new Result(true)), session);
                 }
                 break;
             case "shot":
@@ -143,11 +145,12 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
 
         if (player1 == null) {
             player1 = new PlayerSession(session, new Player(session.getId(), data.getName()));
-            sendMessage(new Message("register", data), session);
+            sendMessage(new Message("registerResult", new Result(true)), session);
             return true;
         } else if (player2 == null) {
             player2 = new PlayerSession(session, new Player(session.getId(), data.getName()));
-            sendMessage(new Message("register", data), session);
+            sendMessage(new Message("registerOpponent", data), player1.getSession());
+            sendMessage(new Message("registerResult", new Result(true)), session);
             startGame();
             return true;
         }

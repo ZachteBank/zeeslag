@@ -652,49 +652,25 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
             labelPlayerName.setText(playerName + "\'s grid");
             playerNr = game.registerPlayer(playerName, (ISeaBattleGUI) this, singlePlayerMode);
             if (playerNr != -1) {
-                if (radioMultiPlayer.isSelected()) {
-                    labelYourName.setDisable(true);
-                    textFieldPlayerName.setDisable(true);
-                    labelSingleMultiPlayer.setDisable(true);
-                    radioSinglePlayer.setDisable(true);
-                    radioMultiPlayer.setDisable(true);
-                    buttonRegisterPlayer.setDisable(true);
-                    labelHorizontalVertical.setDisable(true);
-                    radioHorizontal.setDisable(true);
-                    radioSinglePlayer.setSelected(true);
-                    radioVertical.setDisable(true);
-                    buttonPlaceAllShips.setDisable(true);
-                    buttonRemoveAllShips.setDisable(true);
-                    buttonReadyToPlay.setDisable(true);
-                    buttonPlaceAircraftCarrier.setDisable(true);
-                    buttonPlaceBattleShip.setDisable(true);
-                    buttonPlaceCruiser.setDisable(true);
-                    buttonPlaceSubmarine.setDisable(true);
-                    buttonPlaceMineSweeper.setDisable(true);
-                    showMessage("Waiting for an opponent...");
-                }
-                else {
-                    labelYourName.setDisable(true);
-                    textFieldPlayerName.setDisable(true);
-                    labelSingleMultiPlayer.setDisable(true);
-                    radioSinglePlayer.setDisable(true);
-                    radioMultiPlayer.setDisable(true);
-                    buttonRegisterPlayer.setDisable(true);
-                    labelHorizontalVertical.setDisable(false);
-                    radioHorizontal.setDisable(false);
-                    radioVertical.setDisable(false);
-                    buttonPlaceAllShips.setDisable(false);
-                    buttonRemoveAllShips.setDisable(false);
-                    buttonReadyToPlay.setDisable(false);
-                    buttonPlaceAircraftCarrier.setDisable(false);
-                    buttonPlaceBattleShip.setDisable(false);
-                    buttonPlaceCruiser.setDisable(false);
-                    buttonPlaceSubmarine.setDisable(false);
-                    buttonPlaceMineSweeper.setDisable(false);
-                    buttonRemoveShip.setDisable(false);
-                    showMessage("Ready to place ships!");
-                }
-
+                labelYourName.setDisable(true);
+                textFieldPlayerName.setDisable(true);
+                labelSingleMultiPlayer.setDisable(true);
+                radioSinglePlayer.setDisable(true);
+                radioMultiPlayer.setDisable(true);
+                buttonRegisterPlayer.setDisable(true);
+                labelHorizontalVertical.setDisable(false);
+                radioHorizontal.setDisable(false);
+                radioVertical.setDisable(false);
+                buttonPlaceAllShips.setDisable(false);
+                buttonRemoveAllShips.setDisable(false);
+                buttonReadyToPlay.setDisable(false);
+                buttonPlaceAircraftCarrier.setDisable(false);
+                buttonPlaceBattleShip.setDisable(false);
+                buttonPlaceCruiser.setDisable(false);
+                buttonPlaceSubmarine.setDisable(false);
+                buttonPlaceMineSweeper.setDisable(false);
+                buttonRemoveShip.setDisable(false);
+                showMessage("Ready to place ships!");
             } else {
                 showMessage("Name already defined");
             }
@@ -919,6 +895,10 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
      */
     private synchronized boolean playersTurn() {
         return playerNr == playerTurn;
+    }
+
+    public void showResult(String message) {
+        showMessage(message);
     }
 
     /**

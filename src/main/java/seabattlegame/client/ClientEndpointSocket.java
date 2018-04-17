@@ -43,7 +43,7 @@ public class ClientEndpointSocket {
     }
 
 
-    public void addMessageHandler(IMessageHandler messageHandler) {
+    public void setMessageHandler(IMessageHandler messageHandler) {
         this.messageHandler = messageHandler;
     }
 
