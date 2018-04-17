@@ -26,13 +26,13 @@ public class Grid {
     }
 
     public boolean allShipsDead(){
-	    boolean allDead = false;
+	    int destroyedShips = 0;
         for (Ship ship : ships) {
             if(ship.isSunk()){
-                allDead = true;
+                destroyedShips++;
             }
         }
-        return allDead;
+        return destroyedShips > 4;
     }
 
     /**
@@ -85,11 +85,13 @@ public class Grid {
 	        throw new IllegalArgumentException("Ship can't be null");
         }
 
+        Ship shipToRemove = null;
         for (Ship ship1 : ships) {
             if(ship.getType() == ship1.getType()){
-                return false;
+                shipToRemove = ship;
             }
         }
+        ships.remove(shipToRemove);
 
         for (int i = 0; i < this.cells.length; i++){
             for (int j = 0; j < this.cells.length; j++){

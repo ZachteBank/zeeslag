@@ -1,10 +1,14 @@
 package server.messageHandler;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import seabattlegame.game.Game;
 import seabattlegame.game.Player;
+
+import seabattlegame.game.ShotType;
+import seabattlegame.game.SquareState;
 import seabattlegame.game.shipfactory.ShipFactory;
 import seabattlegame.game.ships.Ship;
 import seabattlegui.ShipType;
@@ -13,6 +17,9 @@ import server.json.actions.IAction;
 import server.json.actions.PlaceShip;
 import server.json.actions.Register;
 import server.json.actions.Shot;
+import server.json.actions.client.Grid;
+import server.json.actions.*;
+import server.json.actions.client.Hit;
 import server.messageHandler.game.PlayerSession;
 
 import javax.websocket.Session;
@@ -25,6 +32,7 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
     private PlayerSession player2;
     private static int size = 10;
 
+    //TODO: Remove nulls from shot
     @Override
     public void handleMessage(String json, Session session) {
 
@@ -38,61 +46,115 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
             message = g.fromJson(jsonObject, Message.class);
         }catch (Exception e){
             System.out.println(json);
-            sendMessage(e.getMessage(), session);
+            sendMessage(new Message("error", e.getMessage()), session);
             return;
         }
 
         switch (message.getAction()){
+            case "removeShip":
+                message.parseData(RemoveShip.class);
+                if(removeShip(session, message.getData())){
+                    sendMessage(new Message("shipRemoved", new Result(true)), session);
+                }else{
+                    sendMessage(new Message("error", "Couldn't remove ship"), session);
+                }
+                break;
+            case "ready":
+                ready(session);
+                break;
+            case "grid":
+                sendGrid(session);
+                break;
             case "register":
                 message.parseData(Register.class);
                 try {
                     if(!registerPlayer(session, message.getData())){
-                        sendMessage("Couldn't register player", session);
+                        sendMessage(new Message("error", "Couldn't register player"), session);
                     }
                 } catch (Exception e) {
-                    sendMessage(e.getMessage(), session);
+                    sendMessage(new Message("error", e.getMessage()), session);
                 }
                 break;
             case "placeShip":
                 message.parseData(PlaceShip.class);
                 if(!placeShip(session, message.getData())){
-                    sendMessage("Couldn't place ship", session);
+                    sendMessage(new Message("error", "Couldn't place ship"), session);
                 }else{
-                    sendMessage("Ship placed", session);
+                    sendMessage(new Message("shipPlaced", new Result(true)), session);
+                }
+                break;
+            case "placeShipAutomatically":
+                if(!placeShipsAutomatically(session)){
+                    sendMessage(new Message("error", "Couldn't place ships"), session);
+                }else{
+                    sendMessage(new Message("placeShipAutomatically", new Result(true)), session);
                 }
                 break;
             case "shot":
                 message.parseData(Shot.class);
                 try {
                     if(!shot(session, message.getData())){
-                        sendMessage("Couldn't place ship", session);
-                    }else{
-                        sendMessage("Ship placed", session);
+                        sendMessage(new Message("error", "Something went wrong"), session);
                     }
                 } catch (Exception e) {
-                    sendMessage(e.getMessage(), session);
+                    sendMessage(new Message("error", e.getMessage()), session);
                 }
                 break;
         }
     }
 
-    private void ready(Session session){
+    private boolean removeShip(Session session, IAction args){
+        if(!(args instanceof RemoveShip)){
+            return false;
+        }
+        RemoveShip data = (RemoveShip) args;
         PlayerSession playerSession = getPlayerSessionWithUUID(session.getId());
         if(playerSession == null){
-            sendMessage("Not registered", session);
+            return false;
         }
+        return playerSession.getPlayer().getGrid().removeShip(data.getX(), data.getY());
+
+    }
+
+    private void sendGrid(Session session){
+        PlayerSession playerSession = getPlayerSessionWithUUID(session.getId());
+        sendMessage(new Message("yourGrid", new Grid(playerSession.getPlayer().getGrid().getCells())), playerSession.getSession());
+
+        sendMessage(new Message("opponentGrid", new Grid((game.getOpponent(playerSession.getPlayer())).getGrid().getCells())), playerSession.getSession());
+    }
+
+    private boolean placeShipsAutomatically(Session session){
+        PlayerSession playerSession = getPlayerSessionWithUUID(session.getId());
+        if(playerSession == null){
+            sendMessage(new Message("ready", "Player isn't registered"), session);
+            return false;
+        }
+        return playerSession.getPlayer().getGrid().placeShipsAutomatically();
+    }
+
+    private boolean ready(Session session){
+        PlayerSession playerSession = getPlayerSessionWithUUID(session.getId());
+        if(playerSession == null){
+            sendMessage(new Message("ready", "Player isn't registered"), session);
+            return false;
+        }
+        if(playerSession.getPlayer().getGrid().getShips().size() == 5){
+            playerSession.setReady();
+            return true;
+        }
+        return false;
     }
 
     private void startGame(){
         game = new Game(player1.getPlayer(), player2.getPlayer(), size);
-        broadcast("Game started, place your ships!");
+        broadcast(new Message("startGame", "Game started, place your ships!"));
         Player turn = game.getTurn();
-        broadcast(turn.getName()+" has the first turn");
+        broadcast(new Message("firstTurn", turn.getName()+" has the first turn"));
         PlayerSession playerSession = getPlayerSessionWithUUID(turn.getUUID());
         if(playerSession == null){
-            broadcast("Something went very wrong");
+            broadcast(new Message("error", "Something went very wrong"));
         }else{
-            sendMessage("It's your turn!", playerSession.getSession());
+            sendMessage(new Message("turn", "It's your turn!"), playerSession.getSession());
         }
     }
 
@@ -104,23 +166,16 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
 
         if (player1 == null) {
             player1 = new PlayerSession(session, new Player(session.getId(), data.getName()));
-            sendMessage("Registered as player 1", session);
+            sendMessage(new Message("registerResult", new Result(true)), session);
             return true;
         } else if (player2 == null) {
             player2 = new PlayerSession(session, new Player(session.getId(), data.getName()));
-            sendMessage("Registered as player 2", session);
+            sendMessage(new Message("registerOpponent", data), player1.getSession());
+            sendMessage(new Message("registerResult", new Result(true)), session);
             startGame();
             return true;
         }
         return false;
-    }
-
-    private boolean placeShipsAutomatically(Session session, String[] args){
-        if(args.length != 2){
-            return false;
-        }
-        return false;
-
     }
 
     private boolean shot(Session session, IAction args) throws Exception {
@@ -129,6 +184,15 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         }
         Shot data = (Shot) args;
         Player player = game.getOpponent();
+
+        if(!player1.isReady()){
+            sendMessage(new Message("notReady", "Player1 isn't ready"), session);
+            return false;
+        }
+        if(!player2.isReady()){
+            sendMessage(new Message("notReady", "Player2 isn't ready"), session);
+            return false;
+        }
 
         if(player == null){
             return false;
@@ -142,12 +206,19 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         }
 
         try {
-            game.attack(player.getId(), data.getX(), data.getY());
+            ShotType shotType = game.attack(player.getId(), data.getX(), data.getY());
+            sendMessage(new Message("shotHit", shotType.toString()), session);
+            hit(getPlayerSessionWithUUID(player.getUUID()), data.getX(), data.getY());
             return true;
         }catch (Exception e){
-            sendMessage(e.getMessage(), session);
+            sendMessage(new Message("error", e.getMessage()), session);
             return false;
         }
+    }
+
+    private void hit(PlayerSession attackedPlayer, int x, int y){
+        SquareState squareState = attackedPlayer.getPlayer().getGrid().getCells()[y][x].getState();
+        sendMessage(new Message("hit", new Hit(x, y, squareState)), attackedPlayer.getSession());
     }
 
     private boolean placeShip(Session session, IAction args){
@@ -167,7 +238,7 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
             player.getGrid().placeShip(ship, data.getX(), data.getY(), data.isHorizontal());
             return true;
         }catch (Exception e){
-            sendMessage(e.getMessage(), session);
+            sendMessage(new Message("error", e.getMessage()), session);
             return false;
         }
     }
@@ -181,19 +252,22 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         }
     }
 
-    private void sendMessage(String message, Session session){
+    private void sendMessage(Message message, Session session){
+        Gson json = new GsonBuilder().create();
+
         if(message == null || session == null){
             throw new IllegalArgumentException("Message or session can't be null");
         }
         try {
-            session.getBasicRemote().sendText(message);
-            System.out.println("Send message to "+session.getId()+" with: \""+message+"\"");
+            String jsonToSend = json.toJson(message);
+            session.getBasicRemote().sendText(jsonToSend);
+            System.out.println("Send message to "+session.getId()+" with: \""+jsonToSend+"\"");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void broadcast(String message){
+    private void broadcast(Message message){
         if(player1 != null){
             sendMessage(message, player1.getSession());
         }
@@ -210,5 +284,12 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
             return player2;
         }
         return null;
+    }
+
+    public String getPlayer1Name(){
+        return player1.getPlayer().getName();
+    }
+    public String getPlayer2Name(){
+        return player2.getPlayer().getName();
     }
 }

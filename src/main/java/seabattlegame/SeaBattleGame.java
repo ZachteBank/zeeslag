@@ -31,14 +31,13 @@ import java.util.Random;
  *
  * @author Nico Kuijpers
  */
-public class SeaBattleGame implements ISeaBattleGame, Observer {
+public class SeaBattleGame implements ISeaBattleGame {
 
     private Game game;
     private ClientEndpointSocket clientEndpointSocket;
     private ClientSocketResponseHandler clientSocketResponseHandler;
-    private SeaBattleApplication application;
     private boolean singleplayermode;
-    private boolean wait = false;
+    private ISeaBattleGUI application;
 
     public Game getGame() {
         return game;
@@ -54,46 +53,43 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
         return game.startGame();
     }
 
-    @Override
-    public synchronized int registerPlayer(String name, ISeaBattleGUI application, boolean singlePlayerMode) {
+    public int registerPlayer(String name, ISeaBattleGUI application, boolean singlePlayerMode) {
         this.singleplayermode = singlePlayerMode;
-        this.application = (SeaBattleApplication) application;
+
         if (name == null) {
             return -1;
         }
-        Player players1 = new Player("0", name);
-        application.setPlayerName(0, name);
-        if (!singlePlayerMode) {
-            try {
-                clientEndpointSocket = new ClientEndpointSocket();
 
-                clientSocketResponseHandler = new ClientSocketResponseHandler(this);
-                clientEndpointSocket.addMessageHandler(clientSocketResponseHandler);
-                clientEndpointSocket.connect();
+        Player player1 = new Player("0", name);
+        application.setPlayerName(0, name);
+
+        if (!singlePlayerMode) {
+            if (game.getPlayer1() == null) {
+                if (clientEndpointSocket == null) {
+                    clientEndpointSocket = new ClientEndpointSocket();
+                    clientSocketResponseHandler = new ClientSocketResponseHandler(this, application);
+                    clientEndpointSocket.setMessageHandler(clientSocketResponseHandler);
+                    clientEndpointSocket.connect();
+                }
+
                 Register register = new Register(name);
+
                 clientEndpointSocket.sendMessage(new Message("register", register));
-                ((SeaBattleApplication) application).showMessage("Please wait for opponent!");
-            } catch (IllegalArgumentException e) {
-                return -1;
+                Player player2 = new Player("1", name);
+                game = new Game(player1, player2, 10);
+                return player1.getId();
             }
-            return players1.getId();
         }
+
         try {
             Player player2 = new Player("1", "AI");
-            game = new Game(players1, player2, 10);
+            game = new Game(player1, player2, 10);
             placeShipsAutomatically(1);
+            return player1.getId();
         } catch (IllegalArgumentException e) {
             return -1;
         }
-        foundOpponent();
-        return players1.getId();
     }
-
-    public void foundOpponent() {
-        ((SeaBattleApplication) application).showMessage("Found opponent, please place your ships!");
-        application.foundOpponent();
-    }
-
 
     @Override
     public boolean placeShipsAutomatically(int playerNr) {
@@ -105,34 +101,25 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
     }
 
     @Override
-    public synchronized boolean placeShip(int playerNr, ShipType shipType, int bowX, int bowY, boolean horizontal) {
+    public boolean placeShip(int playerNr, ShipType shipType, int bowX, int bowY, boolean horizontal) {
         if (shipType == null) {
             return false;
         }
 
         Ship ship = ShipFactory.createShip(shipType);
-        if (singleplayermode) {
-            try {
-                game.getPlayer(playerNr).getGrid().placeShip(ship, bowX, bowY, horizontal);
-            } catch (IllegalArgumentException e) {
-                return false;
-            }
-            return true;
-        }
-        PlaceShip placeShip = new PlaceShip(bowX, bowY, horizontal, shipType.toString());
-        clientEndpointSocket.sendMessage(new Message("placeship", placeShip));
         try {
-            wait = true;
-            while (wait) {
-                wait();
-            }
             game.getPlayer(playerNr).getGrid().placeShip(ship, bowX, bowY, horizontal);
-            return true;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
             return false;
         }
+
+        if (!singleplayermode) {
+            PlaceShip placeShip = new PlaceShip(bowX, bowY, horizontal, shipType.toString());
+            clientEndpointSocket.sendMessage(new Message("placeShip", placeShip));
+        }
+        return true;
     }
+
 
     @Override
     public boolean removeShip(int playerNr, int posX, int posY, ISeaBattleGUI application) {
@@ -171,15 +158,15 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
             throw new IllegalArgumentException();
         }
         if (playerNr == game.getPlayer1().getId()) {
+            if (!singleplayermode) {
+                Shot shot = new Shot(posX, posY);
+                clientEndpointSocket.sendMessage(new Message("shot", shot));
+            }
             return game.attack(game.getPlayer2().getUUID(), posX, posY);
+
         } else {
             return game.attackPlayer(game.getPlayer1(), posX, posY);
         }
-    }
-
-    public void fireShotMultiPlayer(int x, int y) {
-        Shot shot = new Shot(x, y);
-        clientEndpointSocket.sendMessage(new Message("shot", shot));
     }
 
     @Override
@@ -202,11 +189,6 @@ public class SeaBattleGame implements ISeaBattleGame, Observer {
                 }
             }
         }
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        wait = false;
     }
 }
 

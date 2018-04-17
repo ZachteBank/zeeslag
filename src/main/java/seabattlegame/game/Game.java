@@ -46,7 +46,7 @@ public class Game {
             throw new IllegalArgumentException("Size is too low or too high");
         }
         if (player1 == null || player2 == null) {
-            throw new IllegalArgumentException("One of both players equals null");
+            throw new IllegalArgumentException("One of the players is null.");
         }
         this.player1 = player1;
         this.player2 = player2;
@@ -74,6 +74,17 @@ public class Game {
             if (turn == 1) {
                 return player2;
             } else {
+                return player1;
+            }
+        }
+        return null;
+    }
+
+    public Player getOpponent(Player player){
+        if(startGame()) {
+            if (player == player1) {
+                return player2;
+            } else if(player == player2) {
                 return player1;
             }
         }
