@@ -10,6 +10,7 @@ import server.json.actions.Register;
 import server.json.actions.Result;
 import server.json.actions.Shot;
 import server.json.actions.client.Grid;
+import server.json.actions.client.Hit;
 
 public class ClientSocketResponseHandler implements IMessageHandler {
     private SeaBattleGame game;
@@ -59,7 +60,11 @@ public class ClientSocketResponseHandler implements IMessageHandler {
                 }
                 break;
 
+            case "hit":
+                message.parseData(Hit.class);
+                Hit hit = (Hit) message.getData();
 
+                game.fireShotPlayer(1, hit.getX(), hit.getY());
         }
     }
 }

@@ -146,6 +146,11 @@ public class SeaBattleGame implements ISeaBattleGame {
         if (playerNr < 0 || playerNr > 1) {
             return false;
         }
+
+        if (!singleplayermode) {
+            clientEndpointSocket.sendMessage(new Message("ready"));
+        }
+
         if (game.getPlayer(playerNr).getGrid().getShips().size() == 5) {
             return true;
         }
