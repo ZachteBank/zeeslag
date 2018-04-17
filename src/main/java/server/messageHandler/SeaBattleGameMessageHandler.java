@@ -99,7 +99,7 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         PlayerSession playerSession = getPlayerSessionWithUUID(session.getId());
         sendMessage(new Message("yourGrid", new Grid(playerSession.getPlayer().getGrid().getCells())), playerSession.getSession());
 
-        sendMessage(new Message("oponnentGrid", new Grid((game.getOpponent(playerSession.getPlayer())).getGrid().getCells())), playerSession.getSession());
+        sendMessage(new Message("opponentGrid", new Grid((game.getOpponent(playerSession.getPlayer())).getGrid().getCells())), playerSession.getSession());
     }
 
     private boolean placeShipsAutomatically(Session session){
