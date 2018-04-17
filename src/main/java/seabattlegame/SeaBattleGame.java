@@ -20,6 +20,7 @@ import seabattlegui.ShipType;
 import server.json.Message;
 import server.json.actions.PlaceShip;
 import server.json.actions.Register;
+import server.json.actions.RemoveShip;
 import server.json.actions.Shot;
 
 import java.util.Observable;
@@ -127,12 +128,19 @@ public class SeaBattleGame implements ISeaBattleGame {
         return true;
     }
 
-
     @Override
     public boolean removeShip(int playerNr, int posX, int posY, ISeaBattleGUI application) {
+        if (!singleplayermode) {
+            RemoveShip removeShip = new RemoveShip(posX, posY);
+            clientEndpointSocket.sendMessage(new Message("removeShip", removeShip));
+            clientEndpointSocket.sendMessage(new Message("grid"));
+        }
         boolean result = game.getPlayer(playerNr).getGrid().removeShip(posX, posY);
         updateGrid(playerNr, 1, application);
         return result;
+
+
+
     }
 
     @Override
@@ -140,6 +148,13 @@ public class SeaBattleGame implements ISeaBattleGame {
         if (playerNr > 1) {
             return false;
         }
+        if (!singleplayermode) {
+            clientEndpointSocket.sendMessage(new Message("removeAllShips"));
+            game.getPlayer(playerNr).getGrid().removeAllShips();
+            clientEndpointSocket.sendMessage(new Message("grid"));
+            return true;
+        }
+
         game.getPlayer(playerNr).getGrid().removeAllShips();
         updateGrid(playerNr, 1, application);
         if (game.getPlayer(playerNr).getGrid().getShips().isEmpty()) {

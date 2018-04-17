@@ -8,6 +8,7 @@ import seabattlegame.game.SquareState;
 import seabattlegui.ISeaBattleGUI;
 import server.json.Message;
 import server.json.actions.Register;
+import server.json.actions.RemoveShip;
 import server.json.actions.Result;
 import server.json.actions.Shot;
 import server.json.actions.client.Grid;
@@ -88,6 +89,15 @@ public class ClientSocketResponseHandler implements IMessageHandler {
                             application.showSquareOpponent(0, j, i, state);
                         }
                     }
+                }
+                break;
+
+            case "shipRemoved":
+                message.parseData(RemoveShip.class);
+                Result removeShipResult = (Result) message.getData();
+
+                if(!removeShipResult.getResult()) {
+                    application.showResult("Placing ships was unsuccessful.");
                 }
                 break;
 
