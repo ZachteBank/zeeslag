@@ -93,6 +93,10 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     @Override
     public boolean placeShipsAutomatically(int playerNr) {
+        if (!singleplayermode) {
+            clientEndpointSocket.sendMessage(new Message("placeShipAutomatically"));
+            return true;
+        }
         try {
             return game.placeShipsAutomatically(playerNr);
         } catch (Exception e) {
