@@ -6,12 +6,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import seabattlegame.game.Game;
 import seabattlegame.game.Player;
+
+import seabattlegame.game.ShotType;
 import seabattlegame.game.SquareState;
 import seabattlegame.game.shipfactory.ShipFactory;
 import seabattlegame.game.ships.Ship;
 import seabattlegui.ShipType;
 import server.json.Message;
 import server.json.actions.*;
+import server.json.actions.client.Hit;
 import server.messageHandler.game.PlayerSession;
 
 import javax.websocket.Session;
@@ -42,6 +45,9 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         }
 
         switch (message.getAction()){
+            case "ready":
+                ready(session);
+                break;
             case "register":
                 message.parseData(Register.class);
                 try {
@@ -60,19 +66,46 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
                     sendMessage(new Message("shipPlaced", new Result(true)), session);
                 }
                 break;
+            case "placeShipAutomatically":
+                if(!placeShipsAutomatically(session)){
+                    sendMessage(new Message("error", "Couldn't place ships"), session);
+                }else{
+                    sendMessage(new Message("plaeShipAutomatically", "Ships placed"), session);
+                }
+                break;
             case "shot":
                 message.parseData(Shot.class);
                 try {
                     if(!shot(session, message.getData())){
-                        sendMessage(null, session);
-                    }else{
-                        sendMessage(null, session);
+                        sendMessage(new Message("error", "Something went wrong"), session);
                     }
                 } catch (Exception e) {
                     sendMessage(new Message("error", e.getMessage()), session);
                 }
                 break;
         }
+    }
+
+    private boolean placeShipsAutomatically(Session session){
+        PlayerSession playerSession = getPlayerSessionWithUUID(session.getId());
+        if(playerSession == null){
+            sendMessage(new Message("ready", "Player isn't registered"), session);
+            return false;
+        }
+        return playerSession.getPlayer().getGrid().placeShipsAutomatically();
+    }
+
+    private boolean ready(Session session){
+        PlayerSession playerSession = getPlayerSessionWithUUID(session.getId());
+        if(playerSession == null){
+            sendMessage(new Message("ready", "Player isn't registered"), session);
+            return false;
+        }
+        if(playerSession.getPlayer().getGrid().getShips().size() == 5){
+            playerSession.setReady();
+            return true;
+        }
+        return false;
     }
 
     private void startGame(){
@@ -108,14 +141,6 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         return false;
     }
 
-    private boolean placeShipsAutomatically(Session session, String[] args){
-        if(args.length != 2){
-            return false;
-        }
-        return false;
-
-    }
-
     private boolean shot(Session session, IAction args) throws Exception {
         if(!(args instanceof Shot)){
             return false;
@@ -135,13 +160,20 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         }
 
         try {
-            game.attack(player.getId(), data.getX(), data.getY());
+            ShotType shotType = game.attack(player.getId(), data.getX(), data.getY());
+            sendMessage(new Message("shotHit", shotType.toString()), session);
+            hit(getPlayerSessionWithUUID(player.getUUID()), data.getX(), data.getY());
             return true;
         }
         catch (Exception e){
             sendMessage(new Message("error", e.getMessage()), session);
             return false;
         }
+    }
+
+    private void hit(PlayerSession attackedPlayer, int x, int y){
+        SquareState squareState = attackedPlayer.getPlayer().getGrid().getCells()[y][x].getState();
+        sendMessage(new Message("hit", new Hit(x, y, squareState)), attackedPlayer.getSession());
     }
 
     private boolean placeShip(Session session, IAction args){
