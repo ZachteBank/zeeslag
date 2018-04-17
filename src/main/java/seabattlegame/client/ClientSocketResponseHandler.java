@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import seabattlegame.SeaBattleGame;
+import seabattlegame.game.SquareState;
 import seabattlegui.ISeaBattleGUI;
 import server.json.Message;
 import server.json.actions.Register;
@@ -65,6 +66,17 @@ public class ClientSocketResponseHandler implements IMessageHandler {
                 Hit hit = (Hit) message.getData();
 
                 game.fireShotPlayer(1, hit.getX(), hit.getY());
+                break;
+
+            case "yourGrid":
+                message.parseData(Grid.class);
+                Grid yourGrid = (Grid) message.getData();
+                for (int i = 0; i < yourGrid.getCells().length; i++) {
+                    for (int j = 0; j < yourGrid.getCells().length; j++) {
+                        application.showSquarePlayer(0, j, i, yourGrid.getCells()[i][j].getState());
+                    }
+                }
+                break;
         }
     }
 }

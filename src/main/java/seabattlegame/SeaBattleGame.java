@@ -95,6 +95,7 @@ public class SeaBattleGame implements ISeaBattleGame {
     public boolean placeShipsAutomatically(int playerNr) {
         if (!singleplayermode) {
             clientEndpointSocket.sendMessage(new Message("placeShipAutomatically"));
+            clientEndpointSocket.sendMessage(new Message("grid"));
             return true;
         }
         try {
@@ -120,6 +121,7 @@ public class SeaBattleGame implements ISeaBattleGame {
         if (!singleplayermode) {
             PlaceShip placeShip = new PlaceShip(bowX, bowY, horizontal, shipType.toString());
             clientEndpointSocket.sendMessage(new Message("placeShip", placeShip));
+
         }
         return true;
     }
