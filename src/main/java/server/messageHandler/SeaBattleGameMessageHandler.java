@@ -51,6 +51,14 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         }
 
         switch (message.getAction()){
+            case "removeShip":
+                message.parseData(RemoveShip.class);
+                if(removeShip(session, message.getData())){
+                    sendMessage(new Message("shipRemoved", new Result(true)), session);
+                }else{
+                    sendMessage(new Message("error", "Couldn't remove ship"), session);
+                }
+                break;
             case "ready":
                 ready(session);
                 break;
@@ -93,6 +101,19 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
                 }
                 break;
         }
+    }
+
+    private boolean removeShip(Session session, IAction args){
+        if(!(args instanceof RemoveShip)){
+            return false;
+        }
+        RemoveShip data = (RemoveShip) args;
+        PlayerSession playerSession = getPlayerSessionWithUUID(session.getId());
+        if(playerSession == null){
+            return false;
+        }
+        return playerSession.getPlayer().getGrid().removeShip(data.getX(), data.getY());
+
     }
 
     private void sendGrid(Session session){
