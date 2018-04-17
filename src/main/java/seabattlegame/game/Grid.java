@@ -26,13 +26,13 @@ public class Grid {
     }
 
     public boolean allShipsDead(){
-	    boolean allDead = false;
+	    int destroyedShips = 0;
         for (Ship ship : ships) {
             if(ship.isSunk()){
-                allDead = true;
+                destroyedShips++;
             }
         }
-        return allDead;
+        return destroyedShips > 4;
     }
 
     /**

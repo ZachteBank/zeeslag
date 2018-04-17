@@ -6,14 +6,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import seabattlegame.game.Game;
 import seabattlegame.game.Player;
+import seabattlegame.game.SquareState;
 import seabattlegame.game.shipfactory.ShipFactory;
 import seabattlegame.game.ships.Ship;
 import seabattlegui.ShipType;
 import server.json.Message;
-import server.json.actions.IAction;
-import server.json.actions.PlaceShip;
-import server.json.actions.Register;
-import server.json.actions.Shot;
+import server.json.actions.*;
 import server.messageHandler.game.PlayerSession;
 
 import javax.websocket.Session;
@@ -26,7 +24,6 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
     private PlayerSession player2;
     private static int size = 10;
 
-    //TODO: Remove nulls from shot
     @Override
     public void handleMessage(String json, Session session) {
 
@@ -60,7 +57,7 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
                 if(!placeShip(session, message.getData())){
                     sendMessage(new Message("error", "Couldn't place ship"), session);
                 }else{
-                    sendMessage(new Message("shipPlaced", "Ship placed"), session);
+                    sendMessage(new Message("shipPlaced", new Result(true)), session);
                 }
                 break;
             case "shot":
@@ -99,11 +96,12 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
 
         if (player1 == null) {
             player1 = new PlayerSession(session, new Player(session.getId(), data.getName()));
-            sendMessage(new Message("register", data), session);
+            sendMessage(new Message("registerResult", new Result(true)), session);
             return true;
         } else if (player2 == null) {
             player2 = new PlayerSession(session, new Player(session.getId(), data.getName()));
-            sendMessage(new Message("register", data), session);
+            sendMessage(new Message("registerOpponent", data), player1.getSession());
+            sendMessage(new Message("registerResult", new Result(true)), session);
             startGame();
             return true;
         }
@@ -139,7 +137,8 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         try {
             game.attack(player.getId(), data.getX(), data.getY());
             return true;
-        }catch (Exception e){
+        }
+        catch (Exception e){
             sendMessage(new Message("error", e.getMessage()), session);
             return false;
         }

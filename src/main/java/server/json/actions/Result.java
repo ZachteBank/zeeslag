@@ -1,6 +1,6 @@
 package server.json.actions;
 
-public class Result {
+public class Result implements IAction {
 
     private boolean result;
 

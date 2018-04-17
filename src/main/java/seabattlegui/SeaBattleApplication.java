@@ -921,6 +921,10 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
         return playerNr == playerTurn;
     }
 
+    public void showResult(String message) {
+        showMessage(message);
+    }
+
     /**
      * @param args the command line arguments
      */

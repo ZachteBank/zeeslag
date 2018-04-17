@@ -62,4 +62,6 @@ public interface ISeaBattleGUI {
      * @param squareState state of square
      */
     public void showSquareOpponent(int playerNr, int posX, int posY, SquareState squareState);
+
+    public void showResult(String message);
 }
