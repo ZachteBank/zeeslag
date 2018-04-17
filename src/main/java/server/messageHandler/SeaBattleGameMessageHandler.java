@@ -16,6 +16,7 @@ import server.json.actions.IAction;
 import server.json.actions.PlaceShip;
 import server.json.actions.Register;
 import server.json.actions.Shot;
+import server.json.actions.client.Grid;
 import server.json.actions.client.Hit;
 import server.messageHandler.game.PlayerSession;
 
@@ -50,6 +51,9 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         switch (message.getAction()){
             case "ready":
                 ready(session);
+                break;
+            case "grid":
+                sendGrid(session);
                 break;
             case "register":
                 message.parseData(Register.class);
@@ -87,6 +91,13 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
                 }
                 break;
         }
+    }
+
+    private void sendGrid(Session session){
+        PlayerSession playerSession = getPlayerSessionWithUUID(session.getId());
+        sendMessage(new Message("yourGrid", new Grid(playerSession.getPlayer().getGrid().getCells())), playerSession.getSession());
+
+        sendMessage(new Message("oponnentGrid", new Grid((game.getOpponent(playerSession.getPlayer())).getGrid().getCells())), playerSession.getSession());
     }
 
     private boolean placeShipsAutomatically(Session session){

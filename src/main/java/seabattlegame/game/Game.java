@@ -88,6 +88,17 @@ public class Game {
         return null;
     }
 
+    public Player getOpponent(Player player){
+        if(startGame()) {
+            if (player == player1) {
+                return player2;
+            } else if(player == player2) {
+                return player1;
+            }
+        }
+        return null;
+    }
+
     public boolean startGame() {
         if (player1 == null || player2 == null) {
             return false;
