@@ -85,11 +85,13 @@ public class Grid {
 	        throw new IllegalArgumentException("Ship can't be null");
         }
 
+        Ship shipToRemove = null;
         for (Ship ship1 : ships) {
             if(ship.getType() == ship1.getType()){
-                return false;
+                shipToRemove = ship;
             }
         }
+        ships.remove(shipToRemove);
 
         for (int i = 0; i < this.cells.length; i++){
             for (int j = 0; j < this.cells.length; j++){

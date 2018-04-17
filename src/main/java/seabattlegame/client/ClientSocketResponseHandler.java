@@ -59,9 +59,6 @@ public class ClientSocketResponseHandler implements IMessageHandler {
                 }
                 break;
 
-            case "yourGrid":
-                message.parseData(Grid.class);
-                Grid yourGrid = (Grid) message.getData();
 
         }
     }
