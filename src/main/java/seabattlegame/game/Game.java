@@ -69,6 +69,16 @@ public class Game {
         return null;
     }
 
+    private void changeTurn(){
+        if(startGame()) {
+            if (turn == 1) {
+                turn = 2;
+            } else {
+                turn = 1;
+            }
+        }
+    }
+
     public Player getOpponent(){
         if(startGame()) {
             if (turn == 1) {
@@ -119,7 +129,9 @@ public class Game {
     public ShotType attackPlayer(Player attacked, Integer x, Integer y) {
         if (attacked != null) {
 
-            return attacked.getGrid().shoot(x, y);
+            ShotType result = attacked.getGrid().shoot(x, y);
+            changeTurn();
+            return result;
         }
         throw new IllegalArgumentException();
     }
