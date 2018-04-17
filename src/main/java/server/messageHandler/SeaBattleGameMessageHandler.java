@@ -89,6 +89,14 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
                     sendMessage(new Message("placeShipAutomatically", new Result(true)), session);
                 }
                 break;
+            case "removeAllShips":
+                if(!removeAllShips(session)) {
+                    sendMessage(new Message("error", "Couldn't remove ships"), session);
+                }
+                else {
+                    sendMessage(new Message("removeAllShips", new Result(true)), session);
+                }
+                break;
             case "shot":
                 message.parseData(Shot.class);
                 try {
@@ -129,6 +137,15 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
             return false;
         }
         return playerSession.getPlayer().getGrid().placeShipsAutomatically();
+    }
+
+    public boolean removeAllShips(Session session) {
+        PlayerSession playerSession = getPlayerSessionWithUUID(session.getId());
+        if (playerSession == null){
+            sendMessage(new Message("ready", "Player isn't registered"), session);
+            return false;
+        }
+        return playerSession.getPlayer().getGrid().removeAllShips();
     }
 
     private boolean ready(Session session){
