@@ -63,6 +63,16 @@ public class ClientSocketResponseHandler implements IMessageHandler {
                 Shot shotResult = (Shot) message.getData();
 
                 game.fireShotPlayer(game.getGame().getPlayer2().getId(), shotResult.getX(), shotResult.getY());
+                break;
+
+            case "placeShipsAutomatically":
+                message.parseData(Result.class);
+                Result automaticShipsResult = (Result) message.getData();
+
+                if(!automaticShipsResult.getResult()) {
+                    application.showResult("Placing ships was unsuccessful.");
+                }
+                break;
         }
     }
 }

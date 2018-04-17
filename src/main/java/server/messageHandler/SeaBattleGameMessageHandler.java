@@ -70,7 +70,7 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
                 if(!placeShipsAutomatically(session)){
                     sendMessage(new Message("error", "Couldn't place ships"), session);
                 }else{
-                    sendMessage(new Message("plaeShipAutomatically", "Ships placed"), session);
+                    sendMessage(new Message("placeShipAutomatically", new Result(true)), session);
                 }
                 break;
             case "shot":
