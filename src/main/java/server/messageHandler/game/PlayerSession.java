@@ -10,7 +10,7 @@ public class PlayerSession {
     private boolean ready;
 
     public PlayerSession(Session session, Player player) {
-        if(session == null || player == null){
+        if (session == null || player == null) {
             throw new IllegalArgumentException("Session or player can't be null");
         }
         this.session = session;
@@ -29,13 +29,6 @@ public class PlayerSession {
         return session;
     }
 
-    public boolean isReady() {
-        return ready;
-    }
-
-    public void setReady() {
-        this.ready = true;
-    }
 
     public Player getPlayer() {
         return player;
