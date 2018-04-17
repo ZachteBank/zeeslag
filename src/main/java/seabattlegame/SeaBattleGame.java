@@ -96,7 +96,7 @@ public class SeaBattleGame implements ISeaBattleGame {
         if (!singleplayermode) {
             clientEndpointSocket.sendMessage(new Message("placeShipAutomatically"));
             clientEndpointSocket.sendMessage(new Message("grid"));
-            return true;
+            return game.placeShipsAutomatically(playerNr);
         }
         try {
             return game.placeShipsAutomatically(playerNr);
