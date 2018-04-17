@@ -45,8 +45,8 @@ public class Game {
         if (size < 0 || size > 100) {
             throw new IllegalArgumentException("Size is too low or too high");
         }
-        if (player1 == null) {
-            throw new IllegalArgumentException("Could not register player.");
+        if (player1 == null || player2 == null) {
+            throw new IllegalArgumentException("One of the players is null.");
         }
         this.player1 = player1;
         this.player2 = player2;

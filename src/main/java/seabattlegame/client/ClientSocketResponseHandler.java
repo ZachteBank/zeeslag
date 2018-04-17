@@ -9,6 +9,7 @@ import server.json.Message;
 import server.json.actions.Register;
 import server.json.actions.Result;
 import server.json.actions.Shot;
+import server.json.actions.client.Grid;
 
 public class ClientSocketResponseHandler implements IMessageHandler {
     private SeaBattleGame game;
@@ -40,15 +41,6 @@ public class ClientSocketResponseHandler implements IMessageHandler {
                 }
                 break;
 
-            case "registerOpponent":
-                message.parseData(Register.class);
-                Register opponentData = (Register) message.getData();
-                game.registerPlayer(opponentData.getName(), application, false);
-                if (game.getGame().getPlayer2() != null) {
-                    application.showResult("Found an opponent!");
-                }
-                break;
-
             case "shipPlaced":
                 message.parseData(Result.class);
                 Result placeShipResult = (Result) message.getData();
@@ -56,13 +48,6 @@ public class ClientSocketResponseHandler implements IMessageHandler {
                 if(!placeShipResult.getResult()) {
                     application.showResult("Could not place ship.");
                 }
-                break;
-
-            case "opponentShot":
-                message.parseData(Shot.class);
-                Shot shotResult = (Shot) message.getData();
-
-                game.fireShotPlayer(game.getGame().getPlayer2().getId(), shotResult.getX(), shotResult.getY());
                 break;
 
             case "placeShipsAutomatically":
@@ -73,6 +58,11 @@ public class ClientSocketResponseHandler implements IMessageHandler {
                     application.showResult("Placing ships was unsuccessful.");
                 }
                 break;
+
+            case "yourGrid":
+                message.parseData(Grid.class);
+                Grid yourGrid = (Grid) message.getData();
+
         }
     }
 }
