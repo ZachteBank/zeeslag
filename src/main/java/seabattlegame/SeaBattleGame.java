@@ -8,6 +8,7 @@ package seabattlegame;
 import seabattlegame.client.ClientEndpointSocket;
 import seabattlegame.client.ClientSocketResponseHandler;
 import seabattlegame.client.IMessageHandler;
+import seabattlegame.client.RestClient;
 import seabattlegame.game.Game;
 import seabattlegame.game.Player;
 import seabattlegame.game.SquareState;
@@ -38,7 +39,8 @@ public class SeaBattleGame implements ISeaBattleGame {
     private ClientEndpointSocket clientEndpointSocket;
     private ClientSocketResponseHandler clientSocketResponseHandler;
     private boolean singleplayermode;
-    private ISeaBattleGUI application;
+    private String opponentName;
+    private int playernumber;
 
     public Game getGame() {
         return game;
@@ -49,6 +51,17 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     }
 
+    public void setPlayerNumber(int playernumber) {
+        this.playernumber = playernumber;
+    }
+
+    public String setOpponentName(ISeaBattleGUI application) {
+        RestClient restClient = new RestClient();
+        this.opponentName = restClient.getOpponentName(playernumber);
+        application.setOpponentName(0, opponentName);
+        return opponentName;
+    }
+
     @Override
     public boolean startNewGame(int playerNr) {
         return game.startGame();
@@ -56,7 +69,6 @@ public class SeaBattleGame implements ISeaBattleGame {
 
     public int registerPlayer(String name, ISeaBattleGUI application, boolean singlePlayerMode) {
         this.singleplayermode = singlePlayerMode;
-
         if (name == null) {
             return -1;
         }
@@ -138,7 +150,6 @@ public class SeaBattleGame implements ISeaBattleGame {
         boolean result = game.getPlayer(playerNr).getGrid().removeShip(posX, posY);
         updateGrid(playerNr, 1, application);
         return result;
-
 
 
     }

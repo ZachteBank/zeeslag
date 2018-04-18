@@ -3,6 +3,7 @@ package server.REST;
 import com.google.gson.Gson;
 import seabattlegame.client.ClientEndpointSocket;
 import server.EventServerSocket;
+import server.messageHandler.IMessageHandler;
 import server.messageHandler.SeaBattleGameMessageHandler;
 
 import javax.ws.rs.GET;
@@ -19,16 +20,19 @@ public class OpponentNameServer {
 
     @GET
     @Path("/{playernumber}")
-    public Response getMsg(@PathParam("playernumber") String message) {
+    public Response getMsg(@PathParam("playernumber") String message) throws Exception {
         OpponentResponse response = new OpponentResponse();
         response.setPlayerNumber(message);
 
         String opponentname;
-        if (message.equals("1")) {
-            SeaBattleGameMessageHandler messageHandler = (SeaBattleGameMessageHandler) EventServerSocket.getMessageHandler();
-            opponentname = messageHandler.getPlayer2Name();
-        } else if (message.equals("2")) {
-            opponentname = ((SeaBattleGameMessageHandler) getMessageHandler()).getPlayer1Name();
+            IMessageHandler messageHandler = EventServerSocket.getMessageHandler();
+        if (!(messageHandler instanceof SeaBattleGameMessageHandler)) {
+            throw new Exception("MessageHandler isn't a instace of SeaBattleGameMessageHandler");
+        }
+        if (message.equals("0")) {
+            opponentname = ((SeaBattleGameMessageHandler) messageHandler).getPlayer2Name();
+        } else if (message.equals("1")) {
+            opponentname = ((SeaBattleGameMessageHandler) messageHandler).getPlayer1Name();
         } else {
             opponentname = "error: invalid value";
         }

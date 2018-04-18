@@ -34,7 +34,7 @@ public class ClientSocketResponseHandler implements IMessageHandler {
 
         message = gson.fromJson(jsonObject, Message.class);
 
-        switch(message.getAction()) {
+        switch (message.getAction()) {
             case "registerResult":
                 message.parseData(Result.class);
                 Result data = (Result) message.getData();
@@ -43,12 +43,15 @@ public class ClientSocketResponseHandler implements IMessageHandler {
                     application.showResult("Registered successfully!");
                 }
                 break;
+            case "playerNumber":
+                game.setPlayerNumber(Integer.parseInt(message.getContent()));
+                break;
 
             case "shipPlaced":
                 message.parseData(Result.class);
                 Result placeShipResult = (Result) message.getData();
 
-                if(!placeShipResult.getResult()) {
+                if (!placeShipResult.getResult()) {
                     application.showResult("Could not place ship.");
                 }
                 break;
@@ -57,7 +60,7 @@ public class ClientSocketResponseHandler implements IMessageHandler {
                 message.parseData(Result.class);
                 Result automaticShipsResult = (Result) message.getData();
 
-                if(!automaticShipsResult.getResult()) {
+                if (!automaticShipsResult.getResult()) {
                     application.showResult("Placing ships was unsuccessful.");
                 }
                 break;
@@ -96,7 +99,7 @@ public class ClientSocketResponseHandler implements IMessageHandler {
                 message.parseData(RemoveShip.class);
                 Result removeShipResult = (Result) message.getData();
 
-                if(!removeShipResult.getResult()) {
+                if (!removeShipResult.getResult()) {
                     application.showResult("Placing ships was unsuccessful.");
                 }
                 break;

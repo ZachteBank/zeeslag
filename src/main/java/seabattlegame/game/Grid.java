@@ -71,7 +71,7 @@ public class Grid {
 	}
 
 	public boolean removeShip(int x, int y){
-        if(x < 0 || y < 0 || x > getCells().length || y > getCells().length){
+        if(x < 0 || y < 0 || x >= getCells().length || y >= getCells().length){
             return false;
         }
         if(!(cells[y][x] instanceof ShipCell)){

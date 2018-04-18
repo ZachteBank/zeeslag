@@ -920,10 +920,8 @@ public class SeaBattleApplication extends Application implements ISeaBattleGUI {
         buttonPlaceSubmarine.setDisable(false);
         buttonPlaceMineSweeper.setDisable(false);
         buttonRemoveShip.setDisable(false);
-        RestClient restClient = new RestClient();
-        String opponentName = restClient.getOpponentName(1);
-
-        showMessage("Found an opponent!" + opponentName);
+        ((SeaBattleGame) game).setOpponentName(this);
+        showMessage("Found an opponent!");
 
     }
 
