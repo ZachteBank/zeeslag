@@ -10,7 +10,7 @@ import server.messageHandler.SeaBattleGameMessageHandler;
 public class RestService {
 
     public static void main(String[] args) {
-        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        /*ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
         Server jettyServer = new Server(8090);
         jettyServer.setHandler(context);
@@ -27,6 +27,6 @@ public class RestService {
             e.printStackTrace();
         } finally {
             jettyServer.destroy();
-        }
+        }*/
     }
 }
