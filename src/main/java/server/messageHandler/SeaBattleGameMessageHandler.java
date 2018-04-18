@@ -202,6 +202,9 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         }
         Shot data = (Shot) args;
         Player player = game.getOpponent();
+        if(player == null){
+            return false;
+        }
         PlayerSession opponentPlayerSession = getPlayerSessionWithUUID(player.getUUID());
         if(opponentPlayerSession == null){
             return false;
@@ -216,9 +219,7 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
             return false;
         }
 
-        if(player == null){
-            return false;
-        }
+
 
         if(player == game.getPlayer(session.getId())){
             throw new Exception("You can't attack yourself");
