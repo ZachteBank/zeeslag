@@ -202,6 +202,10 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         }
         Shot data = (Shot) args;
         Player player = game.getOpponent();
+        PlayerSession opponentPlayerSession = getPlayerSessionWithUUID(player.getUUID());
+        if(opponentPlayerSession == null){
+            return false;
+        }
 
         if(!player1.isReady()){
             sendMessage(new Message("notReady", "Player1 isn't ready"), session);
@@ -226,7 +230,7 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         try {
             ShotType shotType = game.attack(player.getUUID(), data.getX(), data.getY());
             sendMessage(new Message("shotHit", shotType.toString()), session);
-            hit(getPlayerSessionWithUUID(player.getUUID()), data.getX(), data.getY());
+            hit(opponentPlayerSession, data.getX(), data.getY());
             return true;
         }catch (Exception e){
             sendMessage(new Message("error", e.getMessage()), session);
