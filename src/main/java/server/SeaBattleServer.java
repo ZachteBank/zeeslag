@@ -72,6 +72,7 @@ public class SeaBattleServer {
             jettyServer.start();
             jettyServer.join();
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();  // set interrupt flag
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
