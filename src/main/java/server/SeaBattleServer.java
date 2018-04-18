@@ -16,6 +16,27 @@ import javax.websocket.server.ServerContainer;
 
 public class SeaBattleServer {
     public static void main(String[] args) {
+
+        Thread thread1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                startWebSocketServer();
+            }
+        });
+        Thread thread2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                startRestServer();
+            }
+        });
+
+        thread1.start();
+        thread2.start();
+    }
+
+    private static void startWebSocketServer() {
+        System.out.println("Starting websocket");
+
         Server server = new Server();
         ServerConnector connector = new ServerConnector(server);
         connector.setPort(9090);
@@ -32,14 +53,13 @@ public class SeaBattleServer {
             server.start();
             server.join();
 
-            startRest();
-
-        }catch (Throwable t){
+        } catch (Throwable t) {
             t.printStackTrace(System.err);
         }
     }
 
-    private static void startRest(){
+    private static void startRestServer() {
+        System.out.println("Starting rest");
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
         Server jettyServer = new Server(8090);
