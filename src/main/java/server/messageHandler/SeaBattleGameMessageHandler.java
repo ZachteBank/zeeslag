@@ -183,13 +183,13 @@ public class SeaBattleGameMessageHandler implements IMessageHandler {
         if (player1 == null) {
             player1 = new PlayerSession(session, new Player(session.getId(), data.getName()));
             sendMessage(new Message("registerResult", new Result(true)), session);
-            sendMessage(new Message("playerNumber", "1"), session);
+            sendMessage(new Message("playerNumber", "0"), session);
             return true;
         } else if (player2 == null) {
             player2 = new PlayerSession(session, new Player(session.getId(), data.getName()));
             sendMessage(new Message("registerOpponent", data), player1.getSession());
             sendMessage(new Message("registerResult", new Result(true)), session);
-            sendMessage(new Message("playerNumber", "2"), session);
+            sendMessage(new Message("playerNumber", "1"), session);
             startGame();
             return true;
         }
